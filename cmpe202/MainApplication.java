@@ -251,7 +251,7 @@ public class MainApplication {
 		cmbNotifMethod.setBounds(142, 8, 122, 29);
 		panel.add(cmbNotifMethod);
 		
-		JLabel lblNotificationMethod = new JLabel("Notification Method:");
+		JLabel lblNotificationMethod = new JLabel("Communication Method:");
 		lblNotificationMethod.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNotificationMethod.setBounds(0, 13, 160, 16);
 		panel.add(lblNotificationMethod);
