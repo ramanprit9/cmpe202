@@ -2,7 +2,6 @@ package main;
 
 public class Driver {
 
-	Vehicle vehicle;
 	String firstName;
 	String lastName;
 	

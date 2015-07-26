@@ -27,6 +27,7 @@ import javax.swing.GroupLayout.Alignment;
 
 
 
+
 //import net.miginfocom.swing.MigLayout;
 //import com.jgoodies.forms.factories.FormFactory;
 import java.awt.CardLayout;
@@ -39,6 +40,7 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 import notification.Communication;
+import notification.DispatchingMessage;
 import notification.Email;
 import notification.Phone;
 import notification.Text;
@@ -64,6 +66,8 @@ public class MainApplication implements ActionListener{
 	private String cmbValueShare;
 	private String cmbValueComm;
 	private String cmbValueWait;
+	
+	ServiceManager serviceManager = new ServiceManager();
 
 	/**
 	 * Launch the application.
@@ -145,6 +149,7 @@ public class MainApplication implements ActionListener{
 		pickupPanel.add(lblZipcode);
 		
 		txtPickAddr = new JTextField();
+		txtPickAddr.setText("Bunker Hill Lane");
 		txtPickAddr.setBounds(115, 24, 172, 20);
 		pickupPanel.add(txtPickAddr);
 		txtPickAddr.setColumns(10);
@@ -162,6 +167,7 @@ public class MainApplication implements ActionListener{
 		pickupPanel.add(txtPickState);
 		
 		txtPickZip = new JTextField();
+		txtPickZip.setText("95054");
 		txtPickZip.setColumns(10);
 		txtPickZip.setBounds(115, 100, 172, 20);
 		pickupPanel.add(txtPickZip);
@@ -213,12 +219,13 @@ public class MainApplication implements ActionListener{
 		destPanel.add(label_12);
 		
 		txtDestAddr = new JTextField();
+		txtDestAddr.setText("San Jose State ");
 		txtDestAddr.setColumns(10);
 		txtDestAddr.setBounds(115, 24, 172, 20);
 		destPanel.add(txtDestAddr);
 		
 		txtDestCity = new JTextField();
-		txtDestCity.setText("Santa Clara");
+		txtDestCity.setText("San Jose");
 		txtDestCity.setColumns(10);
 		txtDestCity.setBounds(115, 50, 172, 20);
 		destPanel.add(txtDestCity);
@@ -230,6 +237,7 @@ public class MainApplication implements ActionListener{
 		destPanel.add(txtDestState);
 		
 		txtDestZip = new JTextField();
+		txtDestZip.setText("95112");
 		txtDestZip.setColumns(10);
 		txtDestZip.setBounds(115, 100, 172, 20);
 		destPanel.add(txtDestZip);
@@ -367,19 +375,20 @@ public class MainApplication implements ActionListener{
 			share = true;
 		}
 		
+		request = new Request(pickAddr, destAddr, numPassengers, numLuggages, 
+				share, member);
+		
 		if (cmbValueComm.contains("Text")) {
-			communication = new Text();
+			communication = new Text(new DispatchingMessage(request));
 		}
 		else if (cmbValueComm.contains("Phone")) {
-			communication = new Phone();
+			communication = new Phone(new DispatchingMessage(request));
 		}
 		else {
-			communication = new Email();
-		}
-		
-		request = new Request(pickAddr, destAddr, numPassengers, numLuggages, 
-				share, member, communication);
-		
+			communication = new Email(new DispatchingMessage(request));
+		} 
+
+		request.setCommType(communication);
 		//Pass the request to ServiceFacade
 		
 		
@@ -388,5 +397,8 @@ public class MainApplication implements ActionListener{
 		System.out.println("\tDestination Address = "+destAddr);
 		System.out.println("\tPassengers = " + numPassengers + "   Luggages = "+numLuggages + 
 				"   Shareable");
+		
+		serviceManager.receiveRequest(request);
+		
 	}
 }

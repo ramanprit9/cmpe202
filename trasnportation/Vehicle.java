@@ -1,8 +1,10 @@
 package trasnportation;
 
+import main.Driver;
+
 public abstract class Vehicle extends Transportation {
 	
-	Driver driver;
+	//Driver driver;
 	int number;
 	boolean isCurrentlyAvailable;
 	String location;
