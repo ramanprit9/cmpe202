@@ -380,7 +380,8 @@ public class MainApplication implements ActionListener{
 		request = new Request(pickAddr, destAddr, numPassengers, numLuggages, 
 				share, member, communication);
 		
-		//Pass the request to Facade
+		//Pass the request to ServiceFacade
+		
 		
 		System.out.println("Request Recieved: ");
 		System.out.println("\tPickUp Address = "+pickAddr);
