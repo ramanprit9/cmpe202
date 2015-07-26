@@ -1,4 +1,4 @@
-package cmpe202;
+package main;
 
 import java.awt.EventQueue;
 
@@ -8,25 +8,47 @@ import javax.swing.JFrame;
 //import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.GridLayout;
+
 import javax.swing.JTextField;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+
+
+
+
+
+
+
 //import net.miginfocom.swing.MigLayout;
 //import com.jgoodies.forms.factories.FormFactory;
 import java.awt.CardLayout;
+
 import javax.swing.JList;
 import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
-import java.awt.Color;
 
-public class MainApplication {
+import notification.Communication;
+import notification.Email;
+import notification.Phone;
+import notification.Text;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class MainApplication implements ActionListener{
 
 	private JFrame frame;
 	private JTextField txtPickAddr;
@@ -39,6 +61,9 @@ public class MainApplication {
 	private JTextField txtDestZip;
 	private JTextField txtPassengers;
 	private JTextField txtLuggages;
+	private String cmbValueShare;
+	private String cmbValueComm;
+	private String cmbValueWait;
 
 	/**
 	 * Launch the application.
@@ -67,6 +92,7 @@ public class MainApplication {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		System.out.println("Initalizing application");
 		frame = new JFrame();
 		frame.setBounds(100, 100, 693, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -239,17 +265,19 @@ public class MainApplication {
 		cmbShareable.setSelectedIndex(0);
 		cmbShareable.setBounds(92, 6, 57, 29);
 		sharePanel.add(cmbShareable);
+		cmbValueShare = cmbShareable.getSelectedItem().toString();
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(24, 234, 271, 39);
 		frame.getContentPane().add(panel);
 		
-		JComboBox cmbNotifMethod = new JComboBox();
-		cmbNotifMethod.setModel(new DefaultComboBoxModel(new String[] {"Text", "Phone", "Email"}));
-		cmbNotifMethod.setSelectedIndex(0);
-		cmbNotifMethod.setBounds(142, 8, 122, 29);
-		panel.add(cmbNotifMethod);
+		JComboBox cmbCommMethod = new JComboBox();
+		cmbCommMethod.setModel(new DefaultComboBoxModel(new String[] {"Text", "Phone", "Email"}));
+		cmbCommMethod.setSelectedIndex(0);
+		cmbCommMethod.setBounds(142, 8, 122, 29);
+		panel.add(cmbCommMethod);
+		cmbValueComm = cmbCommMethod.getSelectedItem().toString();
 		
 		JLabel lblNotificationMethod = new JLabel("Communication Method:");
 		lblNotificationMethod.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -276,6 +304,7 @@ public class MainApplication {
 		btnSubmitReq.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnSubmitReq.setBounds(254, 284, 158, 35);
 		frame.getContentPane().add(btnSubmitReq);
+		btnSubmitReq.addActionListener(this);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(24, 330, 620, 70);
@@ -293,17 +322,70 @@ public class MainApplication {
 		lblWouldYouLike.setBounds(386, 31, 163, 16);
 		panel_2.add(lblWouldYouLike);
 		
+		
 		JComboBox cmbWait = new JComboBox();
 		cmbWait.setEnabled(false);
 		cmbWait.setModel(new DefaultComboBoxModel(new String[] {"Yes", "No"}));
 		cmbWait.setSelectedIndex(0);
 		cmbWait.setBounds(541, 30, 57, 29);
 		panel_2.add(cmbWait);
+		cmbValueWait = cmbWait.getSelectedItem().toString();
 		
 		JLabel lblReqResponse = new JLabel("Request Available");
 		lblReqResponse.setEnabled(false);
 		lblReqResponse.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblReqResponse.setBounds(10, 31, 347, 28);
 		panel_2.add(lblReqResponse);
+	}
+	
+	
+	
+	public void actionPerformed(ActionEvent e) {
+		
+		Address pickAddr;
+		Address destAddr;
+		int numPassengers;
+		int numLuggages;
+		boolean share;
+		boolean member = false;
+		Communication communication;
+		Request request;
+		
+		 // Retrieve request input and create a new Request 
+		 //Retrieve pickup address 
+		pickAddr = new Address(txtPickAddr.getText(), txtPickCity.getText(),
+				txtPickState.getText(), txtPickZip.getText());
+		 //Retrieve destination address 
+		destAddr = new Address(txtDestAddr.getText(), txtDestCity.getText(),
+				txtDestState.getText(), txtDestZip.getText());
+		numPassengers = Integer.parseInt(txtPassengers.getText());
+		numLuggages = Integer.parseInt(txtLuggages.getText());
+		if (cmbValueShare.contains("No")) {
+			share = false;
+		}
+		else {
+			share = true;
+		}
+		
+		if (cmbValueComm.contains("Text")) {
+			communication = new Text();
+		}
+		else if (cmbValueComm.contains("Phone")) {
+			communication = new Phone();
+		}
+		else {
+			communication = new Email();
+		}
+		
+		request = new Request(pickAddr, destAddr, numPassengers, numLuggages, 
+				share, member, communication);
+		
+		//Pass the request to Facade
+		
+		System.out.println("Request Recieved: ");
+		System.out.println("\tPickUp Address = "+pickAddr);
+		System.out.println("\tDestination Address = "+destAddr);
+		System.out.println("\tPassengers = " + numPassengers + "   Luggages = "+numLuggages + 
+				"   Shareable");
 	}
 }

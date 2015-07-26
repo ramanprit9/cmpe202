@@ -1,4 +1,4 @@
-package cmpe202;
+package main;
 
 import notification.*;
 
@@ -6,15 +6,17 @@ public class Request {
 	Address pickupLocation;
 	Address destination;
 	int numOfPassengers;
+	int numOfLuggages;
 	boolean shareable;
 	boolean customerIsMember;
 	Communication commType;
 	
-	public Request (Address pick, Address dest, int passengers, boolean share, 
-			boolean member, Communication comm) {
+	public Request (Address pick, Address dest, int passengers, int luggages, 
+			boolean share, boolean member, Communication comm) {
 		pickupLocation = pick;
 		destination = dest;
 		numOfPassengers = passengers;
+		numOfLuggages = luggages;
 		shareable = share;
 		customerIsMember = member;
 		commType = comm;
@@ -68,5 +70,15 @@ public class Request {
 		this.commType = commType;
 	}
 	
+	public String toString() {
+		String comm; 
+		if (commType.equals(Text.class)) { comm = "Text";}
+		else if (commType.equals(Phone.class)) { comm = "Phone"; }
+		else { comm = "Email"; }
+		
+		return "Pickup Address: " + pickupLocation + " \nDestination Address: " + destination
+				+ "\nPassengers: " + numOfPassengers + "   Luggauges: " + numOfLuggages + 
+				"   Shareable: " + shareable + "   Communication Method: " + comm;
+	}
 	
 }

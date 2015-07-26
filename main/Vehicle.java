@@ -1,4 +1,4 @@
-package cmpe202;
+package main;
 
 public abstract class Vehicle extends Transportation {
 	
