@@ -34,10 +34,12 @@ public class Dispatcher {
 		ServiceManager serviceManager = new ServiceManager();
 		
 		System.out.println("Dispatcher: find transportation, requestID = "+req.getRequestID());
-		/* If Transportation is found, create a new instance of it. 
+		/* Check DB for available Vehicle. If Transportation is found, create a new instance of it. 
 		 * Send appropriate message to customer and driver through ServiceManager.
 		 */
 		//serviceManager.sendDispatchMessages(req, VehicleAvailability.VEHICLE_IMMEDIATELY_AVAILABLE);
+		//Vehicle vehicle1 = new Sedan();
+		//vechicle1.setState("Not Availble");
 		
 		/* Transportation not found within 2 mile radius. Search withing 5 mies */
 		serviceManager.sendDispatchMessages(req, VehicleAvailability.VEHICLE_NOT_IMMEDIATELY_AVAILABLE);

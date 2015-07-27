@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBHandler {
-	public static void main(String[] args) {
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+	
+	Connection conn = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+
+	public void connectDB() {
 		try {
 //			new com.mysql.jdbc.Driver();
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -32,4 +34,17 @@ public class DBHandler {
 			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
 		}
 	}
+
+	public ResultSet queryDB() {
+		try {
+			rs = stmt.executeQuery("SELECT * FROM aco_cloud_capacity");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	
+	
 }

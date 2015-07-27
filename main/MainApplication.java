@@ -347,7 +347,7 @@ public class MainApplication implements ActionListener{
 	}
 	
 	
-	
+	/* Invoked when Submit Request button is clicked */
 	public void actionPerformed(ActionEvent e) {
 		
 		Address pickAddr;
