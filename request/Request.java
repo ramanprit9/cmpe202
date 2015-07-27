@@ -1,5 +1,6 @@
-package main;
+package request;
 
+import main.Address;
 import notification.*;
 
 public class Request {

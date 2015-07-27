@@ -1,8 +1,8 @@
 package notification;
 
+import request.Request;
 import notification.Message.MessageType;
 import notification.Message.Recipient;
-import main.Request;
 
 public class DispatchingMessage extends Message {
 

@@ -3,7 +3,7 @@ package dispatcher;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import main.Request;
+import request.Request;
 import main.ServiceManager;
 import main.ServiceManager.VehicleAvailability;
 

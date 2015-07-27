@@ -28,6 +28,7 @@ import javax.swing.GroupLayout.Alignment;
 
 
 
+
 //import net.miginfocom.swing.MigLayout;
 //import com.jgoodies.forms.factories.FormFactory;
 import java.awt.CardLayout;
@@ -39,6 +40,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 
+import request.Request;
 import notification.Communication;
 import notification.DispatchingMessage;
 import notification.Email;
