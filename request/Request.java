@@ -1,43 +1,80 @@
 package request;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+
 import main.Address;
+import main.DBHandler;
 import notification.*;
 
 public class Request {
+	int requestID;
+	String  memberID; /*memberID is "guest" if not member */
 	Address pickupLocation;
+	Date pickupTime;
 	Address destination;
+	String state;
+	boolean shareable;
+	String vehicleType;
 	int numOfPassengers;
 	int numOfLuggages;
-	boolean shareable;
-	boolean customerIsMember;
-	String memberID; /*memberID is "guest" if not member */
 	Communication commType;
-	int requestID;
 	
-	public Request (Address pick, Address dest, int passengers, int luggages, 
-			boolean share, boolean member, Communication comm) {
+	//Constructor without Communication type. Need to fist create a Request before creating Communication
+	public Request (String member, Address pick, Address dest, int passengers, int luggages, 
+			boolean share) {
+		memberID = member;
 		pickupLocation = pick;
 		destination = dest;
 		numOfPassengers = passengers;
 		numOfLuggages = luggages;
 		shareable = share;
-		customerIsMember = member;
-		commType = comm;
 		requestID = 2;
-	}
-	
-	//Constructor without Communication type. Need to fist create a Request before creating Communcation
-	public Request (Address pick, Address dest, int passengers, int luggages, 
-			boolean share, boolean member) {
-		pickupLocation = pick;
-		destination = dest;
-		numOfPassengers = passengers;
-		numOfLuggages = luggages;
-		shareable = share;
-		customerIsMember = member;
-		requestID = 2;
+		
+		insertRequestinDB();
 	}
 
+	private void insertRequestinDB() {
+		String str = "INSERT INTO user_requests "
+				+ "(member_id, request_pickup_loc, "
+				+ "request_pickup_time, request_destination, "
+				+ "request_state, request_shareable, "
+				+ "request_type, request_sub_type, "
+				+ "request_vehicle_type, request_no_passengers_travelling, "
+				+ "request_no_luggages, request_flag) " 
+				+ "VALUES ("  
+				+ "'" + memberID + "', " 
+				+ "'" + pickupLocation + "', " 
+				+ "'" + pickupTime + "', "
+				+ "'" + destination + "', "
+				+ "'', " 
+				+ "'" + shareable + "', "
+				+ "'', " 
+				+ "'', " 
+				+ "'', " 
+				+ numOfPassengers + ", "
+				+ numOfLuggages + ", "
+				+ "'Y')";
+		System.out.println(str);
+		
+		DBHandler.updateDB(str); //Add the request record in user_requests table
+		
+//		//Set the requestID by retrieving it from database
+//		ResultSet rs = DBHandler.queryDB("Select request_id from user_requests where request_flag='Y'");
+//		try {
+//			rs.next();
+//			requestID = rs.getInt("request_id");
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		//After request ID is retrieved, change the flag to 'N'
+//		DBHandler.updateDB("UPDATE user_requests SET request_flag='N' WHERE request_flag='Y'");
+		
+	}
+	
 	public Address getPickupLocation() {
 		return pickupLocation;
 	}
@@ -68,14 +105,6 @@ public class Request {
 
 	public void setShareable(boolean shareable) {
 		this.shareable = shareable;
-	}
-
-	public boolean isCustomerIsMember() {
-		return customerIsMember;
-	}
-
-	public void setCustomerIsMember(boolean customerIsMember) {
-		this.customerIsMember = customerIsMember;
 	}
 
 	public Communication getCommType() {

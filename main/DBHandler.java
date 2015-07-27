@@ -7,43 +7,85 @@ import java.sql.Statement;
 
 public class DBHandler {
 	
-	Connection conn = null;
-	Statement stmt = null;
-	ResultSet rs = null;
+	static Connection conn = null;
 
-	public void connectDB() {
+	/* Connect to DB connection at the beginning of main function of MainApplication */
+	public static void connectDB() {
 		try {
 //			new com.mysql.jdbc.Driver();
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String connectionUrl = "jdbc:mysql://localhost:3306/cmpe281";
+			String connectionUrl = "jdbc:mysql://localhost:3306/cmpe202";
 			String connectionUser = "root";
 			String connectionPassword = "";
 			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM aco_cloud_capacity");
-			while (rs.next()) {
-				String id = rs.getString("cloud_id");
-				String mips = rs.getString("mips_percent_availble");
-				System.out.println("ID: " + id + ", MIPS: " + mips);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} 
+	}
+	
+	/* Close DB connection at the end of main function of MainApplication */
+	public static void closeDBConnection() {
+		try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+	}
+
+	/* Use this function to Insert, Update, and Delete */
+	public static void updateDB(String str) {
+		connectDB();
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(str);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
-			try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
 			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
 		}
 	}
-
-	public ResultSet queryDB() {
+	
+	/* Use this function for querying (Select operations) */
+	public static ResultSet queryDB(String str) {
+		connectDB();
+		ResultSet rs = null;
+		Statement stmt = null;
 		try {
-			rs = stmt.executeQuery("SELECT * FROM aco_cloud_capacity");
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(str);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
 		}
 		return rs;
+
 	}
 	
-	
+	//Just for testing purposes
+	public static void testing() {
+		
+		/* Example on how to iterate rs results */
+		ResultSet rs = null;
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("Select * from user_request");
+			while (rs.next()) {
+				String id = rs.getString("request_id");
+				String pickup = rs.getString("request_pickup_loc");
+				System.out.println("ID: " + id + ", MIPS: " + pickup);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+		}
+
+	}
+		
 }

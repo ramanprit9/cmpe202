@@ -82,7 +82,7 @@ public class MainApplication implements ActionListener{
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				} 
 			}
 		});
 	}
@@ -377,8 +377,8 @@ public class MainApplication implements ActionListener{
 			share = true;
 		}
 		
-		request = new Request(pickAddr, destAddr, numPassengers, numLuggages, 
-				share, member);
+		request = new Request("guest", pickAddr, destAddr, numPassengers, numLuggages, 
+				share);
 		
 		if (cmbValueComm.contains("Text")) {
 			communication = new Text(new DispatchingMessage(request));
@@ -402,5 +402,7 @@ public class MainApplication implements ActionListener{
 		
 		serviceManager.receiveRequest(request);
 		
+		System.out.println("******************** Exiting *********************");
+
 	}
 }
