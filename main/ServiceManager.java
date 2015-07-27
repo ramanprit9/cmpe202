@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import javax.swing.JOptionPane;
 
+import request.Request;
 import notification.Communication;
 import notification.DispatchingMessage;
 import notification.Message;
