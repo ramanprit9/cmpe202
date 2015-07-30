@@ -24,7 +24,7 @@ public class Request implements RequestInterface {
 	
 	//Constructor without Communication type. Need to fist create a Request before creating Communication
 	public Request (String member, Address pick, Address dest, int passengers, int luggages, 
-			boolean share,Date reqtime,String vtype ) {
+			boolean share, Date reqtime, String vtype) {
 		memberID = member;
 		pickupLocation = pick;
 		destination = dest;
