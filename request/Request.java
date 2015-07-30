@@ -8,13 +8,14 @@ import main.Address;
 import main.DBHandler;
 import notification.*;
 
-public class Request {
+public class Request implements RequestInterface {
+	State state;
 	int requestID;
 	String  memberID; /*memberID is "guest" if not member */
 	Address pickupLocation;
 	Date pickupTime;
 	Address destination;
-	String state;
+	//String state;
 	boolean shareable;
 	String vehicleType;
 	int numOfPassengers;
@@ -23,7 +24,7 @@ public class Request {
 	
 	//Constructor without Communication type. Need to fist create a Request before creating Communication
 	public Request (String member, Address pick, Address dest, int passengers, int luggages, 
-			boolean share) {
+			boolean share,Date reqtime,String vtype ) {
 		memberID = member;
 		pickupLocation = pick;
 		destination = dest;
@@ -31,11 +32,33 @@ public class Request {
 		numOfLuggages = luggages;
 		shareable = share;
 		requestID = 2;
-		
-		insertRequestinDB();
+		state = new ReceiveState(this);
+		pickupTime = reqtime;
+		vehicleType = vtype;
+		//insertRequestinDB();
 	}
-
-	private void insertRequestinDB() {
+	public void receiveRequest(){
+		state.receiveRequest();
+	}
+	public void evaluateRequest(){
+		state.evaluateRequest();
+	}
+	
+	public void fullfillRequest(){
+		state.fulfillRequest();
+	}
+	
+	
+		
+	public void setState(State s){
+		state = s;
+	}
+	
+	public State getState(){
+		return state;
+	}
+	
+	/*private void insertRequestinDB() {
 		String str = "INSERT INTO user_requests "
 				+ "(member_id, request_pickup_loc, "
 				+ "request_pickup_time, request_destination, "
@@ -73,7 +96,7 @@ public class Request {
 //		//After request ID is retrieved, change the flag to 'N'
 //		DBHandler.updateDB("UPDATE user_requests SET request_flag='N' WHERE request_flag='Y'");
 		
-	}
+	}*/
 	
 	public Address getPickupLocation() {
 		return pickupLocation;
@@ -138,6 +161,23 @@ public class Request {
 
 	public void setRequestID(int requestID) {
 		this.requestID = requestID;
+	}
+
+	
+	public Date getPickupTime() {
+		return pickupTime;
+	}
+
+	public void setPickupTime(Date pickupTime) {
+		this.pickupTime = pickupTime;
+	}
+
+	public String getVehicleType() {
+		return vehicleType;
+	}
+
+	public void setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
 	}
 
 	public String toString() {

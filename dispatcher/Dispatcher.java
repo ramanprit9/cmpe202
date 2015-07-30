@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import request.Request;
+import request.RequestInterface;
 import main.ServiceManager;
 import main.ServiceManager.VehicleAvailability;
 
@@ -15,11 +16,11 @@ public class Dispatcher {
 	public void submitRequest (Request req) {
 		System.out.println("Dispatcher: request queued");
 		reqQueue.add(req);
-		processRequests();
+		dispatchRequests();
 	}
 	
 	//Process the requests in the queue
-	private void processRequests() {
+	private void dispatchRequests() {
 		System.out.println("Dispatcher: processing requests");
 		Request req = reqQueue.poll();
 		while (req != null) {
