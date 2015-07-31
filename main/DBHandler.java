@@ -11,6 +11,7 @@ public class DBHandler {
 
 	/* Connect to DB connection at the beginning of main function of MainApplication */
 	public static void connectDB() {
+		
 		try {
 //			new com.mysql.jdbc.Driver();
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -53,18 +54,17 @@ public class DBHandler {
 			System.out.println("Query DB: " + str);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(str);
+			return rs;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
-		}
+		} 
 		return rs;
 	}
 	
 	//Just for testing purposes
 	public static void testing() {
-		
+		connectDB();
 		/* Example on how to iterate rs results */
 		ResultSet rs = null;
 		Statement stmt = null;

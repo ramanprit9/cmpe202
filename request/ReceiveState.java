@@ -58,7 +58,9 @@ public class ReceiveState implements State {
 		//Set the request ID in the Request object
 		req.setRequestID(id);
 		System.out.println("********* Request ID = "+ id);
-
+		
+		//Request ID retrieved. Change the flag to 'N' for request_flag
+		changeRequestFlaginDB(id);
 	}
 	
 	/* The request will flag 'Y' is the newely added request 
@@ -79,4 +81,8 @@ public class ReceiveState implements State {
 		return reqID;
 	}
 
+	public void changeRequestFlaginDB(int reqID) {
+		String sql = "UPDATE user_requests SET request_flag='N' where request_id=" + reqID;
+		DBHandler.updateDB(sql);
+	}
 }
