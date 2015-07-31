@@ -9,6 +9,7 @@ public class Vehicle extends Transportation {
 	boolean isCurrentlyAvailable;
 	String zipcode;
 	int maxPassengers;
+	boolean shareable;
 	
 	/* Get all the vehicles */
 	public int getTotalTransporations(String zipcode) {
@@ -46,6 +47,14 @@ public class Vehicle extends Transportation {
 
 	public void setMaxPassengers(int maxPassengers) {
 		this.maxPassengers = maxPassengers;
+	}
+
+	public boolean isShareable() {
+		return shareable;
+	}
+
+	public void setShareable(boolean shareable) {
+		this.shareable = shareable;
 	}
 	
 }
