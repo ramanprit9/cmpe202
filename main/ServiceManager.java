@@ -24,7 +24,7 @@ public class ServiceManager {
 	
 	public enum VehicleAvailability {
 		VEHICLE_IMMEDIATELY_AVAILABLE,
-		VEHICLE_NOT_IMMEDIATELY_AVAILABLE,
+		VEHICLE_WAIT_30_MINS,
 		VEHICLE_NOT_AVAILABLE_AT_ALL
 	}
 
@@ -32,18 +32,17 @@ public class ServiceManager {
 			boolean share, Date reqtime, String vtype) {
 		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype);
 		reqQueue.add(req);
-		System.out.println("ServiceManager: Request queued to be validated");
+		System.out.println("ServiceManager: Request queued to be processed");
 		processRequests();
 	}
 	
-	/* ServiceManager is the client for the Request and its states */
+	/* Process the requests in the queue by going through the Request states */
 	public void processRequests() {
+		/* ServiceManager is the client for the Request and its states */
 		Request req_local;
 		req_local = reqQueue.poll();
 		while(req_local != null) {
 			System.out.println("ServiceManager: Request processed");
-			//Validate and submit request to dispatcher
-			//dispatcher.submitRequest(req_local);
 			req_local.receiveRequest(); 
 			req_local.evaluateRequest();
 			req_local.fullfillRequest();
@@ -69,11 +68,14 @@ public class ServiceManager {
 			driverMsg = message.createMessage(MessageType.CUSTOMER_INFO_TO_DRIVER);
 			sendRequestInfoToDriver(req);
 			break;
-		case VEHICLE_NOT_IMMEDIATELY_AVAILABLE:
-			System.out.println("ServiceManager: Send dispatch msg, Vehicle not available immediately");
-			customerMsg = message.createMessage(MessageType.VEHICLE_NOT_IMMEDIATELY_AVAILABLE);
-			sendCustomerMessageNeedResponse(req, "Vehicle Not Immediately Available", customerMsg);
+		case VEHICLE_WAIT_30_MINS:
+			System.out.println("ServiceManager: Send dispatch msg, Vehicle available in 30 minutes");
+			customerMsg = message.createMessage(MessageType.VEHICLE_INFO_TO_CUSTOMER);
+			sendCustomerMessageNoResponse(req, "Vehicle Available", customerMsg);
+			driverMsg = message.createMessage(MessageType.CUSTOMER_INFO_TO_DRIVER);
+			sendRequestInfoToDriver(req);
 			break;
+
 		case VEHICLE_NOT_AVAILABLE_AT_ALL:
 			System.out.println("ServiceManager: Send dispatch msg, Vehicle not available at all");
 			customerMsg = message.createMessage(MessageType.NO_VEHICLE_AVAILBLE);
@@ -91,20 +93,24 @@ public class ServiceManager {
 			    JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	private void sendCustomerMessageNeedResponse(Request req, String windowTitle, String message) {
-		System.out.println("ServiceManager: Create Dialog. Customer Response Required");
+	public boolean canCustomerWait(Request req) {
+		System.out.println("ServiceManager: Create Dialog. Can Customer Wait?");
+		Message message = new DispatchingMessage(req);
+		String customerMsg = message.createMessage(MessageType.VEHICLE_NOT_IMMEDIATELY_AVAILABLE);
+		
 		Frame frame = new Frame();
 		int n = JOptionPane.showConfirmDialog(
 			    frame,
-			    message + "\n\n" + req.getBasicRequestString() + "\n",
-			    "An Inane Question",
+			    customerMsg + "\n\n" + req.getBasicRequestString() + "\n",
+			    "Vehicle not immediately available",
 			    JOptionPane.YES_NO_OPTION);
 		
 		if (n == JOptionPane.YES_OPTION) {
-			sendRequestInfoToDriver(req);
+			return true;
 		}
 		else {
-			System.out.println("ServiceManager: Create Dialog. Customer answered No");
+			System.out.println("ServiceManager: Create Dialog. Customer can't wait.");
+			return false;
 		}
 	}
 	

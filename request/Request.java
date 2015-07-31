@@ -36,9 +36,8 @@ public class Request implements RequestInterface {
 		vehicleType = vtype;
 		
 		state = new ReceiveState(this);
-
-		//insertRequestinDB();
 	}
+	
 	public void receiveRequest(){
 		state.receiveRequest();
 	}

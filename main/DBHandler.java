@@ -50,17 +50,16 @@ public class DBHandler {
 		ResultSet rs = null;
 		Statement stmt = null;
 		try {
+			System.out.println("Query DB: " + str);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(str);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
 			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
 		}
 		return rs;
-
 	}
 	
 	//Just for testing purposes

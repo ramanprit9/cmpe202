@@ -22,6 +22,8 @@ public class DispatchingMessage extends Message {
 			return "Vehicle Available. It will arrive at your location in 10 minutes";
 		case VEHICLE_NOT_IMMEDIATELY_AVAILABLE:
 			return "Vehicle is not immediately available. Would you like to wait?";
+		case VEHICLE_WAIT_30_MINUTES:
+			return "Vehicle will arrive at your location in 30 minutes";
 		case NO_VEHICLE_AVAILBLE:
 			return "No Vehicle Available. Request can't be fulfilled at this moment";
 		default:

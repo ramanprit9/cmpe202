@@ -1,5 +1,8 @@
 package request;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import main.DBHandler;
 
 public class ReceiveState implements State {
@@ -36,7 +39,7 @@ public class ReceiveState implements State {
 				+ "'" + req.getPickupLocation() + "', " 
 				+ "'" + req.getPickupTime() + "', "
 				+ "'" + req.getDestination() + "', "
-				+ "'', " 
+				+ "'Received', " 
 				+ "'" + req.isShareable() + "', "
 				+ "'', " 
 				+ "'', " 
@@ -47,7 +50,33 @@ public class ReceiveState implements State {
 		System.out.println(str);
 		
 		DBHandler.updateDB(str); //Add the request record in user_requests table
+		System.out.println("Request added in DB");
 	
+		//Get the request ID from DB
+		int id = findRequestIDinDB();
+		
+		//Set the request ID in the Request object
+		req.setRequestID(id);
+		System.out.println("********* Request ID = "+ id);
+
+	}
+	
+	/* The request will flag 'Y' is the newely added request 
+	 * After getting the id of that request, change the flag to 'N'
+	 * The purpose of the flag is to get the ID of the request that just got created
+	 */
+	public int findRequestIDinDB() {
+		String sql = "Select request_id from user_requests WHERE request_flag='Y'";
+		ResultSet rs = DBHandler.queryDB(sql);
+		int reqID = 0;
+		try {
+			rs.next(); //Move to the first row of the result
+			reqID = Integer.parseInt(rs.getString("request_id"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return reqID;
 	}
 
 }
