@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Component;
 import java.awt.Frame;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -27,20 +28,25 @@ public class ServiceManager {
 		VEHICLE_NOT_AVAILABLE_AT_ALL
 	}
 
-	public void receiveRequest(Request req) {
+	public void createRequest(String member, Address pick, Address dest, int passengers, int luggages, 
+			boolean share, Date reqtime, String vtype) {
+		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype);
 		reqQueue.add(req);
 		System.out.println("ServiceManager: Request queued to be validated");
-		validateRequest();
+		processRequests();
 	}
 	
-	public void validateRequest() {
-		Dispatcher dispatcher = new Dispatcher();
+	/* ServiceManager is the client for the Request and its states */
+	public void processRequests() {
 		Request req_local;
 		req_local = reqQueue.poll();
 		while(req_local != null) {
-			System.out.println("ServiceManager: Request validated");
+			System.out.println("ServiceManager: Request processed");
 			//Validate and submit request to dispatcher
-			dispatcher.submitRequest(req_local);
+			//dispatcher.submitRequest(req_local);
+			req_local.receiveRequest(); 
+			req_local.evaluateRequest();
+			req_local.fullfillRequest();
 			
 			//Get next request in queue
 			req_local = reqQueue.poll();

@@ -29,6 +29,7 @@ import javax.swing.GroupLayout.Alignment;
 
 
 
+
 //import net.miginfocom.swing.MigLayout;
 //import com.jgoodies.forms.factories.FormFactory;
 import java.awt.CardLayout;
@@ -50,6 +51,7 @@ import notification.Text;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 
 public class MainApplication implements ActionListener{
@@ -375,32 +377,16 @@ public class MainApplication implements ActionListener{
 		}
 		else {
 			share = true;
-		}
+		}		
 		
-		request = new Request("guest", pickAddr, destAddr, numPassengers, numLuggages, 
-				share);
-		
-		if (cmbValueComm.contains("Text")) {
-			communication = new Text(new DispatchingMessage(request));
-		}
-		else if (cmbValueComm.contains("Phone")) {
-			communication = new Phone(new DispatchingMessage(request));
-		}
-		else {
-			communication = new Email(new DispatchingMessage(request));
-		} 
-
-		request.setCommType(communication);
-		//Pass the request to ServiceFacade
-		
-		
-		System.out.println("Request Recieved: ");
+		System.out.println("Request Passed to Service Manager: ");
 		System.out.println("\tPickUp Address = "+pickAddr);
 		System.out.println("\tDestination Address = "+destAddr);
 		System.out.println("\tPassengers = " + numPassengers + "   Luggages = "+numLuggages + 
 				"   Shareable");
 		
-		serviceManager.receiveRequest(request);
+		serviceManager.createRequest("guest", pickAddr, destAddr, numPassengers, numLuggages, 
+				share, (Date)null, "");
 		
 		System.out.println("******************** Exiting *********************");
 

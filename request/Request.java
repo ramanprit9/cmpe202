@@ -32,9 +32,11 @@ public class Request implements RequestInterface {
 		numOfLuggages = luggages;
 		shareable = share;
 		requestID = 2;
-		state = new ReceiveState(this);
 		pickupTime = reqtime;
 		vehicleType = vtype;
+		
+		state = new ReceiveState(this);
+
 		//insertRequestinDB();
 	}
 	public void receiveRequest(){
