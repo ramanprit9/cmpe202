@@ -18,7 +18,7 @@ public class Dispatcher {
 		
 		System.out.println("Dispatcher: find transportation, requestID = "+req.getRequestID());
 		ds = setDispatchStrategy(req);
-		ds.findTransportation(req);
+	//	ds.findTransportation(req);
 		
 	}
 	
