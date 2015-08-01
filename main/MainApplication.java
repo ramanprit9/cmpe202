@@ -43,7 +43,7 @@ import javax.swing.JSeparator;
 
 import request.Request;
 import notification.Communication;
-import notification.DispatchingMessage;
+import notification.Notification;
 import notification.Email;
 import notification.Phone;
 import notification.Text;

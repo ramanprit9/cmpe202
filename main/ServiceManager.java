@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 import request.Request;
 import notification.Communication;
-import notification.DispatchingMessage;
+import notification.Notification;
 import notification.Message;
 import notification.Message.MessageType;
 import dispatcher.Dispatcher;
@@ -56,7 +56,7 @@ public class ServiceManager {
 	/* Send appropriate messages to customer and driver */
 	public void sendDispatchMessages (Request req, VehicleAvailability va){
 		System.out.println("ServiceManager: Send dispatch message");
-		Message message = new DispatchingMessage(req);
+		Message message = new Notification(req);
 		String customerMsg;
 		String driverMsg;
 		
@@ -95,7 +95,7 @@ public class ServiceManager {
 	
 	public boolean canCustomerWait(Request req) {
 		System.out.println("ServiceManager: Create Dialog. Can Customer Wait?");
-		Message message = new DispatchingMessage(req);
+		Message message = new Notification(req);
 		String customerMsg = message.createMessage(MessageType.VEHICLE_NOT_IMMEDIATELY_AVAILABLE);
 		
 		Frame frame = new Frame();

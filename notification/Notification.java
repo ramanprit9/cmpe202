@@ -2,13 +2,12 @@ package notification;
 
 import request.Request;
 import notification.Message.MessageType;
-import notification.Message.Recipient;
 
-public class DispatchingMessage extends Message {
+public class Notification extends Message {
 
 	private Request request;
 	
-	public DispatchingMessage (Request req) {
+	public Notification (Request req) {
 		request = req;
 	}
 	

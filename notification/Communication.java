@@ -1,7 +1,6 @@
 package notification;
 
 import notification.Message.MessageType;
-import notification.Message.Recipient;
 
 public abstract class Communication {
 	private Message _message;
@@ -14,5 +13,5 @@ public abstract class Communication {
 		return _message.createMessage(msgType);
 	}
 	
-	public abstract void sendNotification(Message.Recipient rc, String message);
+	public abstract void sendNotification(String recipient, String message);
 }
