@@ -43,7 +43,8 @@ public class EvaluatingState implements State{
  public String evaluateRequest(){
 	 ServiceManager serviceManager = new ServiceManager(); //need ServiceManager for communication/notifications
 	 Dispatcher dispatcher = new Dispatcher();
-	 dispatcher.setDispatchStrategy(req);
+	 //dispatcher.setDispatchStrategy(req);
+	 dispatcher.findTransportation(req);
 	 return "Need to qualify the request";
 	 
 		/* Check DB for available Vehicle.  
