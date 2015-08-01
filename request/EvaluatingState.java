@@ -6,24 +6,9 @@ import java.io.InputStreamReader;
 
 import main.ServiceManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-
-
-
-
-import org.apache.http.client.ClientProtocolException;
-
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import dispatcher.Dispatcher;
 
