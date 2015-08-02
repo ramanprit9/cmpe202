@@ -4,12 +4,13 @@ import main.Driver;
 
 public class Vehicle extends Transportation {
 	
-	//Driver driver;
 	int vehicleID;
 	boolean isCurrentlyAvailable;
 	String zipcode;
 	int maxPassengers;
 	boolean shareable;
+	double costPerMile;
+	double costPerMinute;
 	
 	/* Get all the vehicles */
 	public int getTotalTransporations(String zipcode) {
@@ -55,6 +56,22 @@ public class Vehicle extends Transportation {
 
 	public void setShareable(boolean shareable) {
 		this.shareable = shareable;
+	}
+
+	public double getCostPerMile() {
+		return costPerMile;
+	}
+
+	public void setCostPerMile(double costPerMile) {
+		this.costPerMile = costPerMile;
+	}
+
+	public double getCostPerMinute() {
+		return costPerMinute;
+	}
+
+	public void setCostPerMinute(double costPerMinute) {
+		this.costPerMinute = costPerMinute;
 	}
 	
 }

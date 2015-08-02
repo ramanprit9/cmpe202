@@ -7,14 +7,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
-public class VehicleFrame extends JFrame {
+public class VehicleFrame extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtLicense;
@@ -26,7 +30,15 @@ public class VehicleFrame extends JFrame {
 	private JTextField txtUpMaxPsg;
 	private JTextField txtUpMaxLug;
 	private JTextField txtUpVehichleID;
-
+	private JTextField txtPayMin;
+	private JTextField txtPayMile;
+	private JTextField txtUpPayMin;
+	private JTextField txtUpPayMile;
+	private JComboBox cmbState;
+	private JComboBox cmbVehicleType;
+	private JComboBox cmbUpVehicleType;
+	private JComboBox cmbUpState;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -49,14 +61,14 @@ public class VehicleFrame extends JFrame {
 	public VehicleFrame() {
 		setTitle("CRUD Vehicle");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 549, 371);
+		setBounds(100, 100, 623, 408);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 488, 141);
+		panel.setBounds(10, 11, 564, 141);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -81,7 +93,7 @@ public class VehicleFrame extends JFrame {
 		lblType.setBounds(282, 33, 105, 21);
 		panel.add(lblType);
 		
-		JComboBox cmbVehicleType = new JComboBox();
+		cmbVehicleType = new JComboBox();
 		cmbVehicleType.setModel(new DefaultComboBoxModel(new String[] {"Sedan", "Van", "Bus"}));
 		cmbVehicleType.setBounds(324, 34, 141, 20);
 		panel.add(cmbVehicleType);
@@ -121,19 +133,40 @@ public class VehicleFrame extends JFrame {
 		lblVehicleState.setBounds(10, 90, 105, 21);
 		panel.add(lblVehicleState);
 		
-		JComboBox cmbState = new JComboBox();
+		cmbState = new JComboBox();
 		cmbState.setModel(new DefaultComboBoxModel(new String[] {"Available", "In-Transit", "Not Available", "In-Maintenance"}));
-		cmbState.setBounds(97, 91, 141, 20);
+		cmbState.setBounds(97, 91, 134, 20);
 		panel.add(cmbState);
 		
 		JButton btnAddVehicle = new JButton("Add Vehicle");
 		btnAddVehicle.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnAddVehicle.setBounds(187, 118, 125, 23);
 		panel.add(btnAddVehicle);
+		btnAddVehicle.addActionListener(this);
+		
+		JLabel lblPayPerMin = new JLabel("Pay per Minute:");
+		lblPayPerMin.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblPayPerMin.setBounds(249, 90, 105, 21);
+		panel.add(lblPayPerMin);
+		
+		txtPayMin = new JTextField();
+		txtPayMin.setColumns(10);
+		txtPayMin.setBounds(342, 91, 64, 20);
+		panel.add(txtPayMin);
+		
+		JLabel lblPayPerMiles = new JLabel("Pay per Mile:");
+		lblPayPerMiles.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblPayPerMiles.setBounds(416, 90, 105, 21);
+		panel.add(lblPayPerMiles);
+		
+		txtPayMile = new JTextField();
+		txtPayMile.setColumns(10);
+		txtPayMile.setBounds(495, 91, 59, 20);
+		panel.add(txtPayMile);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
-		panel_1.setBounds(10, 173, 499, 148);
+		panel_1.setBounds(10, 195, 564, 148);
 		contentPane.add(panel_1);
 		
 		JLabel lblUpdateVehicle = new JLabel("Update/Remove Vehicle:");
@@ -157,7 +190,7 @@ public class VehicleFrame extends JFrame {
 		label_2.setBounds(174, 37, 105, 21);
 		panel_1.add(label_2);
 		
-		JComboBox cmbUpVehicleType = new JComboBox();
+		cmbUpVehicleType = new JComboBox();
 		cmbUpVehicleType.setBounds(215, 38, 141, 20);
 		panel_1.add(cmbUpVehicleType);
 		
@@ -196,7 +229,7 @@ public class VehicleFrame extends JFrame {
 		label_6.setBounds(10, 90, 105, 21);
 		panel_1.add(label_6);
 		
-		JComboBox cmbUpState = new JComboBox();
+		cmbUpState = new JComboBox();
 		cmbUpState.setBounds(97, 91, 141, 20);
 		panel_1.add(cmbUpState);
 		
@@ -204,12 +237,14 @@ public class VehicleFrame extends JFrame {
 		btnUpdateVehicle.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnUpdateVehicle.setBounds(53, 122, 135, 23);
 		panel_1.add(btnUpdateVehicle);
-		
-		JButton btnDeleteVehicle = new JButton("Delete Vehicle");
-		btnDeleteVehicle.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnDeleteVehicle.setBounds(236, 122, 135, 23);
-		panel_1.add(btnDeleteVehicle);
-		
+		btnUpdateVehicle.addActionListener(this);
+
+		JButton btnRemoveVehicle = new JButton("Remove Vehicle");
+		btnRemoveVehicle.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnRemoveVehicle.setBounds(236, 122, 135, 23);
+		panel_1.add(btnRemoveVehicle);
+		btnRemoveVehicle.addActionListener(this);
+
 		txtUpVehichleID = new JTextField();
 		txtUpVehichleID.setEditable(false);
 		txtUpVehichleID.setColumns(10);
@@ -224,5 +259,32 @@ public class VehicleFrame extends JFrame {
 		JButton btnGo = new JButton("Go");
 		btnGo.setBounds(434, 8, 55, 23);
 		panel_1.add(btnGo);
+		btnGo.addActionListener(this);
+		
+		JLabel label = new JLabel("Pay per Minute:");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		label.setBounds(251, 90, 105, 21);
+		panel_1.add(label);
+		
+		txtUpPayMin = new JTextField();
+		txtUpPayMin.setColumns(10);
+		txtUpPayMin.setBounds(344, 91, 63, 20);
+		panel_1.add(txtUpPayMin);
+		
+		JLabel label_7 = new JLabel("Pay per Mile:");
+		label_7.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		label_7.setBounds(416, 90, 73, 21);
+		panel_1.add(label_7);
+		
+		txtUpPayMile = new JTextField();
+		txtUpPayMile.setColumns(10);
+		txtUpPayMile.setBounds(499, 91, 55, 20);
+		panel_1.add(txtUpPayMile);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

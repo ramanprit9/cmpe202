@@ -15,12 +15,17 @@ public class Request implements RequestInterface {
 	Address pickupLocation;
 	Date pickupTime;
 	Address destination;
-	//String state;
 	boolean shareable;
 	String vehicleType;
 	int numOfPassengers;
 	int numOfLuggages;
-	Communication commType;
+	String commType;
+	Date startRideTime;
+	Date endRideTime;
+	double totalRideTime;
+	double totalRideMiles;
+	double rideSpeed;
+	double milesTravelled;
 	
 	//Constructor without Communication type. Need to fist create a Request before creating Communication
 	public Request (String member, Address pick, Address dest, int passengers, int luggages, 
@@ -59,46 +64,6 @@ public class Request implements RequestInterface {
 		return state;
 	}
 	
-	/*private void insertRequestinDB() {
-		String str = "INSERT INTO user_requests "
-				+ "(member_id, request_pickup_loc, "
-				+ "request_pickup_time, request_destination, "
-				+ "request_state, request_shareable, "
-				+ "request_type, request_sub_type, "
-				+ "request_vehicle_type, request_no_passengers_travelling, "
-				+ "request_no_luggages, request_flag) " 
-				+ "VALUES ("  
-				+ "'" + memberID + "', " 
-				+ "'" + pickupLocation + "', " 
-				+ "'" + pickupTime + "', "
-				+ "'" + destination + "', "
-				+ "'', " 
-				+ "'" + shareable + "', "
-				+ "'', " 
-				+ "'', " 
-				+ "'', " 
-				+ numOfPassengers + ", "
-				+ numOfLuggages + ", "
-				+ "'Y')";
-		System.out.println(str);
-		
-		DBHandler.updateDB(str); //Add the request record in user_requests table
-		
-//		//Set the requestID by retrieving it from database
-//		ResultSet rs = DBHandler.queryDB("Select request_id from user_requests where request_flag='Y'");
-//		try {
-//			rs.next();
-//			requestID = rs.getInt("request_id");
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		//After request ID is retrieved, change the flag to 'N'
-//		DBHandler.updateDB("UPDATE user_requests SET request_flag='N' WHERE request_flag='Y'");
-		
-	}*/
-	
 	public Address getPickupLocation() {
 		return pickupLocation;
 	}
@@ -131,11 +96,11 @@ public class Request implements RequestInterface {
 		this.shareable = shareable;
 	}
 
-	public Communication getCommType() {
+	public String getCommType() {
 		return commType;
 	}
 
-	public void setCommType(Communication commType) {
+	public void setCommType(String commType) {
 		this.commType = commType;
 	}
 	
@@ -179,6 +144,56 @@ public class Request implements RequestInterface {
 
 	public void setVehicleType(String vehicleType) {
 		this.vehicleType = vehicleType;
+	}
+
+	
+	public Date getStartRideTime() {
+		return startRideTime;
+	}
+
+	public void setStartRideTime(Date startRideTime) {
+		this.startRideTime = startRideTime;
+	}
+
+	public Date getEndRideTime() {
+		return endRideTime;
+	}
+
+	public void setEndRideTime(Date endRideTime) {
+		this.endRideTime = endRideTime;
+	}
+
+	public double getTotalRideTime() {
+		return totalRideTime;
+	}
+
+	public void setTotalRideTime(double totalRideTime) {
+		this.totalRideTime = totalRideTime;
+	}
+
+	public double getTotalRideMiles() {
+		return totalRideMiles;
+	}
+
+	public void setTotalRideMiles(double totalRideMiles) {
+		this.totalRideMiles = totalRideMiles;
+	}
+
+	public double getRideSpeed() {
+		return rideSpeed;
+	}
+
+	public void setRideSpeed(double rideSpeed) {
+		this.rideSpeed = rideSpeed;
+	}
+
+	
+	public double getMilesTravelled() {
+		return milesTravelled;
+	}
+
+	public void setMilesTravelled(double milesTravelled) {
+		this.milesTravelled = milesTravelled;
 	}
 
 	public String toString() {

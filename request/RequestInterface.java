@@ -27,9 +27,9 @@ public interface RequestInterface {
 
 	public void setShareable(boolean shareable);
 
-	public Communication getCommType();
+	public String getCommType();
 
-	public void setCommType(Communication commType);
+	public void setCommType(String commType);
 	
 	
 	public int getNumOfLuggages();
