@@ -119,4 +119,8 @@ public class ServiceManager {
 		
 	}
 
+	/* process CRUD */
+	public void crud(String sql) {
+		
+	}
 }
