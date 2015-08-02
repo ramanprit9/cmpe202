@@ -66,8 +66,17 @@ PRIMARY KEY (payment_id,request_id));
 drop table if exists vehicle;
 create table vehicle
 (vehicle_id INT NOT NULL AUTO_INCREMENT,
-vehicle_type varchar(15), 
+license_num varchar (15),
+vehicle_type varchar(15),
+min_passengers integer, 
+max_passengers integer,
+max_luggages integer,
+pay_per_hour varchar(15),
+pay_per_mile varchar(15),
 vehicle_state varchar(4),
+vehicle_avalible_2miles varchar(1),
+vehicle_avalible_5miles varchar(1),
+vehicle_sharable varchar(1),
 PRIMARY KEY (vehicle_id));
 
 INSERT INTO user_requests (member_id, request_pickup_loc, request_pickup_time, request_destination, request_state, request_shareable, request_type, request_sub_type, request_vehicle_type, request_no_passengers_travelling, request_no_luggages, request_flag) VALUES ('guest', 'Bunker Hill Lane, Santa Clara CA, 95054', '', 'San Jose State , San Jose CA, 95112', '', 'false', '', '', '', 1, 0, 'Y');
