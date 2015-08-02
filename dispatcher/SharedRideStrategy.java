@@ -96,7 +96,7 @@ public boolean isSharedin2miles() {
 public boolean isSharedin5miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='Y'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();

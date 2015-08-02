@@ -64,7 +64,7 @@ public class VanStrategy implements DispatchStrategy {
 public boolean isVanavailablein2miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE vehicle_type='van' and vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_type='van' and vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
@@ -96,7 +96,7 @@ public boolean isVanavailablein2miles() {
 public boolean isVanavailablein5miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();

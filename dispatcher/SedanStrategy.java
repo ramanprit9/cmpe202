@@ -63,7 +63,7 @@ public class SedanStrategy implements DispatchStrategy {
 public boolean isSedanavailablein2miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE vehicle_type='sedan' and vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_type='sedan' and vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
@@ -95,7 +95,7 @@ public boolean isSedanavailablein2miles() {
 public boolean isSedanavailablein5miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE vehicle_type='sedan' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_type='sedan' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
