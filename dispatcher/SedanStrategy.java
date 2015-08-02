@@ -1,21 +1,10 @@
 package dispatcher;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 import main.DBHandler;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import main.ServiceManager;
 
 
-
-import org.apache.http.client.ClientProtocolException;
+import main.ServiceManager.VehicleAvailability;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +17,7 @@ public class SedanStrategy implements DispatchStrategy {
 	boolean successFlag5miles;
 	public void findTransportation(Request r1)
 	{
-		int rad = 2 ;
+		//int rad = 2 ;
 		boolean requestSatisfiedin2miles;
 		boolean requestSatisfiedin5miles;
 	   /* try {
@@ -40,10 +29,11 @@ public class SedanStrategy implements DispatchStrategy {
 		//Check if vehicle is available in 2miles
 		requestSatisfiedin2miles=isSedanavailablein2miles();
 		if (requestSatisfiedin2miles = true){
-			//send notification to customer saying tht vehicle is available in 2miles
-			
-			//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
-			
+			//send notification to customer saying that vehicle is available in 2miles
+			ServiceManager custNotification = new ServiceManager();
+			custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_IMMEDIATELY_AVAILABLE);
+			//perform db operation to change the state of the vehicle(sedan) from AVAILABLE to INTRANSIT
+			setVehicleStatus(r1.getRequestID());
 		}
 		else
 		{
@@ -51,6 +41,8 @@ public class SedanStrategy implements DispatchStrategy {
 			
 			if (requestSatisfiedin5miles = true){
 				//send notification to customer saying tht he needs to wait for more time
+				ServiceManager custNotification = new ServiceManager();
+				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_WAIT_30_MINS);
 				
 				//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
 
@@ -58,6 +50,9 @@ public class SedanStrategy implements DispatchStrategy {
 			else
 			{
 				//send notification to customer saying that there is no vehicle currently available in his location
+				ServiceManager custNotification = new ServiceManager();
+				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_NOT_AVAILABLE_AT_ALL);
+				
 			}
 		}
 	}
@@ -66,7 +61,7 @@ public class SedanStrategy implements DispatchStrategy {
 public boolean isSedanavailablein2miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE vehicle_type='sedan' and vehicle_state in ('FINISH','START') and vehicle_avalible_2miles='Y'";
+	String sql = "Select Count(*) from vehicles WHERE vehicle_type='sedan' and vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
@@ -98,7 +93,7 @@ public boolean isSedanavailablein2miles() {
 public boolean isSedanavailablein5miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE vehicle_type='sedan' and vehicle_state in ('FINISH','START') and vehicle_avalible_5miles='Y'";
+	String sql = "Select Count(*) from vehicles WHERE vehicle_type='sedan' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
@@ -126,32 +121,26 @@ public boolean isSedanavailablein5miles() {
 	
 	}
 
+public int setVehicleStatus(int reqID) {
+	String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='sedan' and vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y'";
+	ResultSet rs = DBHandler.queryDB(sql);
+	int vehID;
+	try {
+		
+		vehID = Integer.parseInt(rs.getString("veh_id"));
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	return reqID;
 }
-/*	 public String getZipcodes2miles(int radius) throws ClientProtocolException, IOException{
-		 HttpClient client = new DefaultHttpClient();
-
-		  HttpGet request = new HttpGet("https://www.zipcodeapi.com/rest/dy9H7sCTPlfj1VZgaPqBMIIzgQChQeH4NQLVioO8K3rLYq29gsL3atCrjfIauqeh/radius.csv/95131/2/mile");
-
-		  HttpResponse response = client.execute(request);
-
-		  BufferedReader rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
-		 // String zipcodes;
-		  String line = " ";
-		  int ctr = 0;
-		  while ((line = rd.readLine()) != null) {
-
-			if (ctr != 0) {
-		    System.out.println(line.split(",")[0]);
-				//zipcodes = (line.split(",")[0]);
-				
-			}
-			ctr++;
-		  
-		}
-		  
-		  return rd.toString();
-	 }
 	
-	
+/*public void setVehicleStatus(int reqID){
+//	String sql = "UPDATE user_requests SET request_state='FINISH' where request_id=" + reqID;
+	String sql = "update vehicle set vehicle_state='INTRANSIT', request_id="+reqID+ " and vehicle_id in ";
+	DBHandler.updateDB(sql);
 }
 */
+}
+}
+	

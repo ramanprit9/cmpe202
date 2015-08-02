@@ -7,7 +7,7 @@ import request.Request;
 import request.RequestInterface;
 import main.ServiceManager;
 import main.ServiceManager.VehicleAvailability;
-
+//This the context class for strategy pattern
 public class Dispatcher {
 
 	private DispatchStrategy ds;
@@ -18,7 +18,7 @@ public class Dispatcher {
 		
 		System.out.println("Dispatcher: find transportation, requestID = "+req.getRequestID());
 		ds = setDispatchStrategy(req);
-	//	ds.findTransportation(req);
+		//ds.findTransportation(req);
 		
 	}
 	
