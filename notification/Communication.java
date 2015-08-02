@@ -9,7 +9,7 @@ public abstract class Communication {
 		_message = msg;
 	}
 	
-	protected String createMessage (MessageType msgType) {
+	public String createMessage (MessageType msgType) {
 		return _message.createMessage(msgType);
 	}
 	

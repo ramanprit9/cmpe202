@@ -14,7 +14,7 @@ public class Notification extends Message {
 	public String createMessage (MessageType msgType)
 	{
 		switch (msgType) {
-		case CUSTOMER_INFO_TO_DRIVER:
+		case REQUEST_INFO_TO_DRIVER:
 			return "Request ID: " + request.getRequestID() + "\nPickup Location: " + request.getPickupLocation() + 
 					"\n Destination: " + request.getDestination();
 		case VEHICLE_INFO_TO_CUSTOMER:

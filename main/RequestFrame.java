@@ -19,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 import notification.Communication;
+import notification.Text;
 import request.Request;
 
 public class RequestFrame extends JFrame implements ActionListener {
@@ -341,7 +342,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		int numLuggages;
 		boolean share;
 		boolean member = false;
-		Communication communication;
+		String communication;
 		Request request;
 		
 		 // Retrieve request input and create a new Request 
@@ -358,7 +359,17 @@ public class RequestFrame extends JFrame implements ActionListener {
 		}
 		else {
 			share = true;
-		}		
+		}
+		
+		if (cmbValueComm.contains("Text")) {
+			communication = ServiceManager.TEXT_COMMUNICATION;
+		}
+		else if (cmbValueComm.contains("Phone")) {
+			communication = ServiceManager.PHONE_COMMUNICATION;
+		}
+		else {
+			communication = ServiceManager.EMAIL_COMMUNICATION;
+		}
 		
 		System.out.println("Request Passed to Service Manager: ");
 		System.out.println("\tPickUp Address = "+pickAddr);

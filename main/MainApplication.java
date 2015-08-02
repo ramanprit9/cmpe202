@@ -14,6 +14,7 @@ public class MainApplication implements ActionListener {
 	private JFrame frmHomePage;
 	private RequestFrame frmRequest;
 	private VehicleFrame frmVehicle;
+	private MemberFrame frmMember;
 	JButton btnRequest;
 	JButton btnVehicle;
 	JButton btnMember;
@@ -90,6 +91,13 @@ public class MainApplication implements ActionListener {
 			frmVehicle = new VehicleFrame();
 			if (frmVehicle.isVisible() == false ) {
 				frmVehicle.setVisible(true);
+			}
+		}
+		
+		if (e.getSource() == btnMember) {
+			frmMember = new MemberFrame();
+			if (frmMember.isVisible() == false ) {
+				frmMember.setVisible(true);
 			}
 		}
 
