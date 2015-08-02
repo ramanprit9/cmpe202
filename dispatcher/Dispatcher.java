@@ -25,19 +25,20 @@ public class Dispatcher {
 	
 	public DispatchStrategy setDispatchStrategy(Request req) {
 		
-		if (req.getNumOfPassengers() <= 3 && req.getNumOfLuggages() <= 3)
+		if (req.getNumOfPassengers() <= 3 && req.getNumOfLuggages() <= 3 && req.isShareable() == false)
 			{
 				ds = new SedanStrategy();
 				}
 		
 		
-		else if (req.getNumOfPassengers() <= 5 && req.getNumOfLuggages() <= 5)
+		else if (req.getNumOfPassengers() <= 5 && req.getNumOfLuggages() <= 5 && req.isShareable() == false)
 		{
 			ds = new VanStrategy();
 			}
-		else 
+		else if (req.getNumOfPassengers() > 5 && req.getNumOfLuggages() > 5 && req.isShareable() == false)
+		{
 			ds = new BusStrategy();
-	
+		}
 	return ds;
 }
 }

@@ -33,20 +33,27 @@ public class BusStrategy implements DispatchStrategy {
 			//send notification to customer saying that vehicle is available in 2miles
 			ServiceManager custNotification = new ServiceManager();
 			custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_IMMEDIATELY_AVAILABLE);
-			//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
 			
+			//perform db operation to change the state of the vehicle BUS from AVAILABLE to INTRANSIT
+			String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='bus' and vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y'";
+			ResultSet rs = DBHandler.queryDB(sql);
+			setVehicleStatus(r1.getRequestID(),rs);
+		
 		}
 		else
 		{
-			requestSatisfiedin5miles=isBusavailablein2miles();
+			requestSatisfiedin5miles=isBusavailablein5miles();
 			
 			if (requestSatisfiedin5miles = true){
 				//send notification to customer saying tht he needs to wait for more time
 				ServiceManager custNotification = new ServiceManager();
 				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_WAIT_30_MINS);
 				
-				//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
-
+				//perform db operation to change the state of the vehicle AVAILABLE to INTRANSIT
+				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='bus' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y'";
+				ResultSet rs = DBHandler.queryDB(sql);
+				setVehicleStatus(r1.getRequestID(),rs);
+			
 			}
 			else
 			{
@@ -121,6 +128,28 @@ public boolean isBusavailablein5miles() {
 	
 	return successFlag5miles;
 	
+	}
+
+public int setVehicleStatus(int reqID,ResultSet rs) {
+	int vehID;
+	try {
+		rs.next(); //move to the next row
+		vehID = Integer.parseInt(rs.getString("veh_id"));
+		
+		//update the vehicle stat
+
+		String updateVehicleStat ="update vehicle set vehicle_state='INTRANSIT',request_id=" +reqID + " where vehicle_id ="+vehID;
+		DBHandler.updateDB(updateVehicleStat);
+		
+		//update the request table for vehicle details
+				String updateRequestTab ="update user_requests set vehicle_id=" +vehID+ ",vehicle_tye='van' where request_id=" +reqID;
+				DBHandler.updateDB(updateRequestTab);
+				
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		} 
+	return reqID;
 	}
 
 }

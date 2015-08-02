@@ -19,7 +19,7 @@ private Request req;
 	
 	public String fulfillRequest(){
 		//This is the plcase wherethe user is taking a ride..
-		//insert processing state in DB
+		//insert FINISH state in DB
 		changeRequestStatinDB(req.requestID);
 		//call the nxt state for finishing the request
 		req.setState(new ReceiveState(req));
@@ -27,8 +27,12 @@ private Request req;
 	}
 
 	public void changeRequestStatinDB(int reqID) {
-		String sql = "UPDATE user_requests SET request_state='FINISH' where request_id=" + reqID;
-		DBHandler.updateDB(sql);
+		String updateRequest = "UPDATE user_requests SET request_state='FINISH' where request_id=" + reqID;
+		DBHandler.updateDB(updateRequest);
+		
+		String updateVehicle = "UPDATE vehicle SET vehicle_state='AVAILABLE' where request_id=" + reqID;
+		DBHandler.updateDB(updateVehicle);
+
 	}
 
 }

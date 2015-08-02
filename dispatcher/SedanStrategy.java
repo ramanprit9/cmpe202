@@ -33,7 +33,10 @@ public class SedanStrategy implements DispatchStrategy {
 			ServiceManager custNotification = new ServiceManager();
 			custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_IMMEDIATELY_AVAILABLE);
 			//perform db operation to change the state of the vehicle(sedan) from AVAILABLE to INTRANSIT
-			setVehicleStatus(r1.getRequestID());
+			String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='sedan' and vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y'";
+			ResultSet rs = DBHandler.queryDB(sql);
+			
+			setVehicleStatus(r1.getRequestID(),rs);
 		}
 		else
 		{
@@ -44,8 +47,10 @@ public class SedanStrategy implements DispatchStrategy {
 				ServiceManager custNotification = new ServiceManager();
 				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_WAIT_30_MINS);
 				
-				//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
-
+				//perform db operation to change the state of the vehicle(sedan) from AVAILABLE to INTRANSIT
+				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='sedan' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y'";
+				ResultSet rs = DBHandler.queryDB(sql);
+				setVehicleStatus(r1.getRequestID(),rs);
 			}
 			else
 			{
@@ -121,26 +126,25 @@ public boolean isSedanavailablein5miles() {
 	
 	}
 
-public int setVehicleStatus(int reqID) {
-	String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='sedan' and vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y'";
-	ResultSet rs = DBHandler.queryDB(sql);
+public int setVehicleStatus(int reqID,ResultSet rs) {
 	int vehID;
 	try {
-		
+		rs.next(); //move to the next row
 		vehID = Integer.parseInt(rs.getString("veh_id"));
+		
+		String updateVehicleStat ="update vehicle set vehicle_state='INTRANSIT',request_id=" +reqID + " where vehicle_id ="+vehID;
+		DBHandler.updateDB(updateVehicleStat);
+		
+		String updateRequestTab ="update user_requests set vehicle_id=" +vehID+ ",vehicle_tye='sedan' where request_id=" +reqID;
+		DBHandler.updateDB(updateRequestTab);
+		
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-	} 
+		} 
 	return reqID;
-}
+	}
 	
-/*public void setVehicleStatus(int reqID){
-//	String sql = "UPDATE user_requests SET request_state='FINISH' where request_id=" + reqID;
-	String sql = "update vehicle set vehicle_state='INTRANSIT', request_id="+reqID+ " and vehicle_id in ";
-	DBHandler.updateDB(sql);
 }
-*/
-}
-}
+
 	
