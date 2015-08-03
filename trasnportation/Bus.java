@@ -1,6 +1,10 @@
 package trasnportation;
 
 public class Bus extends Vehicle {
-	int maxLuggages;
-	int maxPassengers;
+
+	public Bus() {
+		super();
+		super.setCostPerMile(25.00);
+		super.setCostPerMinute(5.00);
+	}
 }

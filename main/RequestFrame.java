@@ -42,7 +42,9 @@ public class RequestFrame extends JFrame implements ActionListener {
 	private JTextField textField_12;
 	private String cmbValueShare;
 	private String cmbValueComm;
-
+	
+	private double vehicleSpeed;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -62,8 +64,9 @@ public class RequestFrame extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public RequestFrame() {
+	public RequestFrame(double speed) {
 		serviceManager = new ServiceManager();
+		vehicleSpeed = speed;
 		
 		setTitle("Request Form");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -370,15 +373,15 @@ public class RequestFrame extends JFrame implements ActionListener {
 		else {
 			communication = ServiceManager.EMAIL_COMMUNICATION;
 		}
-		
-		System.out.println("Request Passed to Service Manager: ");
+				
+		serviceManager.createRequest("guest", pickAddr, destAddr, numPassengers, numLuggages, 
+				share, (Date)null, "");
+		this.dispose();
+/*		System.out.println("Request Passed to Service Manager: ");
 		System.out.println("\tPickUp Address = "+pickAddr);
 		System.out.println("\tDestination Address = "+destAddr);
 		System.out.println("\tPassengers = " + numPassengers + "   Luggages = "+numLuggages + 
 				"   Shareable");
-		
-		serviceManager.createRequest("guest", pickAddr, destAddr, numPassengers, numLuggages, 
-				share, (Date)null, "");
-		
+*/
 	}
 }

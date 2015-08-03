@@ -11,6 +11,7 @@ public class Vehicle extends Transportation {
 	boolean shareable;
 	double costPerMile;
 	double costPerMinute;
+	double additionalCost;
 	
 	/* Get all the vehicles */
 	public int getTotalTransporations(String zipcode) {
@@ -72,6 +73,14 @@ public class Vehicle extends Transportation {
 
 	public void setCostPerMinute(double costPerMinute) {
 		this.costPerMinute = costPerMinute;
+	}
+
+	public double getAdditionalCost() {
+		return additionalCost;
+	}
+
+	public void setAdditionalCost(double additionalCost) {
+		this.additionalCost = additionalCost;
 	}
 	
 }

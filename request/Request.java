@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
+import trasnportation.Vehicle;
 import main.Address;
 import main.DBHandler;
 import notification.*;
@@ -20,9 +21,10 @@ public class Request implements RequestInterface {
 	int numOfPassengers;
 	int numOfLuggages;
 	String commType;
+	Vehicle vehicle;
 	Date startRideTime;
 	Date endRideTime;
-	double totalRideTime;
+	double totalRideMinutes; 
 	double totalRideMiles;
 	double rideSpeed;
 	double milesTravelled;
@@ -46,6 +48,7 @@ public class Request implements RequestInterface {
 	public void receiveRequest(){
 		state.receiveRequest();
 	}
+	
 	public void evaluateRequest(){
 		state.evaluateRequest();
 	}
@@ -55,7 +58,6 @@ public class Request implements RequestInterface {
 	}
 	
 	
-		
 	public void setState(State s){
 		state = s;
 	}
@@ -164,11 +166,11 @@ public class Request implements RequestInterface {
 	}
 
 	public double getTotalRideTime() {
-		return totalRideTime;
+		return totalRideMinutes;
 	}
 
-	public void setTotalRideTime(double totalRideTime) {
-		this.totalRideTime = totalRideTime;
+	public void setTotalRideTime(double totalRideMinutes) {
+		this.totalRideMinutes = totalRideMinutes;
 	}
 
 	public double getTotalRideMiles() {
@@ -194,6 +196,23 @@ public class Request implements RequestInterface {
 
 	public void setMilesTravelled(double milesTravelled) {
 		this.milesTravelled = milesTravelled;
+	}
+
+	
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public double getTotalRideMinutes() {
+		return totalRideMinutes;
+	}
+
+	public void setTotalRideMinutes(double totalRideMinutes) {
+		this.totalRideMinutes = totalRideMinutes;
 	}
 
 	public String toString() {

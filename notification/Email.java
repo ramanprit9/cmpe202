@@ -14,10 +14,12 @@ public class Email extends Communication {
 	public void sendNotification(String recipient, String message) {
 		System.out.println("Email to "+recipient+":\n "+message);
 		
+		/*
 		Frame frame = new Frame();
 		JOptionPane.showMessageDialog(frame,
 			    message + "\n",
 			    "Email to " + recipient + " ",
 			    JOptionPane.INFORMATION_MESSAGE);
+		*/
 	}
 }

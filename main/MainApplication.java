@@ -15,10 +15,11 @@ public class MainApplication implements ActionListener {
 	private RequestFrame frmRequest;
 	private VehicleFrame frmVehicle;
 	private MemberFrame frmMember;
-	JButton btnRequest;
+	JButton btnRequestMile;
 	JButton btnVehicle;
 	JButton btnMember;
 	JButton btnShuttle;
+	private JButton btnRequestMint;
 	
 	/**
 	 * Launch the application.
@@ -49,39 +50,51 @@ public class MainApplication implements ActionListener {
 	private void initialize() {
 		frmHomePage = new JFrame();
 		frmHomePage.setTitle("Home Page");
-		frmHomePage.setBounds(100, 100, 320, 300);
+		frmHomePage.setBounds(100, 100, 290, 300);
 		frmHomePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmHomePage.getContentPane().setLayout(null);
 		
-		btnRequest = new JButton("Place Request");
-		btnRequest.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnRequest.setBounds(22, 23, 145, 29);
-		frmHomePage.getContentPane().add(btnRequest);
-		btnRequest.addActionListener(this);
+		btnRequestMile = new JButton("Place Request - pay/mile");
+		btnRequestMile.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnRequestMile.setBounds(22, 23, 191, 29);
+		frmHomePage.getContentPane().add(btnRequestMile);
+		btnRequestMile.addActionListener(this);
 		
 		btnVehicle = new JButton("CRUD Vehicle");
 		btnVehicle.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnVehicle.setBounds(22, 62, 145, 29);
+		btnVehicle.setBounds(22, 97, 191, 29);
 		frmHomePage.getContentPane().add(btnVehicle);
 		btnVehicle.addActionListener(this);
 		
 		btnMember = new JButton("CRUD Member");
 		btnMember.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnMember.setBounds(22, 102, 145, 29);
+		btnMember.setBounds(22, 137, 191, 29);
 		frmHomePage.getContentPane().add(btnMember);
 		btnMember.addActionListener(this);
 		
 		btnShuttle = new JButton("Register Shuttle");
 		btnShuttle.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnShuttle.setBounds(22, 142, 145, 29);
+		btnShuttle.setBounds(22, 177, 191, 29);
 		frmHomePage.getContentPane().add(btnShuttle);
+		
+		btnRequestMint = new JButton("Place Request - pay/mint");
+		btnRequestMint.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnRequestMint.setBounds(22, 57, 191, 29);
+		frmHomePage.getContentPane().add(btnRequestMint);
 		btnShuttle.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnRequest) {
-			frmRequest = new RequestFrame();
+		if (e.getSource() == btnRequestMile) {
+			frmRequest = new RequestFrame(30.0);
+			if (frmRequest.isVisible() == false ) {
+				frmRequest.setVisible(true);
+			}
+		}
+		
+		if (e.getSource() == btnRequestMint) {
+			frmRequest = new RequestFrame(12.0);
 			if (frmRequest.isVisible() == false ) {
 				frmRequest.setVisible(true);
 			}

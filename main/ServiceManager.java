@@ -42,7 +42,6 @@ public class ServiceManager {
 			boolean share, Date reqtime, String vtype) {
 		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype);
 		reqQueue.add(req);
-		System.out.println("ServiceManager: Request queued to be processed");
 		processRequests();
 	}
 	
@@ -52,7 +51,6 @@ public class ServiceManager {
 		Request req_local;
 		req_local = reqQueue.poll();
 		while(req_local != null) {
-			System.out.println("ServiceManager: Request processed");
 			req_local.receiveRequest(); 
 			req_local.evaluateRequest();
 			req_local.fullfillRequest();
@@ -65,7 +63,7 @@ public class ServiceManager {
 	
 	/* Send appropriate messages to customer and driver */
 	public void sendDispatchMessages (Request req, VehicleAvailability va){
-		System.out.println("ServiceManager: Send dispatch message");
+		//System.out.println("ServiceManager: Send dispatch message");
 		Message message = new Notification(req);
 		Communication driverCommunication = new Text(message);
 		Communication customerCommunication;
@@ -111,7 +109,7 @@ public class ServiceManager {
 		
 	}
 
-	
+	/* Dialog box for asking the customer if he can wait */
 	public boolean canCustomerWait(Request req) {
 		System.out.println("ServiceManager: Create Dialog. Can Customer Wait?");
 		Message message = new Notification(req);
@@ -136,6 +134,9 @@ public class ServiceManager {
 	/* Send request info to driver */
 	private void sendRequestInfoToDriver (Request req) {
 		frmDriver = new DriverFrame(req);
+		if (frmDriver.isVisible() == false ) {
+			frmDriver.setVisible(true);
+		}
 	}
 
 	/* process CRUD for Member and Vehicle*/
@@ -160,11 +161,12 @@ public class ServiceManager {
 		endDateTime.setTime(endDateTime.getTime() + fifteenMins);
 		req.setEndRideTime(endDateTime);
 		req.setMilesTravelled(calculateMilesTravelled(req));
+		
+		//Update Vehicle State
+		String updateVehicle = "UPDATE vehicle SET vehicle_state='AVAILABLE' where request_id=" + req.getRequestID();
+		DBHandler.updateDB(updateVehicle);
+
 	}
-	
-	
-	
-	
 	
 	public double calculateMilesTravelled(Request req) {
 		return 5.2;

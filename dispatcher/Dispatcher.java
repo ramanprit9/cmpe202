@@ -13,13 +13,9 @@ public class Dispatcher {
 	private DispatchStrategy ds;
 	
 	//Find transportation for the request
-	public void findTransportation(Request req) {
-		//ServiceManager serviceManager = new ServiceManager();
-		
-		System.out.println("Dispatcher: find transportation, requestID = "+req.getRequestID());
+	public boolean findTransportation(Request req) {
 		ds = setDispatchStrategy(req);
-		//ds.findTransportation(req);
-		
+		return ds.findTransportation(req);
 	}
 	
 	
@@ -35,7 +31,7 @@ public class Dispatcher {
 		{
 			ds = new VanStrategy();
 			}
-		else if (req.getNumOfPassengers() > 5 && req.getNumOfLuggages() > 5 && req.isShareable() == false)
+		else if (req.getNumOfPassengers() > 5 && req.getNumOfLuggages() <= 10 && req.isShareable() == false)
 		{
 			ds = new BusStrategy();
 		}

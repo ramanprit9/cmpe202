@@ -2,8 +2,8 @@ package request;
 
 import main.DBHandler;
 
-public class FulfillState {
-private Request req;
+public class FulfillState implements State{
+	private Request req;
 	
 	public FulfillState(Request r){
 		req=r;
@@ -27,12 +27,8 @@ private Request req;
 	}
 
 	public void changeRequestStatinDB(int reqID) {
-		String updateRequest = "UPDATE user_requests SET request_state='FINISH' where request_id=" + reqID;
+		String updateRequest = "UPDATE user_requests SET request_state='ACCEPTED' where request_id=" + reqID;
 		DBHandler.updateDB(updateRequest);
-		
-		String updateVehicle = "UPDATE vehicle SET vehicle_state='AVAILABLE' where request_id=" + reqID;
-		DBHandler.updateDB(updateVehicle);
-
 	}
 
 }

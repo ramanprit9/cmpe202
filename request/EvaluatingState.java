@@ -4,11 +4,14 @@ import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import main.DBHandler;
 import main.ServiceManager;
 
 import java.util.ArrayList;
 
 //import javax.swing.JOptionPane;
+
+
 
 import dispatcher.Dispatcher;
 
@@ -28,9 +31,22 @@ public class EvaluatingState implements State{
  public String evaluateRequest(){
 	 ServiceManager serviceManager = new ServiceManager(); //need ServiceManager for communication/notifications
 	 Dispatcher dispatcher = new Dispatcher();
-	 //dispatcher.setDispatchStrategy(req);
-	 dispatcher.findTransportation(req);
-	 return "Need to qualify the request";
+	 boolean transportationFound; 
+	 
+	 transportationFound = dispatcher.findTransportation(req);
+	 
+	 //If transportation is found, move to FulfillState, else move to ReceiveState
+	 if (transportationFound == true) {
+		 req.setState(new FulfillState(req));
+		 return "Request acceepted";
+	 }
+	 else {
+		 req.setState(new ReceiveState(req));
+		 changeRequestStateinDB(req.getRequestID());
+		 return "Request declined";
+		 
+	 }
+	 
 	 
 		/* Check DB for available Vehicle.  
 		 * Send appropriate message to customer and driver through ServiceManager.
@@ -51,6 +67,13 @@ public class EvaluatingState implements State{
  public String fulfillRequest(){
 	 return "Request Needs to be evaluated first";
  }
+ 
+	public void changeRequestStateinDB(int reqID) {
+		String updateRequest = "UPDATE user_requests SET request_state='DECLINED' where request_id=" + reqID;
+		DBHandler.updateDB(updateRequest);
+	}
+
+
 }
 /* public String getZipcodes2miles() throws ClientProtocolException, IOException{
 	 HttpClient client = new DefaultHttpClient();

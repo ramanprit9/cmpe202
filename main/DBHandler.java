@@ -34,6 +34,7 @@ public class DBHandler {
 		connectDB();
 		Statement stmt = null;
 		try {
+			//System.out.println("Update DB: " + str);
 			stmt = conn.createStatement();
 			stmt.executeUpdate(str);
 		} catch (SQLException e) {
@@ -51,7 +52,7 @@ public class DBHandler {
 		ResultSet rs = null;
 		Statement stmt = null;
 		try {
-			System.out.println("Query DB: " + str);
+			//System.out.println("Query DB: " + str);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(str);
 			return rs;

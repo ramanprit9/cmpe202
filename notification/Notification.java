@@ -15,7 +15,7 @@ public class Notification extends Message {
 	{
 		switch (msgType) {
 		case REQUEST_INFO_TO_DRIVER:
-			return "Request ID: " + request.getRequestID() + "\nPickup Location: " + request.getPickupLocation() + 
+			return "Request ID: " + request.getRequestID() + "\n Pickup Location: " + request.getPickupLocation() + 
 					"\n Destination: " + request.getDestination();
 		case VEHICLE_INFO_TO_CUSTOMER:
 			return "Vehicle Available. It will arrive at your location in 10 minutes";

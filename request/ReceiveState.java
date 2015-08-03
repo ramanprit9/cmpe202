@@ -47,23 +47,20 @@ public class ReceiveState implements State {
 				+ req.getNumOfPassengers() + ", "
 				+ req.getNumOfLuggages() + ", "
 				+ "'Y')";
-		System.out.println(str);
 		
 		DBHandler.updateDB(str); //Add the request record in user_requests table
-		System.out.println("Request added in DB");
 	
 		//Get the request ID from DB
 		int id = findRequestIDinDB();
 		
 		//Set the request ID in the Request object
 		req.setRequestID(id);
-		System.out.println("********* Request ID = "+ id);
 		
 		//Request ID retrieved. Change the flag to 'N' for request_flag
 		changeRequestFlaginDB(id);
 	}
 	
-	/* The request will flag 'Y' is the newely added request 
+	/* The request will flag 'Y' is the newly added request 
 	 * After getting the id of that request, change the flag to 'N'
 	 * The purpose of the flag is to get the ID of the request that just got created
 	 */

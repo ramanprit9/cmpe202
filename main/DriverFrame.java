@@ -25,7 +25,7 @@ public class DriverFrame extends JFrame implements ActionListener{
 	private JTextField txtReq;
 	JButton btnStartRide;
 	JButton btnEndRide;
-	JButton btnCustomerNoShow;
+	JButton btnCancelRide;
 	ServiceManager serviceManager;
 	Request req;
 
@@ -37,27 +37,16 @@ public class DriverFrame extends JFrame implements ActionListener{
 		req = _req;
 		setTitle("Driver");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 492, 302);
+		setBounds(100, 100, 595, 302);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 287, 61);
+		panel.setBounds(10, 11, 350, 61);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
-		JLabel label = new JLabel("Vehicle ID: ");
-		label.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label.setBounds(0, 0, 104, 17);
-		panel.add(label);
-		
-		txtVehicleID = new JTextField();
-		txtVehicleID.setEditable(false);
-		txtVehicleID.setBounds(114, 0, 145, 20);
-		panel.add(txtVehicleID);
-		txtVehicleID.setColumns(10);
 		
 		JLabel lblVehicleStatus = new JLabel("Vehicle Status:");
 		lblVehicleStatus.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -65,13 +54,14 @@ public class DriverFrame extends JFrame implements ActionListener{
 		panel.add(lblVehicleStatus);
 		
 		txtVehicleStatus = new JTextField();
+		txtVehicleStatus.setText("INTRANSIT");
 		txtVehicleStatus.setEditable(false);
 		txtVehicleStatus.setColumns(10);
 		txtVehicleStatus.setBounds(114, 27, 145, 23);
 		panel.add(txtVehicleStatus);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 83, 287, 70);
+		panel_1.setBounds(10, 83, 529, 70);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -82,35 +72,52 @@ public class DriverFrame extends JFrame implements ActionListener{
 		
 		txtReq = new JTextField();
 		txtReq.setEditable(false);
-		txtReq.setBounds(66, 0, 221, 59);
+		txtReq.setBounds(66, 0, 453, 59);
 		panel_1.add(txtReq);
 		txtReq.setColumns(10);
+		txtReq.setText(req.getBasicRequestString());
 		
 		btnStartRide = new JButton("Start Ride");
 		btnStartRide.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnStartRide.setBounds(10, 204, 121, 23);
+		btnStartRide.setBounds(10, 204, 99, 23);
 		contentPane.add(btnStartRide);
+		btnStartRide.addActionListener(this);
 		
 		btnEndRide = new JButton("End Ride");
 		btnEndRide.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnEndRide.setBounds(149, 204, 141, 23);
+		btnEndRide.setBounds(119, 204, 93, 23);
 		contentPane.add(btnEndRide);
+		btnEndRide.addActionListener(this);
 		
-		btnCustomerNoShow = new JButton("Customer No-Show");
-		btnCustomerNoShow.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnCustomerNoShow.setBounds(300, 204, 155, 23);
-		contentPane.add(btnCustomerNoShow);
+		btnCancelRide = new JButton("Cancel Ride");
+		btnCancelRide.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnCancelRide.setBounds(222, 204, 117, 23);
+		contentPane.add(btnCancelRide);
+		btnCancelRide.addActionListener(this);
+		
+		JButton btnCustomerPaid = new JButton("Customer Paid");
+		btnCustomerPaid.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnCustomerPaid.setBounds(349, 205, 147, 23);
+		contentPane.add(btnCustomerPaid);
+		btnCancelRide.addActionListener(this);
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		serviceManager = new ServiceManager();
-		if (e.equals(btnStartRide)) {
+		if (e.getSource().equals(btnStartRide)) {
 			serviceManager.startRide(req);
 		}
-		if (e.equals(btnEndRide)) {
-			serviceManager.endRide(req);
+		
+		if (e.getSource().equals(btnEndRide)) {
+			txtVehicleStatus.setText("AVAILABLE");
+			serviceManager.endRide(req); 
 		}
+		
+		if (e.getSource().equals(btnCancelRide)) {
+			txtVehicleStatus.setText("AVAILABLE");
+			serviceManager.endRide(req); 
+		}
+
 	}
 }

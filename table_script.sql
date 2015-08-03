@@ -13,7 +13,7 @@ member_zip varchar(10),
 member_type varchar(50),
 member_card_number varchar(15),
 member_card_type varchar(15),
-member_id varchar(20),
+member_username varchar(20),
 member_pwd varchar(20),
 PRIMARY KEY (member_no));
 
@@ -33,25 +33,9 @@ request_vehicle_type varchar(20),
 request_no_passengers_travelling integer,
 request_no_luggages integer,
 request_flag varchar(1),
+vehicle_id int,
+vehicle_type varchar(10),
 PRIMARY KEY (request_id));
-
-drop table if exists dispatcher;
-create table dispatcher
-(dispatch_id INT NOT NULL AUTO_INCREMENT,
-request_id integer,
-dispatch_vehicle_type varchar(15),
-dispatch_vehicle_number varchar(15),
-dispatch_strategy_no integer,
-PRIMARY KEY (dispatch_id,request_id));
-
-drop table if exists communication;
-create table communication
-(communication_id INT NOT NULL AUTO_INCREMENT,
-request_id integer,
-communication_type varchar(20),
-Communication_sent_to varchar(50),
-Communication_message varchar(100),
-PRIMARY KEY (communication_id,request_id));
 
 drop table if exists payment;
 create table payment
@@ -66,17 +50,43 @@ PRIMARY KEY (payment_id,request_id));
 drop table if exists vehicle;
 create table vehicle
 (vehicle_id INT NOT NULL AUTO_INCREMENT,
-license_num varchar (15),
-vehicle_type varchar(15),
-min_passengers integer, 
-max_passengers integer,
-max_luggages integer,
-pay_per_hour varchar(15),
-pay_per_mile varchar(15),
-vehicle_state varchar(4),
+request_id int,
+vehicle_type varchar(15), 
+vehicle_state varchar(10),
 vehicle_avalible_2miles varchar(1),
 vehicle_avalible_5miles varchar(1),
 vehicle_sharable varchar(1),
+pay_per_hour varchar(15),
+pay_per_mile varchar(15),
+additional_pay varchar (15), 
+
 PRIMARY KEY (vehicle_id));
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('sedan','AVAILABLE',0,'Y','N','N');
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('sedan','AVAILABLE',0,'Y','N','N');
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('sedan','AVAILABLE',0,'Y','N','N');
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('van','AVAILABLE',0,'Y','N','N');
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('van','AVAILABLE',0,'Y','N','N');
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('van','AVAILABLE',0,'Y','N','N');
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('bus','AVAILABLE',0,'Y','N','N');
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('bus','AVAILABLE',0,'Y','N','N');
+
+insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
+values ('bus','AVAILABLE',0,'Y','N','N');
 
 INSERT INTO user_requests (member_id, request_pickup_loc, request_pickup_time, request_destination, request_state, request_shareable, request_type, request_sub_type, request_vehicle_type, request_no_passengers_travelling, request_no_luggages, request_flag) VALUES ('guest', 'Bunker Hill Lane, Santa Clara CA, 95054', '', 'San Jose State , San Jose CA, 95112', '', 'false', '', '', '', 1, 0, 'Y');

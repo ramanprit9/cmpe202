@@ -3,5 +3,5 @@ import request.Request;
 //This is the interface for STRATEGY pattern
 public interface DispatchStrategy {
 
-	public void findTransportation(Request r);
+	public boolean findTransportation(Request r);
 }
