@@ -43,7 +43,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 	private String cmbValueShare;
 	private String cmbValueComm;
 	
-	private double vehicleSpeed;
+	private int vehicleSpeed;
 	
 	/**
 	 * Launch the application.
@@ -64,7 +64,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public RequestFrame(double speed) {
+	public RequestFrame(int speed) {
 		serviceManager = new ServiceManager();
 		vehicleSpeed = speed;
 		
@@ -375,7 +375,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		}
 				
 		serviceManager.createRequest("guest", pickAddr, destAddr, numPassengers, numLuggages, 
-				share, (Date)null, "");
+				share, new Date(), "", vehicleSpeed);
 		this.dispose();
 /*		System.out.println("Request Passed to Service Manager: ");
 		System.out.println("\tPickUp Address = "+pickAddr);

@@ -7,6 +7,7 @@ import java.util.Date;
 import trasnportation.Vehicle;
 import main.Address;
 import main.DBHandler;
+import member.Member;
 import notification.*;
 
 public class Request implements RequestInterface {
@@ -22,16 +23,17 @@ public class Request implements RequestInterface {
 	int numOfLuggages;
 	String commType;
 	Vehicle vehicle;
+	Member member;
 	Date startRideTime;
 	Date endRideTime;
 	double totalRideMinutes; 
 	double totalRideMiles;
-	double rideSpeed;
+	int rideSpeed;
 	double milesTravelled;
+	double durationOfRide; /* in minutes */
 	
-	//Constructor without Communication type. Need to fist create a Request before creating Communication
 	public Request (String member, Address pick, Address dest, int passengers, int luggages, 
-			boolean share, Date reqtime, String vtype) {
+			boolean share, Date reqtime, String vtype, int speed) {
 		memberID = member;
 		pickupLocation = pick;
 		destination = dest;
@@ -41,8 +43,17 @@ public class Request implements RequestInterface {
 		requestID = 2;
 		pickupTime = reqtime;
 		vehicleType = vtype;
+		rideSpeed = speed;
 		
+		//member = getMemberfromDB();
 		state = new ReceiveState(this);
+	}
+	
+	public Member getMemberfromDB() {
+		//this.setMemberID();
+		//String sql = "Select member_fname, member_lname, member_type, member_card_type, " + 
+			//		"member_card_number, member_username where member_id";
+		return null;
 	}
 	
 	public void receiveRequest(){
@@ -181,11 +192,11 @@ public class Request implements RequestInterface {
 		this.totalRideMiles = totalRideMiles;
 	}
 
-	public double getRideSpeed() {
+	public int getRideSpeed() {
 		return rideSpeed;
 	}
 
-	public void setRideSpeed(double rideSpeed) {
+	public void setRideSpeed(int rideSpeed) {
 		this.rideSpeed = rideSpeed;
 	}
 
@@ -213,6 +224,22 @@ public class Request implements RequestInterface {
 
 	public void setTotalRideMinutes(double totalRideMinutes) {
 		this.totalRideMinutes = totalRideMinutes;
+	}
+
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
+	public double getDurationOfRide() {
+		return durationOfRide;
+	}
+
+	public void setDurationOfRide(double durationOfRide) {
+		this.durationOfRide = durationOfRide;
 	}
 
 	public String toString() {

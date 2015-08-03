@@ -23,6 +23,7 @@ public class FulfillState implements State{
 		changeRequestStatinDB(req.requestID);
 		//call the nxt state for finishing the request
 		req.setState(new ReceiveState(req));
+		System.out.println("************* fulfilling state");
 		return "FinishedState:Request is in Process";
 	}
 

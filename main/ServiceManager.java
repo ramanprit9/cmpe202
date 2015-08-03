@@ -8,6 +8,7 @@ import java.util.Queue;
 
 import javax.swing.JOptionPane;
 
+import payment.PaymentProcessor;
 import request.Request;
 import notification.Communication;
 import notification.Email;
@@ -28,7 +29,7 @@ public class ServiceManager {
 	public static final String EMAIL_COMMUNICATION = "Phone";
 
 	//Request queue to be validated and then sent to dispatcher
-	Queue<Request> reqQueue = new LinkedList<Request>();
+	static Queue<Request> reqQueue = new LinkedList<Request>();
 	
 	DriverFrame frmDriver; 
 	
@@ -39,8 +40,8 @@ public class ServiceManager {
 	}
 
 	public void createRequest(String member, Address pick, Address dest, int passengers, int luggages, 
-			boolean share, Date reqtime, String vtype) {
-		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype);
+			boolean share, Date reqtime, String vtype, int vehicleSpeed) {
+		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype, vehicleSpeed);
 		reqQueue.add(req);
 		processRequests();
 	}
@@ -147,12 +148,14 @@ public class ServiceManager {
 	//Start the Ride, set start time of ride
 	public void startRide(Request req) {
 		req.setStartRideTime(new Date());
+		System.out.println("*********** start ride at "+req.getStartRideTime());
 	}
 	
 	//End the ride, set end time of ride, process Payment
 	public void endRide(Request req) {
 		Date endDateTime = new Date();
 		long fifteenMins;
+		PaymentProcessor payProcessor; 
 		
 		//Since we r just simulating, add 15 minutes to the endRideTime
 		//Java Date time is in milliseconds
@@ -165,9 +168,14 @@ public class ServiceManager {
 		//Update Vehicle State
 		String updateVehicle = "UPDATE vehicle SET vehicle_state='AVAILABLE' where request_id=" + req.getRequestID();
 		DBHandler.updateDB(updateVehicle);
+		
+		System.out.println("*********** end ride at "+req.getEndRideTime());
+		
+		payProcessor = new PaymentProcessor(req);
+		payProcessor.processPayment();
 
 	}
-	
+		
 	public double calculateMilesTravelled(Request req) {
 		return 5.2;
 	}

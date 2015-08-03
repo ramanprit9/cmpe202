@@ -87,14 +87,14 @@ public class MainApplication implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnRequestMile) {
-			frmRequest = new RequestFrame(30.0);
+			frmRequest = new RequestFrame(35);
 			if (frmRequest.isVisible() == false ) {
 				frmRequest.setVisible(true);
 			}
 		}
 		
 		if (e.getSource() == btnRequestMint) {
-			frmRequest = new RequestFrame(12.0);
+			frmRequest = new RequestFrame(12);
 			if (frmRequest.isVisible() == false ) {
 				frmRequest.setVisible(true);
 			}
