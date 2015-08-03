@@ -58,7 +58,7 @@ public class MemberFrame extends JFrame {
 	public MemberFrame() {
 		setTitle("CRUD Member");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 627, 452);
+		setBounds(100, 100, 627, 467);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -66,7 +66,7 @@ public class MemberFrame extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBounds(10, 11, 564, 191);
+		panel.setBounds(10, 11, 564, 204);
 		contentPane.add(panel);
 		
 		JLabel lblAddNewMember = new JLabel("Add New Member:");
@@ -97,37 +97,37 @@ public class MemberFrame extends JFrame {
 		
 		JLabel lblCardType = new JLabel("Card Type:");
 		lblCardType.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCardType.setBounds(10, 99, 76, 14);
+		lblCardType.setBounds(10, 114, 76, 14);
 		panel.add(lblCardType);
 		
 		JComboBox cmbCard = new JComboBox();
-		cmbCard.setModel(new DefaultComboBoxModel(new String[] {"Credit Card", "Debit Card"}));
-		cmbCard.setBounds(86, 99, 126, 20);
+		cmbCard.setModel(new DefaultComboBoxModel(new String[] {"CREDIT CARD", "DEBIT CARD"}));
+		cmbCard.setBounds(96, 112, 126, 20);
 		panel.add(cmbCard);
 		
 		JLabel lblCardNumber = new JLabel("Card Number:");
 		lblCardNumber.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCardNumber.setBounds(10, 126, 100, 14);
+		lblCardNumber.setBounds(10, 136, 86, 14);
 		panel.add(lblCardNumber);
 		
 		txtCardNum = new JTextField();
 		txtCardNum.setColumns(10);
-		txtCardNum.setBounds(96, 124, 143, 20);
+		txtCardNum.setBounds(96, 134, 143, 20);
 		panel.add(txtCardNum);
 		
 		JLabel lblCvsNumber = new JLabel("CVS Number:");
 		lblCvsNumber.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCvsNumber.setBounds(10, 148, 100, 14);
+		lblCvsNumber.setBounds(10, 161, 100, 14);
 		panel.add(lblCvsNumber);
 		
 		txtCVS = new JTextField();
 		txtCVS.setColumns(10);
-		txtCVS.setBounds(96, 146, 76, 20);
+		txtCVS.setBounds(96, 159, 76, 20);
 		panel.add(txtCVS);
 		
 		JButton btnAddMember = new JButton("Add Member");
 		btnAddMember.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnAddMember.setBounds(192, 164, 160, 23);
+		btnAddMember.setBounds(192, 173, 160, 23);
 		panel.add(btnAddMember);
 		
 		JPanel panel_1 = new JPanel();
@@ -201,9 +201,19 @@ public class MemberFrame extends JFrame {
 		txtUsername.setBounds(320, 142, 138, 20);
 		panel.add(txtUsername);
 		
+		JLabel lblStatus_1 = new JLabel("Status:");
+		lblStatus_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblStatus_1.setBounds(10, 87, 76, 14);
+		panel.add(lblStatus_1);
+		
+		JComboBox cmbStatus = new JComboBox();
+		cmbStatus.setModel(new DefaultComboBoxModel(new String[] {"SILVER", "GOLD", "PLATINUM"}));
+		cmbStatus.setBounds(96, 87, 126, 20);
+		panel.add(cmbStatus);
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
-		panel_2.setBounds(10, 211, 564, 202);
+		panel_2.setBounds(10, 213, 564, 215);
 		contentPane.add(panel_2);
 		
 		JLabel lblUpdateremoveMember = new JLabel("Update/Remove Member:");
@@ -214,7 +224,7 @@ public class MemberFrame extends JFrame {
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setLayout(null);
-		panel_3.setBounds(258, 32, 296, 130);
+		panel_3.setBounds(258, 48, 296, 130);
 		panel_2.add(panel_3);
 		
 		JLabel label_10 = new JLabel("");
@@ -295,55 +305,66 @@ public class MemberFrame extends JFrame {
 		
 		JLabel label_20 = new JLabel("Card Type:");
 		label_20.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		label_20.setBounds(10, 99, 76, 14);
+		label_20.setBounds(10, 115, 76, 14);
 		panel_2.add(label_20);
 		
 		JComboBox cmbUpCard = new JComboBox();
-		cmbUpCard.setBounds(86, 99, 126, 20);
+		cmbUpCard.setModel(new DefaultComboBoxModel(new String[] {"CREDIT CARD", "DEBIT CARD"}));
+		cmbUpCard.setBounds(86, 115, 126, 20);
 		panel_2.add(cmbUpCard);
 		
 		JLabel label_21 = new JLabel("Card Number:");
 		label_21.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		label_21.setBounds(10, 126, 100, 14);
+		label_21.setBounds(10, 142, 100, 14);
 		panel_2.add(label_21);
 		
 		txtUpCardNum = new JTextField();
 		txtUpCardNum.setColumns(10);
-		txtUpCardNum.setBounds(96, 124, 143, 20);
+		txtUpCardNum.setBounds(96, 140, 143, 20);
 		panel_2.add(txtUpCardNum);
 		
 		JLabel label_22 = new JLabel("CVS Number:");
 		label_22.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		label_22.setBounds(10, 148, 100, 14);
+		label_22.setBounds(10, 164, 100, 14);
 		panel_2.add(label_22);
 		
 		txtUpCVS = new JTextField();
 		txtUpCVS.setColumns(10);
-		txtUpCVS.setBounds(96, 146, 76, 20);
+		txtUpCVS.setBounds(96, 162, 76, 20);
 		panel_2.add(txtUpCVS);
 		
 		JButton btnUpdateMember = new JButton("Update Member");
 		btnUpdateMember.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnUpdateMember.setBounds(106, 173, 133, 23);
+		btnUpdateMember.setBounds(106, 183, 133, 23);
 		panel_2.add(btnUpdateMember);
 		
 		JButton btnRemoveMember = new JButton("Remove Member");
 		btnRemoveMember.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnRemoveMember.setBounds(279, 173, 143, 23);
+		btnRemoveMember.setBounds(279, 183, 143, 23);
 		panel_2.add(btnRemoveMember);
 		
 		JLabel label = new JLabel("Username:");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		label.setBounds(221, 8, 100, 14);
+		label.setBounds(221, 17, 100, 14);
 		panel_2.add(label);
 		
 		txtUpUsername = new JTextField();
 		txtUpUsername.setColumns(10);
-		txtUpUsername.setBounds(289, 6, 138, 20);
+		txtUpUsername.setBounds(289, 15, 138, 20);
 		panel_2.add(txtUpUsername);
 		
 		JButton btnGo = new JButton("Go");
-		btnGo.setBounds(436, 5, 89, 23);
+		btnGo.setBounds(436, 14, 89, 23);
 		panel_2.add(btnGo);
+		
+		JLabel lblStatus = new JLabel("Status:");
+		lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblStatus.setBounds(10, 90, 76, 14);
+		panel_2.add(lblStatus);
+		
+		JComboBox cmbUpStatus = new JComboBox();
+		cmbUpStatus.setModel(new DefaultComboBoxModel(new String[] {"SILVER", "GOLD", "PLATINUM"}));
+		cmbUpStatus.setBounds(86, 87, 133, 20);
+		panel_2.add(cmbUpStatus);
 	}
 }

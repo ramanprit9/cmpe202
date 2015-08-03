@@ -134,7 +134,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		panel.add(lblVehicleState);
 		
 		cmbState = new JComboBox();
-		cmbState.setModel(new DefaultComboBoxModel(new String[] {"Available", "In-Transit", "Not Available", "In-Maintenance"}));
+		cmbState.setModel(new DefaultComboBoxModel(new String[] {"AVAILABLE", "NOT AVAILABLE", "IN MAINTENANCE"}));
 		cmbState.setBounds(97, 91, 134, 20);
 		panel.add(cmbState);
 		
@@ -230,6 +230,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		panel_1.add(label_6);
 		
 		cmbUpState = new JComboBox();
+		cmbUpState.setModel(new DefaultComboBoxModel(new String[] {"AVAILABLE", "INTRANSIT", "NOT AVAILABLE", "IN MAINTENANCE"}));
 		cmbUpState.setBounds(97, 91, 141, 20);
 		panel_1.add(cmbUpState);
 		
