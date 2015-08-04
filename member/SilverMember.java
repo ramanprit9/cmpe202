@@ -2,6 +2,11 @@ package member;
 
 public class SilverMember extends Member {
 
+	public SilverMember(String fname, String lname) {
+		this.firstName = fname;
+		this.lastName = lname;
+	}
+	
 	private double fixedDiscountAmount;
 	private double fixedDiscountBalance;
 	private double percentageDiscount;

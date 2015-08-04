@@ -6,9 +6,14 @@ import notification.Message.MessageType;
 public class Notification extends Message {
 
 	private Request request;
+	private String message;
 	
 	public Notification (Request req) {
 		request = req;
+	}
+	
+	public Notification (String msg) {
+		message = msg;
 	}
 	
 	public String createMessage (MessageType msgType)
@@ -25,6 +30,8 @@ public class Notification extends Message {
 			return "Vehicle will arrive at your location in 30 minutes";
 		case NO_VEHICLE_AVAILBLE:
 			return "No Vehicle Available. Request can't be fulfilled at this moment";
+		case SHUTTLE_NOTIFICATION:
+			return "Shuttle Notification:\n" + message;
 		default:
 			return "";
 		}

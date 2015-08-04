@@ -6,6 +6,7 @@ import main.ServiceManager;
 
 
 import main.ServiceManager.VehicleAvailability;
+import notification.Message.MessageType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +16,8 @@ import request.Request;
 import trasnportation.Sedan;
 import trasnportation.Van;
 import trasnportation.Vehicle;
+import notification.Message;
+
 //Strategy pattern--This strategy to be used when no of passengers is greater than 5
 public class VanStrategy implements DispatchStrategy {
 	boolean successFlag2miles;
@@ -31,7 +34,7 @@ public class VanStrategy implements DispatchStrategy {
 		if (requestSatisfiedin2miles == true){
 			//send notification to customer saying that vehicle is available in 2miles
 			ServiceManager custNotification = new ServiceManager();
-			custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_IMMEDIATELY_AVAILABLE);
+			custNotification.sendDispatchMessages(r1,MessageType.VEHICLE_INFO_TO_CUSTOMER);
 			//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
 			String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N' and vehicle_active='Y'";
 			ResultSet rs = DBHandler.queryDB(sql);
@@ -55,7 +58,7 @@ public class VanStrategy implements DispatchStrategy {
 				if (custNotification.canCustomerWait(r1) == false) { return false; }
 
 				//send notification to customer saying tht he needs to wait for more time
-				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_WAIT_30_MINS);
+				custNotification.sendDispatchMessages(r1,MessageType.VEHICLE_WAIT_30_MINUTES);
 				
 				//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
 				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N' and vehicle_active='Y'";
@@ -73,7 +76,7 @@ public class VanStrategy implements DispatchStrategy {
 			{
 				//send notification to customer saying that there is no vehicle currently available in his location
 				ServiceManager custNotification = new ServiceManager();
-				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_NOT_AVAILABLE_AT_ALL);
+				custNotification.sendDispatchMessages(r1,MessageType.NO_VEHICLE_AVAILBLE);
 				return false;
 			}
 		}

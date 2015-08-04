@@ -6,6 +6,7 @@ import main.ServiceManager;
 
 
 import main.ServiceManager.VehicleAvailability;
+import notification.Message.MessageType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import request.Request;
 import trasnportation.Sedan;
 import trasnportation.Vehicle;
+
 //Strategy pattern--This strategy to be used when its a shared ride
 public class SharedRideStrategy implements DispatchStrategy {
 	boolean successFlag2miles;
@@ -29,7 +31,7 @@ public class SharedRideStrategy implements DispatchStrategy {
 		if (requestSatisfiedin2miles == true){
 			//send notification to customer saying that vehicle is available in 2miles
 			ServiceManager custNotification = new ServiceManager();
-			custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_IMMEDIATELY_AVAILABLE);
+			custNotification.sendDispatchMessages(r1,MessageType.VEHICLE_INFO_TO_CUSTOMER);
 			//perform db operation to change the state of the vehicle from AVAILABLE to INTRANSIT
 			String sql = "select min(vehicle_id) veh_id from vehicle where  vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='Y'";
 			ResultSet rs = DBHandler.queryDB(sql);
@@ -53,7 +55,7 @@ public class SharedRideStrategy implements DispatchStrategy {
 				if (custNotification.canCustomerWait(r1) == false) { return false; }
 
 				//send notification to customer saying tht he needs to wait for more time
-				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_WAIT_30_MINS);
+				custNotification.sendDispatchMessages(r1,MessageType.VEHICLE_WAIT_30_MINUTES);
 				
 				//perform db operation to change the state of the vehicle from AVAILABLE to INTRANSIT
 				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_sharable='Y' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y'";
@@ -69,7 +71,7 @@ public class SharedRideStrategy implements DispatchStrategy {
 			{
 				//send notification to customer saying that there is no vehicle currently available in his location
 				ServiceManager custNotification = new ServiceManager();
-				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_NOT_AVAILABLE_AT_ALL);
+				custNotification.sendDispatchMessages(r1,MessageType.NO_VEHICLE_AVAILBLE);
 				return false;
 			}
 		}

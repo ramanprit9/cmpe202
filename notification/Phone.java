@@ -4,13 +4,24 @@ import java.awt.Frame;
 
 import javax.swing.JOptionPane;
 
+import notification.Message.MessageType;
+
 public class Phone extends Communication {
 
-	public Phone (Message msg) {
+	private MessageType msgType;
+	
+	public Phone (Message msg, MessageType type) {
 		super(msg);
+		msgType = type;
+	}
+	
+	public void sendNotification(String recipient) {
+		String msg = this.createMessage(msgType);
+		sendNotification(recipient, msg);
 	}
 	
 	public void sendNotification(String recipient, String message) {
+		this.createMessage(msgType);
 		System.out.println("Phone to "+recipient+":\n "+message);
 		
 		/*

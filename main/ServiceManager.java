@@ -10,6 +10,10 @@ import javax.swing.JOptionPane;
 
 import payment.PaymentProcessor;
 import request.Request;
+import trasnportation.Shuttle;
+import trasnportation.Vehicle;
+import member.Member;
+import member.SilverMember;
 import notification.Communication;
 import notification.Email;
 import notification.Notification;
@@ -18,6 +22,7 @@ import notification.Message.MessageType;
 import notification.Phone;
 import notification.Text;
 import dispatcher.Dispatcher;
+import notification.Message.MessageType;
 
 public class ServiceManager {
 
@@ -62,50 +67,30 @@ public class ServiceManager {
 	}
 	
 	
-	/* Send appropriate messages to customer and driver */
-	public void sendDispatchMessages (Request req, VehicleAvailability va){
+	/* Send appropriate messages to customer and driver
+	 * Bridge Pattern being used for notification/communication
+	 */
+	public void sendDispatchMessages (Request req, MessageType msgType){
 		//System.out.println("ServiceManager: Send dispatch message");
-		Message message = new Notification(req);
-		Communication driverCommunication = new Text(message);
+		Message notification = new Notification(req);
+		Communication driverCommunication;
 		Communication customerCommunication;
-		String customerMsg;
-		String driverMsg;
 		
-		//Get communication type to customer
+		//Get communication type for customer and send the message
 		if (req.getCommType() == TEXT_COMMUNICATION) {
-			customerCommunication = new Text(message);
+			customerCommunication = new Text(notification, msgType);
 		} else if (req.getCommType() == PHONE_COMMUNICATION) {
-			customerCommunication = new Phone(message);
+			customerCommunication = new Phone(notification, msgType);
 		}
 		else {
-			customerCommunication = new Email(message);
+			customerCommunication = new Email(notification, msgType);
 		}
-
+		customerCommunication.sendNotification(CUSTOMER);
 		
-		//Create message
-		switch (va) {
-		case VEHICLE_IMMEDIATELY_AVAILABLE:
-			//System.out.println("ServiceManager: Send dispatch msg, Vehicle available immediately");
-			customerMsg = customerCommunication.createMessage(MessageType.VEHICLE_INFO_TO_CUSTOMER);
-			driverMsg = driverCommunication.createMessage(MessageType.REQUEST_INFO_TO_DRIVER);
-			customerCommunication.sendNotification(CUSTOMER, customerMsg);
-			driverCommunication.sendNotification(DRIVER, driverMsg);
-			sendRequestInfoToDriver(req);
-			break;
-		case VEHICLE_WAIT_30_MINS:
-			//System.out.println("ServiceManager: Send dispatch msg, Vehicle available in 30 minutes");
-			customerMsg = customerCommunication.createMessage(MessageType.VEHICLE_WAIT_30_MINUTES);
-			driverMsg = driverCommunication.createMessage(MessageType.REQUEST_INFO_TO_DRIVER);
-			customerCommunication.sendNotification(CUSTOMER, customerMsg);
-			driverCommunication.sendNotification(DRIVER, driverMsg);
-			sendRequestInfoToDriver(req);
-			break;
-
-		case VEHICLE_NOT_AVAILABLE_AT_ALL:
-			//System.out.println("ServiceManager: Send dispatch msg, Vehicle not available at all");
-			customerMsg = customerCommunication.createMessage(MessageType.NO_VEHICLE_AVAILBLE);
-			customerCommunication.sendNotification(CUSTOMER, customerMsg);
-			break;
+		//Send the dispatch message to the driver if vehicle was ofund
+		driverCommunication = new Text(notification, MessageType.REQUEST_INFO_TO_DRIVER);
+		if (msgType != MessageType.NO_VEHICLE_AVAILBLE) {
+			driverCommunication.sendNotification(DRIVER);
 		}
 		
 	}
@@ -181,4 +166,42 @@ public class ServiceManager {
 		return 5.2;
 	}
 	
+	/*
+	 * This functions demonstrates both Decorator and Observer Pattern
+	 * Create a Shuttle (Decorator)
+	 * Remove a shuttle stop, which will trigger notifications to all members (Observer)
+	 */
+	public static void demonstrateShuttle() {
+		Vehicle bus = new Vehicle();
+		//Decorator Pattern: Create a shuttle, Add stops to it
+		Shuttle shuttle = new Shuttle(bus);
+		Address addr1 = new Address("3003 Bunker Hill Lane", "Santa Clara", "CA", "95054");
+		Address addr2 = new Address("4701 Great America Pkwy", "Santa Clara", "CA", "95054");
+		Address addr3 = new Address("3000 Mission College Blvd", "Santa Clara", "CA", "95054");
+		Address addr4 = new Address("2210 Tasman Dr", "Santa Clara", "CA", "95054");
+		shuttle.addStop(addr1);
+		shuttle.addStop(addr2);
+		shuttle.addStop(addr3);
+		shuttle.addStop(addr4);
+		
+		//Add members to the shuttle
+		Member mem = new SilverMember("Jane", "Smith");
+		shuttle.addMember(mem);
+		mem = new SilverMember("Emily", "Jones");
+		shuttle.addMember(mem);
+		mem = new SilverMember("Jason", "Barr");
+		shuttle.addMember(mem);
+
+		//Remove a stop from shuttle.
+		//Observer pattern: removing a stop will notify all the members registered for the shuttle about it
+		shuttle.removeStop(addr3);
+		
+	}
+	
+	
+	public void sendShuttleNotification(String member, String msg) {
+		Message notification = new Notification(msg);
+		Communication email = new Email(notification, MessageType.SHUTTLE_NOTIFICATION);
+		email.sendNotification(member, msg);
+	}	
 }

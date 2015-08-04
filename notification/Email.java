@@ -4,14 +4,24 @@ import java.awt.Frame;
 
 import javax.swing.JOptionPane;
 
+import notification.Message.MessageType;
+
 public class Email extends Communication {
 
+	private MessageType msgType;
 
-	public Email (Message msg) {
+	public Email (Message msg, MessageType type) {
 		super(msg);
+		msgType = type;
+	}
+	
+	public void sendNotification(String recipient) {
+		String msg = this.createMessage(msgType);
+		sendNotification(recipient, msg);
 	}
 	
 	public void sendNotification(String recipient, String message) {
+		this.createMessage(msgType);
 		System.out.println("Email to "+recipient+":\n "+message);
 		
 		/*

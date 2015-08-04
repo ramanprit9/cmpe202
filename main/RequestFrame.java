@@ -2,6 +2,7 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Frame;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -42,7 +44,8 @@ public class RequestFrame extends JFrame implements ActionListener {
 	private JTextField textField_12;
 	private String cmbValueShare;
 	private String cmbValueComm;
-	
+	public JComboBox cmbCommMethod;
+	public JComboBox cmbShareable;
 	private int vehicleSpeed;
 	
 	/**
@@ -242,7 +245,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		label_19.setBounds(10, 11, 85, 16);
 		panel_3.add(label_19);
 		
-		JComboBox cmbShareable = new JComboBox();
+		cmbShareable = new JComboBox();
 		cmbShareable.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
 		cmbShareable.setSelectedIndex(0);
 		cmbShareable.setBounds(92, 6, 57, 29);
@@ -254,7 +257,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		panel_4.setBounds(10, 260, 364, 39);
 		txtMemberID.add(panel_4);
 		
-		JComboBox cmbCommMethod = new JComboBox();
+		cmbCommMethod = new JComboBox();
 		cmbCommMethod.setModel(new DefaultComboBoxModel(new String[] {"Text", "Phone", "Email"}));
 		cmbCommMethod.setSelectedIndex(0);
 		cmbCommMethod.setBounds(184, 8, 122, 29);
@@ -322,7 +325,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setLayout(null);
-		panel_8.setBounds(172, 221, 152, 35);
+		panel_8.setBounds(327, 221, 152, 35);
 		txtMemberID.add(panel_8);
 		
 		JLabel lblPickupTime = new JLabel("Pickup Time:");
@@ -357,6 +360,8 @@ public class RequestFrame extends JFrame implements ActionListener {
 				txtDestState.getText(), txtDestZip.getText());
 		numPassengers = Integer.parseInt(txtPassengers.getText());
 		numLuggages = Integer.parseInt(txtLuggages.getText());
+		
+		cmbValueShare = cmbShareable.getSelectedItem().toString();
 		if (cmbValueShare.contains("No")) {
 			share = false;
 		}
@@ -364,6 +369,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 			share = true;
 		}
 		
+		cmbValueComm = cmbCommMethod.getSelectedItem().toString();
 		if (cmbValueComm.contains("Text")) {
 			communication = ServiceManager.TEXT_COMMUNICATION;
 		}
@@ -373,10 +379,28 @@ public class RequestFrame extends JFrame implements ActionListener {
 		else {
 			communication = ServiceManager.EMAIL_COMMUNICATION;
 		}
+		
+		System.out.println("************** cmbValueShare= "+cmbValueShare);
+		System.out.println("************** cmbValueComm = "+cmbValueComm);
+
 				
 		serviceManager.createRequest("guest", pickAddr, destAddr, numPassengers, numLuggages, 
 				share, new Date(), "", vehicleSpeed);
+		
+		//Shared ride can't have more than 1 passenger and more than 1 luggage
+		if (share == true) {
+			if (numPassengers > 1 || numLuggages > 1) {
+				Frame frame = new Frame();
+				JOptionPane.showMessageDialog(frame,
+						"Shared Ride can't have more than 1 passgenger \n and more than 1 luggage.",
+						"Invalid Request ",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+
+		}
+		
 		this.dispose();
+		
 /*		System.out.println("Request Passed to Service Manager: ");
 		System.out.println("\tPickUp Address = "+pickAddr);
 		System.out.println("\tDestination Address = "+destAddr);

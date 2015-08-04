@@ -114,5 +114,9 @@ public class MainApplication implements ActionListener {
 			}
 		}
 
+		if (e.getSource() == btnShuttle) {
+			ServiceManager.demonstrateShuttle();
+		}
+
 	}
 }
