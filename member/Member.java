@@ -8,6 +8,9 @@ public abstract class Member {
 	String lastName;
 	String status;
 	double balance;
+	String paymentMethod;
+	String paymentCardNumber;
+	String paymentCVSNumber;
 		
 	public double calculatDiscount(double amount) {
 		return calculatePercentageDiscount(amount) + calculateFixedDiscount(amount);
@@ -48,6 +51,29 @@ public abstract class Member {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getPaymentCardNumber() {
+		return paymentCardNumber;
+	}
+
+	public void setPaymentCardNumber(String paymentCardNumber) {
+		this.paymentCardNumber = paymentCardNumber;
+	}
+
+	public String getPaymentCVSNumber() {
+		return paymentCVSNumber;
+	}
+
+	public void setPaymentCVSNumber(String paymentCVSNumber) {
+		this.paymentCVSNumber = paymentCVSNumber;
+	}
 	
 }

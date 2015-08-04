@@ -91,6 +91,7 @@ public class ServiceManager {
 		driverCommunication = new Text(notification, MessageType.REQUEST_INFO_TO_DRIVER);
 		if (msgType != MessageType.NO_VEHICLE_AVAILBLE) {
 			driverCommunication.sendNotification(DRIVER);
+			sendRequestInfoToDriver(req);
 		}
 		
 	}
