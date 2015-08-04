@@ -63,7 +63,7 @@ vehicle_sharable varchar(1),
 pay_per_hour varchar(15),
 pay_per_mile varchar(15),
 additional_pay varchar (15), 
-
+vehicle_active varchar(1),
 PRIMARY KEY (vehicle_id));
 
 insert into member_registration (member_fname, member_lname, member_housenum, member_buildingnum, member_street, 

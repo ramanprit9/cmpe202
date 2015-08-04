@@ -165,7 +165,7 @@ public class ServiceManager {
 		req.setEndRideTime(endDateTime);
 		req.setMilesTravelled(calculateMilesTravelled(req));
 		
-		//Update Vehicle State
+		//Update Vehicle State 
 		String updateVehicle = "UPDATE vehicle SET vehicle_state='AVAILABLE' where request_id=" + req.getRequestID();
 		DBHandler.updateDB(updateVehicle);
 		
@@ -173,6 +173,7 @@ public class ServiceManager {
 		
 		payProcessor = new PaymentProcessor(req);
 		payProcessor.processPayment();
+		
 
 	}
 		

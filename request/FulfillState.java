@@ -10,11 +10,11 @@ public class FulfillState implements State{
 	}
 
 	public String receiveRequest(){
-		return "ProcessingState:Will  the Request soon.";
+		return "FulfillState:Will  the Request soon.";
 	}
 	
 	public String evaluateRequest(){
-		return "ProcessingState:Qualified request is in ";
+		return "FulfillState:Qualified request is in ";
 	}
 	
 	public String fulfillRequest(){

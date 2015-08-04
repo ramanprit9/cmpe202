@@ -33,7 +33,7 @@ public class VanStrategy implements DispatchStrategy {
 			ServiceManager custNotification = new ServiceManager();
 			custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_IMMEDIATELY_AVAILABLE);
 			//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
-			String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N'";
+			String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N' and vehicle_active='Y'";
 			ResultSet rs = DBHandler.queryDB(sql);
 			setVehicleStatus(r1.getRequestID(),rs);
 			
@@ -58,7 +58,7 @@ public class VanStrategy implements DispatchStrategy {
 				custNotification.sendDispatchMessages(r1,VehicleAvailability.VEHICLE_WAIT_30_MINS);
 				
 				//perform db operation to change the state of the vehicle(sedan) from START,FINISH to RUNNING
-				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N'";
+				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N' and vehicle_active='Y'";
 				ResultSet rs = DBHandler.queryDB(sql);
 				setVehicleStatus(r1.getRequestID(),rs);
 				
@@ -83,7 +83,7 @@ public class VanStrategy implements DispatchStrategy {
 public boolean isVanavailablein2miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicle WHERE vehicle_type='van' and vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_type='van' and vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='N' and vehicle_active='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
@@ -115,7 +115,7 @@ public boolean isVanavailablein2miles() {
 public boolean isVanavailablein5miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicle WHERE vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_type='van' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='N' and vehicle_active='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
