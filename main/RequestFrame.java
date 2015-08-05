@@ -28,7 +28,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 	
 	ServiceManager serviceManager;
 
-	private JPanel txtMemberID;
+	private JPanel mainPanel;
 	private JTextField txtPickAddr;
 	private JTextField txtPickCity;
 	private JTextField txtPickState;
@@ -39,7 +39,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 	private JTextField txtDestZip;
 	private JTextField txtPassengers;
 	private JTextField txtLuggages;
-	private JTextField txtTxtmemberid;
+	private JTextField txtMemberID;
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private String cmbValueShare;
@@ -74,15 +74,15 @@ public class RequestFrame extends JFrame implements ActionListener {
 		setTitle("Request Form");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 686, 388);
-		txtMemberID = new JPanel();
-		txtMemberID.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(txtMemberID);
-		txtMemberID.setLayout(null);
+		mainPanel = new JPanel();
+		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(mainPanel);
+		mainPanel.setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(10, 48, 296, 130);
-		txtMemberID.add(panel);
+		mainPanel.add(panel);
 		
 		JLabel label = new JLabel("Pickup Location");
 		label.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -152,7 +152,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBounds(334, 48, 296, 130);
-		txtMemberID.add(panel_1);
+		mainPanel.add(panel_1);
 		
 		JLabel label_9 = new JLabel("Destination");
 		label_9.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -222,7 +222,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBounds(10, 179, 234, 39);
-		txtMemberID.add(panel_2);
+		mainPanel.add(panel_2);
 		
 		JLabel label_18 = new JLabel("Number of Passengers:");
 		label_18.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -238,7 +238,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		JPanel panel_3 = new JPanel();
 		panel_3.setLayout(null);
 		panel_3.setBounds(472, 179, 158, 39);
-		txtMemberID.add(panel_3);
+		mainPanel.add(panel_3);
 		
 		JLabel label_19 = new JLabel("Shareable:");
 		label_19.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -255,7 +255,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		JPanel panel_4 = new JPanel();
 		panel_4.setLayout(null);
 		panel_4.setBounds(10, 260, 364, 39);
-		txtMemberID.add(panel_4);
+		mainPanel.add(panel_4);
 		
 		cmbCommMethod = new JComboBox();
 		cmbCommMethod.setModel(new DefaultComboBoxModel(new String[] {"Text", "Phone", "Email"}));
@@ -272,7 +272,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		JPanel panel_5 = new JPanel();
 		panel_5.setLayout(null);
 		panel_5.setBounds(254, 179, 207, 39);
-		txtMemberID.add(panel_5);
+		mainPanel.add(panel_5);
 		
 		JLabel label_21 = new JLabel("Number of Luggages:");
 		label_21.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -288,29 +288,29 @@ public class RequestFrame extends JFrame implements ActionListener {
 		JButton btnSubmit = new JButton("Submit Request");
 		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnSubmit.setBounds(263, 310, 158, 35);
-		txtMemberID.add(btnSubmit);
+		mainPanel.add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
 		JPanel panel_6 = new JPanel();
 		panel_6.setLayout(null);
 		panel_6.setBounds(10, 2, 199, 35);
-		txtMemberID.add(panel_6);
+		mainPanel.add(panel_6);
 		
 		JLabel lblMemberId = new JLabel("Member ID:");
 		lblMemberId.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblMemberId.setBounds(0, 11, 197, 16);
 		panel_6.add(lblMemberId);
 		
-		txtTxtmemberid = new JTextField();
-		txtTxtmemberid.setText("1");
-		txtTxtmemberid.setColumns(10);
-		txtTxtmemberid.setBounds(96, 10, 93, 20);
-		panel_6.add(txtTxtmemberid);
+		txtMemberID = new JTextField();
+		txtMemberID.setText("1");
+		txtMemberID.setColumns(10);
+		txtMemberID.setBounds(96, 10, 93, 20);
+		panel_6.add(txtMemberID);
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setLayout(null);
 		panel_7.setBounds(10, 221, 152, 35);
-		txtMemberID.add(panel_7);
+		mainPanel.add(panel_7);
 		
 		JLabel lblPickupDate = new JLabel("Pickup Date:");
 		lblPickupDate.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -326,7 +326,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		JPanel panel_8 = new JPanel();
 		panel_8.setLayout(null);
 		panel_8.setBounds(327, 221, 152, 35);
-		txtMemberID.add(panel_8);
+		mainPanel.add(panel_8);
 		
 		JLabel lblPickupTime = new JLabel("Pickup Time:");
 		lblPickupTime.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -384,7 +384,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		System.out.println("************** cmbValueComm = "+cmbValueComm);
 
 				
-		serviceManager.createRequest("guest", pickAddr, destAddr, numPassengers, numLuggages, 
+		serviceManager.createRequest(txtMemberID.getText(), pickAddr, destAddr, numPassengers, numLuggages, 
 				share, new Date(), "", vehicleSpeed);
 		
 		//Shared ride can't have more than 1 passenger and more than 1 luggage

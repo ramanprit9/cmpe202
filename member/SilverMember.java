@@ -7,6 +7,11 @@ public class SilverMember extends Member {
 		this.lastName = lname;
 	}
 	
+	public SilverMember() {
+		super();
+		memberType = "SILVER";
+	}
+
 	private double fixedDiscountAmount;
 	private double fixedDiscountBalance;
 	private double percentageDiscount;

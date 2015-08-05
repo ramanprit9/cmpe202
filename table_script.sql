@@ -3,7 +3,7 @@ use cmpe202;
 
 drop table if exists member_registration;
 create table member_registration
-(member_no INT NOT NULL AUTO_INCREMENT,
+(member_id INT NOT NULL AUTO_INCREMENT,
 member_fname varchar(50),
 member_lname varchar(50),
 member_housenum varchar(50),
@@ -15,11 +15,13 @@ member_zip varchar(10),
 member_type varchar(50),
 member_card_type varchar(15),
 member_card_number varchar(15),
+member_card_cvs_number varchar(15),
+member_payment_balance double,
 member_username varchar(20),
 member_pwd varchar(20),
 id_read varchar (3),
 member_active varchar (3),
-PRIMARY KEY (member_no));
+PRIMARY KEY (member_id));
 
 drop table if exists user_requests;
 create table user_requests
@@ -67,11 +69,11 @@ vehicle_active varchar(1),
 PRIMARY KEY (vehicle_id));
 
 insert into member_registration (member_fname, member_lname, member_housenum, member_buildingnum, member_street, 
-member_city, member_state, member_zip, member_type, member_card_type, member_card_number, 
-member_username, id_read, member_active)
+member_city, member_state, member_zip, member_type, member_card_type, member_card_number, member_card_cvs_number,
+member_payment_balance, member_username, id_read, member_active)
 values
-('Jane', 'Smith', '1550', '', 'Happy Lane', 'Milpitas', 'CA', '95035', 'SILVER', 'CREDIT CARD', 
-  '12345678', 'janesmith', 'Y', 'yes');
+('Jane', 'Smith', '1550', '', 'Happy Lane', 'Milpitas', 'CA', '95035', 'SILVER', 'CREDITCARD', 
+  '12345678', '456', 0.00, 'janesmith', 'Y', 'yes');
 
 insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
 values ('sedan','AVAILABLE',0,'Y','N','N');

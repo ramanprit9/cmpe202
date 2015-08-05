@@ -4,6 +4,12 @@ public class GoldMember extends Member{
 	private double fixedDiscountAmount;
 	private double fixedDiscountBalance;
 	private double percentageDiscount;
+	
+	public GoldMember() {
+		super();
+		memberType = "GOLD";
+	}
+	
 	public double getFixedDiscountAmount() {
 		return fixedDiscountAmount;
 	}

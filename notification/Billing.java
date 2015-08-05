@@ -1,22 +1,26 @@
 package notification;
 
+import request.Request;
 import notification.Message.MessageType;
 
-public class Billing {
+public class Billing extends Message {
 
-	private double payAmount;
+	private Request req;
 	
-	public Billing (double pay) {
-		payAmount = pay;
+	//Billing for request
+	public Billing (Request r1) {
+		req = r1;
 	}
 	
 	public String createMessage (MessageType msgType)
 	{
 		switch (msgType) {
-		case PAYMENT_INFO_TO_CUSTOMER:
-			return "To Customer: You have been charged " + payAmount;
-		case PAYMENT_INFO_TO_DRIVER:
-			return "To Driver: Customer has been charged  " + payAmount;
+		case RIDE_PAYMENT_SUCCESS_INFO:
+			return "Payment succesfully processed for request: " + req.getRequestID() + 
+					"\n " + req.getRidePayStrategy();
+		case RIDE_PAYMENT_FAILURE_INFO:
+			return "Unable to process payment for request: " + req.getRequestID() + 
+					"\n " + req.getRidePayStrategy();
 		default:
 			return "";
 		}

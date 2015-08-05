@@ -7,7 +7,10 @@ import java.util.Date;
 import trasnportation.Vehicle;
 import main.Address;
 import main.DBHandler;
+import member.GoldMember;
 import member.Member;
+import member.PlatinumMember;
+import member.SilverMember;
 import notification.*;
 
 public class Request implements RequestInterface {
@@ -31,10 +34,12 @@ public class Request implements RequestInterface {
 	int rideSpeed;
 	double milesTravelled;
 	double durationOfRide; /* in minutes */
+	String ridePayStrategy;
+	double ridePayment; /* final ride payment calculated by PaymentProcessor */
 	
-	public Request (String member, Address pick, Address dest, int passengers, int luggages, 
+	public Request (String memID, Address pick, Address dest, int passengers, int luggages, 
 			boolean share, Date reqtime, String vtype, int speed) {
-		memberID = member;
+		memberID = memID;
 		pickupLocation = pick;
 		destination = dest;
 		numOfPassengers = passengers;
@@ -45,15 +50,49 @@ public class Request implements RequestInterface {
 		vehicleType = vtype;
 		rideSpeed = speed;
 		
-		//member = getMemberfromDB();
+		this.member = createMemberfromDB();
 		state = new ReceiveState(this);
 	}
 	
-	public Member getMemberfromDB() {
-		//this.setMemberID();
-		//String sql = "Select member_fname, member_lname, member_type, member_card_type, " + 
-			//		"member_card_number, member_username where member_id";
-		return null;
+	public Member createMemberfromDB() {
+		System.out.println("*************** Request: creating member from DB, memberID = "+memberID.toLowerCase());
+		//If member is not a guest, then create a Member object by 
+		//retrieving the relevant data from DB
+		if (memberID.toLowerCase().equals("guest")) { 
+			return null; 
+		}
+		Member mem = null;
+		String sql = "Select member_fname, member_lname, member_type, member_card_type, member_card_number, " + 
+					"member_card_cvs_number, member_payment_balance, member_username from member_registration " + 
+					"where member_id = " + memberID;
+		System.out.println("*************** Request, sql = \n"+sql);
+		ResultSet rs = DBHandler.queryDB(sql);
+		try {
+			rs.next();
+			System.out.println("*************** Request: "+rs);
+			if (rs.getString("member_type").equals("SILVER")) {
+				mem = new SilverMember();
+			}
+			else if (rs.getString("member_type").equals("GOLD")) {
+				mem = new GoldMember();
+			}
+			else {
+				mem = new PlatinumMember();
+			}
+			mem.setFirstName(rs.getString("member_fname"));
+			mem.setLastName(rs.getString("member_lname"));
+			mem.setPaymentMethod(rs.getString("member_card_type"));
+			mem.setPaymentCardNumber(rs.getString("member_card_number"));
+			mem.setPaymentCVSNumber(rs.getString("member_card_cvs_number"));
+			mem.setBalance(rs.getDouble("member_payment_balance"));
+			mem.setUserName(rs.getString("member_username"));
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return mem;
 	}
 	
 	public void receiveRequest(){
@@ -257,4 +296,21 @@ public class Request implements RequestInterface {
 		return "Request ID: " + requestID + "\nPickup Location: " + pickupLocation + 
 				"\n Destination: " + destination;
 	}
+
+	public double getRidePayment() {
+		return ridePayment;
+	}
+
+	public void setRidePayment(double ridePayment) {
+		this.ridePayment = ridePayment;
+	}
+
+	public String getRidePayStrategy() {
+		return ridePayStrategy;
+	}
+
+	public void setRidePayStrategy(String ridePayStrategy) {
+		this.ridePayStrategy = ridePayStrategy;
+	}
+	
 }

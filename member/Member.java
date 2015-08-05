@@ -1,16 +1,20 @@
 package member;
 
+import main.DBHandler;
 import request.Request;
 
 public abstract class Member {
 
-	String firstName;
-	String lastName;
-	String status;
-	double balance;
-	String paymentMethod;
-	String paymentCardNumber;
-	String paymentCVSNumber;
+	String memberID = "";
+	String firstName = "";
+	String lastName = "";
+	String status = "";
+	double balance = 0.0;
+	String paymentMethod = "";
+	String paymentCardNumber = "";
+	String paymentCVSNumber = "";
+	String memberType = "";
+	String userName = "";
 		
 	public double calculatDiscount(double amount) {
 		return calculatePercentageDiscount(amount) + calculateFixedDiscount(amount);
@@ -75,5 +79,27 @@ public abstract class Member {
 	public void setPaymentCVSNumber(String paymentCVSNumber) {
 		this.paymentCVSNumber = paymentCVSNumber;
 	}
+
+	public String getMemberType() {
+		return memberType;
+	}
+
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	
+	public void debitMemberBalance(Double amount) {
+		Double newAmount = balance + amount;
+		String sql = "Update member_registration SET member_payment_balance = "
+				+ newAmount + " where member_id = " + memberID;
+		DBHandler.updateDB(sql);
+	}
 }

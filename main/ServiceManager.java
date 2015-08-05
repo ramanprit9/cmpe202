@@ -14,6 +14,7 @@ import trasnportation.Shuttle;
 import trasnportation.Vehicle;
 import member.Member;
 import member.SilverMember;
+import notification.Billing;
 import notification.Communication;
 import notification.Email;
 import notification.Notification;
@@ -141,15 +142,13 @@ public class ServiceManager {
 	public void endRide(Request req) {
 		Date endDateTime = new Date();
 		long fifteenMins;
-		PaymentProcessor payProcessor; 
-		
+
 		//Since we r just simulating, add 15 minutes to the endRideTime
 		//Java Date time is in milliseconds
 		fifteenMins = 15 * 60000; //1 min = 60,000 milliseconds
 		
 		endDateTime.setTime(endDateTime.getTime() + fifteenMins);
 		req.setEndRideTime(endDateTime);
-		req.setMilesTravelled(calculateMilesTravelled(req));
 		
 		//Update Vehicle State 
 		String updateVehicle = "UPDATE vehicle SET vehicle_state='AVAILABLE' where request_id=" + req.getRequestID();
@@ -157,16 +156,58 @@ public class ServiceManager {
 		
 		System.out.println("*********** end ride at "+req.getEndRideTime());
 		
-		payProcessor = new PaymentProcessor(req);
-		payProcessor.processPayment();
+		calculateMilesTravelled(req);
+		calculateDurationOfRide(req);
+		sendRequestForPaymentProcessing(req);
 		
-
-	}
-		
-	public double calculateMilesTravelled(Request req) {
-		return 5.2;
 	}
 	
+	//Use Bridge design pattern for sending messages/notifications
+	public void sendRequestForPaymentProcessing(Request req) {
+		PaymentProcessor payProcessor; 
+		boolean paySuccess;
+		MessageType msgType;
+		Message billing;
+		Communication text;
+		
+		//process payment
+		payProcessor = new PaymentProcessor();
+		System.out.println("*********** "+req.getMember().getPaymentMethod());
+		System.out.println("*********** "+req.getMember().getPaymentCardNumber());
+		System.out.println("*********** "+req.getMember().getPaymentCVSNumber());
+		paySuccess = payProcessor.handleRequestPayment(req, req.getMember().getPaymentMethod(), 
+				req.getMember().getPaymentCardNumber(), req.getMember().getPaymentCVSNumber());
+		
+		//Send notification to driver and customer whether the payment was successful or not
+		//The request will have ridePayStrategy string which will contain the payment strategy
+		//(pay by minute or pay by mile) and total cost of the ride
+		if (paySuccess) {
+			msgType = MessageType.RIDE_PAYMENT_SUCCESS_INFO;
+		}
+		else {
+			msgType = MessageType.RIDE_PAYMENT_FAILURE_INFO;
+		}
+		
+		billing = new Billing(req);
+		text = new Text(billing, msgType);
+		text.sendNotification(CUSTOMER);
+		text.sendNotification(DRIVER);
+	}
+		
+	public void calculateMilesTravelled(Request req) {
+		 req.setMilesTravelled(5.2);
+	}
+	
+	
+	public void calculateDurationOfRide(Request req) {
+		double durationMS; /* in milliseconds */
+		double durationMinutes; /* in minutes */
+		durationMS= req.getEndRideTime().getTime() - req.getStartRideTime().getTime();
+		durationMinutes = durationMS/60000; 
+		req.setDurationOfRide(durationMinutes);
+		System.out.println("************* Service Manager: duration of ride = "+durationMinutes);
+	}
+
 	/*
 	 * This functions demonstrates both Decorator and Observer Pattern
 	 * Create a Shuttle (Decorator)

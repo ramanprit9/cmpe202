@@ -6,33 +6,49 @@ import request.Request;
 
 public class PaymentProcessor {
 
-	private Request req;
 	private PaymentStrategy ps;
-	
-	public PaymentProcessor(Request r){
-		req = r;
-	}
-	
+		
 	public PaymentProcessor() {
 		
 	}
 	
-	public void initiatePayment() {
+	public boolean handleRequestPayment(Request req, String payMethod, String cardNum, String cvsNum) {
 		double originalPayment;
 		double finalPayment; 
 		double discount;
-		calculateDurationOfRide(); /* calculate minutes of ride */
-		originalPayment = calculatePayment(); //calculate the original payment of the ride
+		boolean paymentSuccessfull;
+		Payment payment;
+		originalPayment = calculateRequestPayment(req); //calculate the original payment of the ride
 		finalPayment = originalPayment; //initially, the finalPayment is same as originalPayment
 		
 		//If member field is null, then the customer is not registered
+		//If customer is member, apply discounts
 		if (req.getMember() != null) { 
 			discount = req.getMember().calculatDiscount(originalPayment); //apply the discount
 			finalPayment = originalPayment - discount; //payment to be due after the discount
 		}
+		
+		req.setRidePayment(finalPayment);
+		
+		if (payMethod.equals(Payment.PAY_METHOD_CREDIT_CARD)) {
+			payment = new CreditCardPayment(req.getRequestID(), cardNum, cvsNum, finalPayment);
+		}
+		else if (payMethod.equals(Payment.PAY_METHOD_DEBIT_CARD)) {
+			payment = new DebitCardPayment(req.getRequestID(), cardNum, finalPayment);
+		}
+		else {
+			payment = new CashPayment(req.getRequestID(), finalPayment);
+		}
+		
+		paymentSuccessfull = payment.processPayment();
+		if (paymentSuccessfull == false) {
+			req.getMember().debitMemberBalance(finalPayment);
+		}
+		
+		return paymentSuccessfull;
 	}
 	
-	public double calculatePayment() {
+	public double calculateRequestPayment(Request req) {
 		ps = setPaymentStrategy(req.getRideSpeed());
 		return ps.calculatePayment(req);
 	}
@@ -46,14 +62,5 @@ public class PaymentProcessor {
 		}
 		return ps;
 	}
-	
-	public void calculateDurationOfRide() {
-		double durationMS; /* in milliseconds */
-		double durationMinutes; /* in minutes */
-		durationMS= req.getEndRideTime().getTime() - req.getStartRideTime().getTime();
-		durationMinutes = durationMS/60000; 
 		
-		System.out.println("************* Payment Processor: duration of ride = "+durationMinutes);
-	}
-	
 }

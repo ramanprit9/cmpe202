@@ -7,13 +7,17 @@ public abstract class Payment {
 	public static final String PAY_METHOD_DEBIT_CARD = "DEBITCARD";
 	public static final String PAY_METHOD_CASH = "CASH";
 	public static final String PAY_REASON_REQUEST = "request";
+	public static final String PAY_BY_MINUTES = "Pay By Minutes";
+	public static final String PAY_BY_MILE = "Pay By Mile";
 	
 	private String paymentID;
 	private String paymentMethod = "";
 	private String paymentReason = "";
 	private String cardNumber = "";
+	private String cardCVSNumber = "";
 	private double paymentAmount = 0.0;
 	private int requestID = 0;
+	private String paymentStrategy;
 	
 	//Customer is a member. Payment info on file
 //	public Payment (Request req) {
@@ -81,6 +85,14 @@ public abstract class Payment {
 
 	public void setRequestID(int requestID) {
 		this.requestID = requestID;
+	}
+
+	public String getCardCVSNumber() {
+		return cardCVSNumber;
+	}
+
+	public void setCardCVSNumber(String cardCVSNumber) {
+		this.cardCVSNumber = cardCVSNumber;
 	}
 
 	

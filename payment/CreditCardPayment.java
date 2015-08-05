@@ -2,14 +2,18 @@ package payment;
 
 public class CreditCardPayment extends Payment {
 
-	public CreditCardPayment (String reason, String cardNum, String cvs, String amount, int reqID) {
-		setPaymentReason(reason);
+	//Payment for a request
+	public CreditCardPayment (int reqID, String cardNum, String cvs, Double amount) {
+		setPaymentReason(PAY_REASON_REQUEST);
 		setPaymentMethod(PAY_METHOD_CREDIT_CARD);
 		setCardNumber(cardNum);
+		setCardCVSNumber(cvs);
 		setRequestID(reqID);
+		setPaymentAmount(amount);
 	}
 	
-	public CreditCardPayment (String reason, String cardNum, String cvs, String amount) {
+	//Other payment
+	public CreditCardPayment (String reason, String cardNum, String cvs, Double amount) {
 		setPaymentReason(reason);
 		setPaymentMethod(PAY_METHOD_CREDIT_CARD);
 		setCardNumber(cardNum);

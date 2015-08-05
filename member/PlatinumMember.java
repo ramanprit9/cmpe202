@@ -5,6 +5,12 @@ public class PlatinumMember extends Member {
 	private double fixedDiscountAmount;
 	private double fixedDiscountBalance;
 	private double percentageDiscount;
+	
+	public PlatinumMember() {
+		super();
+		memberType = "PLATINUM";
+	}
+
 	public double getFixedDiscountAmount() {
 		return fixedDiscountAmount;
 	}

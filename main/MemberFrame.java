@@ -101,7 +101,7 @@ public class MemberFrame extends JFrame {
 		panel.add(lblCardType);
 		
 		JComboBox cmbCard = new JComboBox();
-		cmbCard.setModel(new DefaultComboBoxModel(new String[] {"CREDIT CARD", "DEBIT CARD"}));
+		cmbCard.setModel(new DefaultComboBoxModel(new String[] {"CREDITCARD", "DEBITCARD"}));
 		cmbCard.setBounds(96, 112, 126, 20);
 		panel.add(cmbCard);
 		
