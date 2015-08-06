@@ -37,7 +37,7 @@ public class ServiceManager {
 	static Queue<Request> reqQueue = new LinkedList<Request>();
 	
 	DriverFrame frmDriver; 
-	
+	//Request starts here
 	public void createRequest(String member, Address pick, Address dest, int passengers, int luggages, 
 			boolean share, Date reqtime, String vtype, int vehicleSpeed) {
 		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype, vehicleSpeed);

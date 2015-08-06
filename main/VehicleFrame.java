@@ -38,6 +38,11 @@ public class VehicleFrame extends JFrame implements ActionListener {
 	private JComboBox cmbVehicleType;
 	private JComboBox cmbUpVehicleType;
 	private JComboBox cmbUpState;
+	JButton btnAddVehicle;
+	JButton btnUpdateVehicle;
+	JButton btnRemoveVehicle;
+	JButton btnGo;
+	JButton cmbShare;
 	
 	/**
 	 * Launch the application.
@@ -84,6 +89,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		panel.add(lblLicensePlate);
 		
 		txtLicense = new JTextField();
+		txtLicense.setText("CMP6066");
 		txtLicense.setBounds(103, 34, 166, 20);
 		panel.add(txtLicense);
 		txtLicense.setColumns(10);
@@ -94,7 +100,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		panel.add(lblType);
 		
 		cmbVehicleType = new JComboBox();
-		cmbVehicleType.setModel(new DefaultComboBoxModel(new String[] {"Sedan", "Van", "Bus"}));
+		cmbVehicleType.setModel(new DefaultComboBoxModel(new String[] {"sedan", "van", "bus"}));
 		cmbVehicleType.setBounds(324, 34, 141, 20);
 		panel.add(cmbVehicleType);
 		
@@ -104,28 +110,31 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		panel.add(lblMinPassengers);
 		
 		txtMinPassengers = new JTextField();
+		txtMinPassengers.setText("1");
 		txtMinPassengers.setColumns(10);
-		txtMinPassengers.setBounds(103, 59, 45, 20);
+		txtMinPassengers.setBounds(103, 59, 33, 20);
 		panel.add(txtMinPassengers);
 		
 		JLabel lblMaxPassengers = new JLabel("Max Passengers:");
 		lblMaxPassengers.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblMaxPassengers.setBounds(158, 58, 105, 21);
+		lblMaxPassengers.setBounds(146, 58, 105, 21);
 		panel.add(lblMaxPassengers);
 		
 		txtMaxPassengers = new JTextField();
+		txtMaxPassengers.setText("3");
 		txtMaxPassengers.setColumns(10);
-		txtMaxPassengers.setBounds(251, 59, 45, 20);
+		txtMaxPassengers.setBounds(236, 59, 33, 20);
 		panel.add(txtMaxPassengers);
 		
 		JLabel lblMaxLuggages = new JLabel("Max Luggages:");
 		lblMaxLuggages.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblMaxLuggages.setBounds(313, 58, 105, 21);
+		lblMaxLuggages.setBounds(282, 58, 105, 21);
 		panel.add(lblMaxLuggages);
 		
 		txtLuggages = new JTextField();
+		txtLuggages.setText("3");
 		txtLuggages.setColumns(10);
-		txtLuggages.setBounds(406, 59, 45, 20);
+		txtLuggages.setBounds(367, 59, 33, 20);
 		panel.add(txtLuggages);
 		
 		JLabel lblVehicleState = new JLabel("Vehicle State:");
@@ -138,7 +147,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		cmbState.setBounds(97, 91, 134, 20);
 		panel.add(cmbState);
 		
-		JButton btnAddVehicle = new JButton("Add Vehicle");
+		btnAddVehicle = new JButton("Add Vehicle");
 		btnAddVehicle.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnAddVehicle.setBounds(187, 118, 125, 23);
 		panel.add(btnAddVehicle);
@@ -150,6 +159,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		panel.add(lblPayPerMin);
 		
 		txtPayMin = new JTextField();
+		txtPayMin.setText("2.00");
 		txtPayMin.setColumns(10);
 		txtPayMin.setBounds(342, 91, 64, 20);
 		panel.add(txtPayMin);
@@ -160,9 +170,20 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		panel.add(lblPayPerMiles);
 		
 		txtPayMile = new JTextField();
+		txtPayMile.setText("5.00");
 		txtPayMile.setColumns(10);
 		txtPayMile.setBounds(495, 91, 59, 20);
 		panel.add(txtPayMile);
+		
+		JLabel lblShareable = new JLabel("Shareable:");
+		lblShareable.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblShareable.setBounds(416, 58, 64, 21);
+		panel.add(lblShareable);
+		
+		cmbShare = new JComboBox();
+		cmbShare.setModel(new DefaultComboBoxModel(new String[] {"Y", "N"}));
+		cmbShare.setBounds(482, 59, 39, 20);
+		panel.add(cmbShare);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
@@ -257,7 +278,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		lblVehicleId.setBounds(10, 33, 105, 21);
 		panel_1.add(lblVehicleId);
 		
-		JButton btnGo = new JButton("Go");
+		btnGo = new JButton("Go");
 		btnGo.setBounds(434, 8, 55, 23);
 		panel_1.add(btnGo);
 		btnGo.addActionListener(this);
@@ -281,11 +302,31 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		txtUpPayMile.setColumns(10);
 		txtUpPayMile.setBounds(499, 91, 55, 20);
 		panel_1.add(txtUpPayMile);
+		
+		JLabel label_8 = new JLabel("Shareable:");
+		label_8.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		label_8.setBounds(444, 37, 64, 21);
+		panel_1.add(label_8);
+		
+		JComboBox cmbUpShare = new JComboBox();
+		cmbUpShare.setModel(new DefaultComboBoxModel(new String[] {"Y", "N"}));
+		cmbUpShare.setBounds(510, 38, 39, 20);
+		panel_1.add(cmbUpShare);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(btnAddVehicle)) {
+
+		}
+		if (e.getSource() == (btnGo)) {
+		}
+		if (e.getSource() == (btnUpdateVehicle)) {
+			
+		}
+		if (e.getSource() == (btnRemoveVehicle)) {
+			
+		}
 		
 	}
 }

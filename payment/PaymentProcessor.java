@@ -12,6 +12,16 @@ public class PaymentProcessor {
 		
 	}
 	
+	//Wrapper function for cash payment where card number and cvs number are not applicable
+	public boolean handleRequestPayment(Request req, String payMethod) {
+		return handleRequestPayment(req, payMethod, "", "");
+	}
+	
+	//Wrapper function for debit card payment where cvs number is not applicable
+	public boolean handleRequestPayment(Request req, String payMethod, String cardNum) {
+		return handleRequestPayment(req, payMethod, cardNum, "");
+	}
+	
 	public boolean handleRequestPayment(Request req, String payMethod, String cardNum, String cvsNum) {
 		double originalPayment;
 		double finalPayment; 

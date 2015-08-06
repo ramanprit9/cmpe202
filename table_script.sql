@@ -73,7 +73,7 @@ member_city, member_state, member_zip, member_type, member_card_type, member_car
 member_payment_balance, member_username, id_read, member_active)
 values
 ('Jane', 'Smith', '1550', '', 'Happy Lane', 'Milpitas', 'CA', '95035', 'SILVER', 'CREDITCARD', 
-  '12345678', '456', 0.00, 'janesmith', 'Y', 'yes');
+  '12345678', '456', 0.00, 'janesmith', 'Y', 'Y');
 
 insert into vehicle (vehicle_type,vehicle_state,request_id,vehicle_avalible_2miles,vehicle_avalible_5miles,vehicle_sharable)
 values ('sedan','AVAILABLE',0,'Y','N','N');

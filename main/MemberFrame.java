@@ -7,14 +7,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 
-public class MemberFrame extends JFrame {
+public class MemberFrame extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtFirstName;
@@ -35,7 +41,15 @@ public class MemberFrame extends JFrame {
 	private JTextField txtZip;
 	private JTextField txtUsername;
 	private JTextField txtUpUsername;
-
+	JComboBox cmbStatus;
+	JComboBox cmbCard;
+	JComboBox cmbUpStatus;
+	JComboBox cmbUpCard;
+	JButton btnUpdateMember;
+	JButton btnRemoveMember;
+	JButton btnAddMember;
+	JButton btnGo;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -81,6 +95,7 @@ public class MemberFrame extends JFrame {
 		panel.add(lblFirstName);
 		
 		txtFirstName = new JTextField();
+		txtFirstName.setText("James");
 		txtFirstName.setColumns(10);
 		txtFirstName.setBounds(86, 33, 153, 20);
 		panel.add(txtFirstName);
@@ -91,6 +106,7 @@ public class MemberFrame extends JFrame {
 		panel.add(lblLastName);
 		
 		txtLastName = new JTextField();
+		txtLastName.setText("Cruise");
 		txtLastName.setColumns(10);
 		txtLastName.setBounds(86, 60, 153, 20);
 		panel.add(txtLastName);
@@ -100,7 +116,7 @@ public class MemberFrame extends JFrame {
 		lblCardType.setBounds(10, 114, 76, 14);
 		panel.add(lblCardType);
 		
-		JComboBox cmbCard = new JComboBox();
+		cmbCard = new JComboBox();
 		cmbCard.setModel(new DefaultComboBoxModel(new String[] {"CREDITCARD", "DEBITCARD"}));
 		cmbCard.setBounds(96, 112, 126, 20);
 		panel.add(cmbCard);
@@ -111,6 +127,7 @@ public class MemberFrame extends JFrame {
 		panel.add(lblCardNumber);
 		
 		txtCardNum = new JTextField();
+		txtCardNum.setText("3456789");
 		txtCardNum.setColumns(10);
 		txtCardNum.setBounds(96, 134, 143, 20);
 		panel.add(txtCardNum);
@@ -121,14 +138,16 @@ public class MemberFrame extends JFrame {
 		panel.add(lblCvsNumber);
 		
 		txtCVS = new JTextField();
+		txtCVS.setText("234");
 		txtCVS.setColumns(10);
 		txtCVS.setBounds(96, 159, 76, 20);
 		panel.add(txtCVS);
 		
-		JButton btnAddMember = new JButton("Add Member");
+		btnAddMember = new JButton("Add Member");
 		btnAddMember.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnAddMember.setBounds(192, 173, 160, 23);
 		panel.add(btnAddMember);
+		btnAddMember.addActionListener(this);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
@@ -172,21 +191,25 @@ public class MemberFrame extends JFrame {
 		panel_1.add(label_8);
 		
 		txtAddr = new JTextField();
+		txtAddr.setText("1505 Shining Moon Drive");
 		txtAddr.setColumns(10);
 		txtAddr.setBounds(115, 12, 172, 20);
 		panel_1.add(txtAddr);
 		
 		txtCity = new JTextField();
+		txtCity.setText("Milpitas");
 		txtCity.setColumns(10);
 		txtCity.setBounds(115, 39, 172, 20);
 		panel_1.add(txtCity);
 		
 		txtState = new JTextField();
+		txtState.setText("CA");
 		txtState.setColumns(10);
 		txtState.setBounds(115, 64, 172, 20);
 		panel_1.add(txtState);
 		
 		txtZip = new JTextField();
+		txtZip.setText("95035");
 		txtZip.setColumns(10);
 		txtZip.setBounds(115, 95, 172, 20);
 		panel_1.add(txtZip);
@@ -197,6 +220,7 @@ public class MemberFrame extends JFrame {
 		panel.add(lblUsername);
 		
 		txtUsername = new JTextField();
+		txtUsername.setText("james.cruise");
 		txtUsername.setColumns(10);
 		txtUsername.setBounds(320, 142, 138, 20);
 		panel.add(txtUsername);
@@ -206,7 +230,7 @@ public class MemberFrame extends JFrame {
 		lblStatus_1.setBounds(10, 87, 76, 14);
 		panel.add(lblStatus_1);
 		
-		JComboBox cmbStatus = new JComboBox();
+		cmbStatus = new JComboBox();
 		cmbStatus.setModel(new DefaultComboBoxModel(new String[] {"SILVER", "GOLD", "PLATINUM"}));
 		cmbStatus.setBounds(96, 87, 126, 20);
 		panel.add(cmbStatus);
@@ -308,7 +332,7 @@ public class MemberFrame extends JFrame {
 		label_20.setBounds(10, 115, 76, 14);
 		panel_2.add(label_20);
 		
-		JComboBox cmbUpCard = new JComboBox();
+		cmbUpCard = new JComboBox();
 		cmbUpCard.setModel(new DefaultComboBoxModel(new String[] {"CREDIT CARD", "DEBIT CARD"}));
 		cmbUpCard.setBounds(86, 115, 126, 20);
 		panel_2.add(cmbUpCard);
@@ -333,15 +357,17 @@ public class MemberFrame extends JFrame {
 		txtUpCVS.setBounds(96, 162, 76, 20);
 		panel_2.add(txtUpCVS);
 		
-		JButton btnUpdateMember = new JButton("Update Member");
+		btnUpdateMember = new JButton("Update Member");
 		btnUpdateMember.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnUpdateMember.setBounds(106, 183, 133, 23);
 		panel_2.add(btnUpdateMember);
+		btnUpdateMember.addActionListener(this);
 		
-		JButton btnRemoveMember = new JButton("Remove Member");
+		btnRemoveMember = new JButton("Remove Member");
 		btnRemoveMember.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnRemoveMember.setBounds(279, 183, 143, 23);
 		panel_2.add(btnRemoveMember);
+		btnRemoveMember.addActionListener(this);
 		
 		JLabel label = new JLabel("Username:");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -353,18 +379,86 @@ public class MemberFrame extends JFrame {
 		txtUpUsername.setBounds(289, 15, 138, 20);
 		panel_2.add(txtUpUsername);
 		
-		JButton btnGo = new JButton("Go");
+		btnGo = new JButton("Go");
 		btnGo.setBounds(436, 14, 89, 23);
 		panel_2.add(btnGo);
+		btnGo.addActionListener(this);
 		
 		JLabel lblStatus = new JLabel("Status:");
 		lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblStatus.setBounds(10, 90, 76, 14);
 		panel_2.add(lblStatus);
 		
-		JComboBox cmbUpStatus = new JComboBox();
+		cmbUpStatus = new JComboBox();
 		cmbUpStatus.setModel(new DefaultComboBoxModel(new String[] {"SILVER", "GOLD", "PLATINUM"}));
 		cmbUpStatus.setBounds(86, 87, 133, 20);
 		panel_2.add(cmbUpStatus);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource().equals(btnAddMember)) {
+			String sql = "insert into member_registration (member_fname, member_lname, member_street," 
+					+ " member_city, member_state, member_zip, member_card_type, member_card_number, member_card_cvs_number,"
+					+ " member_username, member_active) values('" 
+					+ txtFirstName.getText() + "', '" 
+					+ txtLastName.getText() + "', '"  
+					+ txtAddr.getText() + "', '" 
+					+ txtCity.getText() + "', '" 
+					+ txtState.getText() + "', '" 
+					+ txtZip.getText() + "', '"  
+					+ cmbCard.getSelectedItem().toString() + "', '"
+					+ txtCardNum.getText() + "', '"
+					+ txtCVS.getText() + "', '"
+					+ txtUsername.getText() + "', 'Y')";
+			DBHandler.updateDB(sql);
+			System.out.println("New Member - " + txtFirstName.getText()+ " - " + txtLastName.getText() + " sucessfully added");
+		}
+		if (e.getSource() == (btnGo)) {
+			String username = txtUpUsername.getText();
+			   String query =
+				        "select member_fname,member_lname, member_street, member_city, member_state, member_zip, member_type, member_card_type, member_card_number," +
+						" member_card_cvs_number from member_registration where member_username = '"+username + "'"; 
+				        ResultSet rs = DBHandler.queryDB(query);
+						try {
+							rs.next();
+								txtUpFirstName.setText(rs.getString(1));
+								txtUpLastName.setText(rs.getString(2));
+								txtUpAddr.setText(rs.getString(3));
+								txtUpCity.setText(rs.getString(4));
+								txtUpState.setText(rs.getString(5));
+								txtUpZip.setText(rs.getString(6));
+								cmbUpStatus.setSelectedIndex(0);
+								cmbUpCard.setSelectedIndex(0);
+								txtUpCardNum.setText(rs.getString(9));
+								txtUpCVS.setText(rs.getString(10));
+						} catch (SQLException ex) {
+					// TODO Auto-generated catch block
+							ex.printStackTrace();
+					}
+				
+		}
+		if (e.getSource() == (btnUpdateMember)) {
+			String sql = "UPDATE member_registration SET "  
+					+ " member_fname = '" + txtUpFirstName.getText() 
+					+ "', member_lname = '" + txtUpLastName.getText() 
+					+ "', member_street = '" + txtUpAddr.getText() 
+					+ "', member_city = '" + txtCity.getText() 
+					+ "', member_state = '" + txtState.getText() 
+					+ "', member_zip = '" + txtZip.getText()   
+					+ "', member_card_type = '" + cmbCard.getSelectedItem().toString() 
+					+ "', member_card_number = '" + txtCardNum.getText()
+					+ "', member_card_cvs_number = '" + txtCVS.getText()
+					+ "' where member_username = '" + txtUsername.getText() + "'";
+			DBHandler.updateDB(sql);
+			System.out.println("Member " + txtUpFirstName.getText() + " " + txtUpLastName.getText() + " updated.");
+		}
+		if (e.getSource() == (btnRemoveMember)) {
+			String sql = "UPDATE member_registration SET member_active = 'N' where member_username = '" + txtUpUsername.getText() + "'";
+			DBHandler.updateDB(sql);
+			System.out.println("Member " + txtUpFirstName.getText() + " " + txtUpLastName.getText() + " inactivated.");
+		}
+
 	}
 }
