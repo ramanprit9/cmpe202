@@ -6,7 +6,6 @@ import java.util.Queue;
 import request.Request;
 import request.RequestInterface;
 import main.ServiceManager;
-import main.ServiceManager.VehicleAvailability;
 //This the context class for strategy pattern
 public class Dispatcher {
 

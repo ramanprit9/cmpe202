@@ -5,7 +5,6 @@ import main.DBHandler;
 import main.ServiceManager;
 
 
-import main.ServiceManager.VehicleAvailability;
 import notification.Message.MessageType;
 
 import java.sql.ResultSet;

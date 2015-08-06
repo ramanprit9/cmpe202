@@ -27,7 +27,6 @@ import notification.Message.MessageType;
 
 public class ServiceManager {
 
-
 	public static final String CUSTOMER = "Customer";
 	public static final String DRIVER = "Driver";
 	public static final String TEXT_COMMUNICATION = "Text";
@@ -39,12 +38,6 @@ public class ServiceManager {
 	
 	DriverFrame frmDriver; 
 	
-	public enum VehicleAvailability {
-		VEHICLE_IMMEDIATELY_AVAILABLE,
-		VEHICLE_WAIT_30_MINS,
-		VEHICLE_NOT_AVAILABLE_AT_ALL
-	}
-
 	public void createRequest(String member, Address pick, Address dest, int passengers, int luggages, 
 			boolean share, Date reqtime, String vtype, int vehicleSpeed) {
 		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype, vehicleSpeed);
@@ -195,7 +188,7 @@ public class ServiceManager {
 	}
 		
 	public void calculateMilesTravelled(Request req) {
-		 req.setMilesTravelled(5.2);
+		 req.setTotalRideMiles(5.2);
 	}
 	
 	

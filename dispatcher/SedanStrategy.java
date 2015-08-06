@@ -4,8 +4,6 @@ import main.DBHandler;
 import main.ServiceManager;
 
 
-import main.ServiceManager.VehicleAvailability;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
