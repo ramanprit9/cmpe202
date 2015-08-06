@@ -19,6 +19,7 @@ public class MainApplication implements ActionListener {
 	JButton btnVehicle;
 	JButton btnMember;
 	JButton btnShuttle;
+	JButton btnGenerateReport;
 	private JButton btnRequestMint;
 	
 	/**
@@ -81,7 +82,12 @@ public class MainApplication implements ActionListener {
 		btnRequestMint.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnRequestMint.setBounds(22, 57, 191, 29);
 		frmHomePage.getContentPane().add(btnRequestMint);
-		btnShuttle.addActionListener(this);
+		
+		btnGenerateReport = new JButton("Generate Report");
+		btnGenerateReport.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnGenerateReport.setBounds(22, 217, 191, 29);
+		frmHomePage.getContentPane().add(btnGenerateReport);
+		btnGenerateReport.addActionListener(this);
 	}
 
 	@Override
@@ -116,6 +122,10 @@ public class MainApplication implements ActionListener {
 
 		if (e.getSource() == btnShuttle) {
 			ServiceManager.demonstrateShuttle();
+		}
+		
+		if (e.getSource() == btnGenerateReport) {
+			ServiceManager.demonstrateReport();
 		}
 
 	}

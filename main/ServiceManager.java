@@ -240,10 +240,15 @@ public class ServiceManager {
 		
 	}
 	
-	
 	public void sendShuttleNotification(String member, String msg) {
 		Message notification = new Notification(msg);
 		Communication email = new Email(notification, MessageType.SHUTTLE_NOTIFICATION);
 		email.sendNotification(member, msg);
 	}	
+	
+	public static void demonstrateReport() {
+		//To be implemented
+		System.out.println("################# Demonstrate Report ################");
+	}
+	
 }
