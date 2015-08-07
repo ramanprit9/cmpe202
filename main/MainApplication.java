@@ -82,6 +82,7 @@ public class MainApplication implements ActionListener {
 		btnRequestMint.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnRequestMint.setBounds(22, 57, 191, 29);
 		frmHomePage.getContentPane().add(btnRequestMint);
+		btnRequestMint.addActionListener(this);
 		
 		btnGenerateReport = new JButton("Generate Report");
 		btnGenerateReport.setFont(new Font("Tahoma", Font.BOLD, 12));

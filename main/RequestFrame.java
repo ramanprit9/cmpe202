@@ -40,8 +40,8 @@ public class RequestFrame extends JFrame implements ActionListener {
 	private JTextField txtPassengers;
 	private JTextField txtLuggages;
 	private JTextField txtMemberID;
-	private JTextField textField_11;
-	private JTextField textField_12;
+	private JTextField txtPickDate;
+	private JTextField txtPickTime;
 	private String cmbValueShare;
 	private String cmbValueComm;
 	public JComboBox cmbCommMethod;
@@ -309,7 +309,7 @@ public class RequestFrame extends JFrame implements ActionListener {
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setLayout(null);
-		panel_7.setBounds(10, 221, 152, 35);
+		panel_7.setBounds(10, 221, 207, 35);
 		mainPanel.add(panel_7);
 		
 		JLabel lblPickupDate = new JLabel("Pickup Date:");
@@ -317,15 +317,15 @@ public class RequestFrame extends JFrame implements ActionListener {
 		lblPickupDate.setBounds(0, 11, 160, 16);
 		panel_7.add(lblPickupDate);
 		
-		textField_11 = new JTextField();
-		textField_11.setText("1");
-		textField_11.setColumns(10);
-		textField_11.setBounds(94, 10, 42, 20);
-		panel_7.add(textField_11);
+		txtPickDate = new JTextField();
+		txtPickDate.setText("08/08/2015");
+		txtPickDate.setColumns(10);
+		txtPickDate.setBounds(94, 10, 103, 20);
+		panel_7.add(txtPickDate);
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setLayout(null);
-		panel_8.setBounds(327, 221, 152, 35);
+		panel_8.setBounds(327, 221, 207, 35);
 		mainPanel.add(panel_8);
 		
 		JLabel lblPickupTime = new JLabel("Pickup Time:");
@@ -333,11 +333,11 @@ public class RequestFrame extends JFrame implements ActionListener {
 		lblPickupTime.setBounds(0, 11, 160, 16);
 		panel_8.add(lblPickupTime);
 		
-		textField_12 = new JTextField();
-		textField_12.setText("1");
-		textField_12.setColumns(10);
-		textField_12.setBounds(94, 10, 42, 20);
-		panel_8.add(textField_12);
+		txtPickTime = new JTextField();
+		txtPickTime.setText("14:30");
+		txtPickTime.setColumns(10);
+		txtPickTime.setBounds(94, 10, 103, 20);
+		panel_8.add(txtPickTime);
 	}
 
 	@Override
@@ -379,25 +379,21 @@ public class RequestFrame extends JFrame implements ActionListener {
 		else {
 			communication = ServiceManager.EMAIL_COMMUNICATION;
 		}
-		
-		System.out.println("************** cmbValueShare= "+cmbValueShare);
-		System.out.println("************** cmbValueComm = "+cmbValueComm);
 
 				
-		serviceManager.createRequest(txtMemberID.getText(), pickAddr, destAddr, numPassengers, numLuggages, 
-				share, new Date(), "", vehicleSpeed);
-		
 		//Shared ride can't have more than 1 passenger and more than 1 luggage
 		if (share == true) {
 			if (numPassengers > 1 || numLuggages > 1) {
-				Frame frame = new Frame();
-				JOptionPane.showMessageDialog(frame,
+				JOptionPane.showMessageDialog(new Frame(),
 						"Shared Ride can't have more than 1 passgenger \n and more than 1 luggage.",
 						"Invalid Request ",
 						JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
-
 		}
+		
+		serviceManager.createRequest(txtMemberID.getText(), pickAddr, destAddr, numPassengers, numLuggages, 
+				share, new Date(), "", vehicleSpeed, communication);
 		
 		this.dispose();
 		

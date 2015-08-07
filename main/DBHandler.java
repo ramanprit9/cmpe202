@@ -31,7 +31,7 @@ public class DBHandler {
 
 	/* Use this function to Insert, Update, and Delete */
 	public static void updateDB(String str) {
-		System.out.println(str);
+		//System.out.println(str);
 		connectDB();
 		Statement stmt = null;
 		try {
@@ -49,7 +49,7 @@ public class DBHandler {
 	
 	/* Use this function for querying (Select operations) */
 	public static ResultSet queryDB(String str) {
-		System.out.println(str);
+		//System.out.println(str);
 		connectDB();
 		ResultSet rs = null;
 		Statement stmt = null;

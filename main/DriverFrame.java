@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import request.Request;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class DriverFrame extends JFrame implements ActionListener{
 
@@ -26,9 +28,10 @@ public class DriverFrame extends JFrame implements ActionListener{
 	JButton btnStartRide;
 	JButton btnEndRide;
 	JButton btnCancelRide;
-	ServiceManager serviceManager;
 	Request req;
-
+	JButton btnCashPayment;
+	JButton btnCardPayment;
+	JComboBox cmbReason;
 
 	/**
 	 * Create the frame.
@@ -79,45 +82,64 @@ public class DriverFrame extends JFrame implements ActionListener{
 		
 		btnStartRide = new JButton("Start Ride");
 		btnStartRide.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnStartRide.setBounds(10, 204, 99, 23);
+		btnStartRide.setBounds(80, 154, 135, 23);
 		contentPane.add(btnStartRide);
 		btnStartRide.addActionListener(this);
 		
 		btnEndRide = new JButton("End Ride");
 		btnEndRide.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnEndRide.setBounds(119, 204, 93, 23);
+		btnEndRide.setBounds(274, 154, 135, 23);
 		contentPane.add(btnEndRide);
 		btnEndRide.addActionListener(this);
 		
 		btnCancelRide = new JButton("Cancel Ride");
 		btnCancelRide.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnCancelRide.setBounds(222, 204, 117, 23);
+		btnCancelRide.setBounds(265, 220, 117, 23);
 		contentPane.add(btnCancelRide);
 		btnCancelRide.addActionListener(this);
 		
-		JButton btnCustomerPaid = new JButton("Customer Paid");
-		btnCustomerPaid.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnCustomerPaid.setBounds(349, 205, 147, 23);
-		contentPane.add(btnCustomerPaid);
-		btnCancelRide.addActionListener(this);
+		btnCashPayment = new JButton("Cash Payment");
+		btnCashPayment.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnCashPayment.setBounds(80, 188, 179, 23);
+		contentPane.add(btnCashPayment);
+		btnCashPayment.addActionListener(this);
+		
+		cmbReason = new JComboBox();
+		cmbReason.setModel(new DefaultComboBoxModel(new String[] {"Customer No-Show", "Driver Not Available", "Vehicle Collision", "Vehicle Mechinal Issue", "Cop Pulled Over", "Other"}));
+		cmbReason.setBounds(55, 222, 179, 21);
+		contentPane.add(cmbReason);
+		
+		btnCardPayment = new JButton("Card/Member Payment");
+		btnCardPayment.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnCardPayment.setBounds(284, 188, 195, 23);
+		contentPane.add(btnCardPayment);
+		btnCardPayment.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		serviceManager = new ServiceManager();
 		if (e.getSource().equals(btnStartRide)) {
-			serviceManager.startRide(req);
+			req.getVehicle().getDriver().startRide(req);
 		}
 		
 		if (e.getSource().equals(btnEndRide)) {
 			txtVehicleStatus.setText("AVAILABLE");
-			serviceManager.endRide(req); 
+			req.getVehicle().getDriver().endRide(req); 
 		}
 		
 		if (e.getSource().equals(btnCancelRide)) {
 			txtVehicleStatus.setText("AVAILABLE");
-			serviceManager.endRide(req); 
+			req.getVehicle().getDriver().cancelRide(req, cmbReason.getSelectedItem().toString());
 		}
 
+		if (e.getSource().equals(btnCashPayment)) {
+			txtVehicleStatus.setText("AVAILABLE");
+			req.getVehicle().getDriver().cashPayment(req);
+		}
+
+		if (e.getSource().equals(btnCardPayment)) {
+			txtVehicleStatus.setText("AVAILABLE");
+			req.getVehicle().getDriver().cardOrMemberPayment(req);
+		}
 	}
 }

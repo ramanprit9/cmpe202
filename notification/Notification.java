@@ -32,6 +32,8 @@ public class Notification extends Message {
 			return "No Vehicle Available. Request can't be fulfilled at this moment";
 		case SHUTTLE_NOTIFICATION:
 			return "Shuttle Notification:\n" + message;
+		case RIDE_CANCELLED:
+			return "Ride Cancelled: " + request.getRideCancelReason() + "\n";
 		default:
 			return "";
 		}

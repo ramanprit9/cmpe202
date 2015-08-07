@@ -36,9 +36,10 @@ public class Request implements RequestInterface {
 	double durationOfRide; /* in minutes */
 	String ridePayStrategy;
 	double ridePayment; /* final ride payment calculated by PaymentProcessor */
+	String rideCancelReason;
 	
 	public Request (String memID, Address pick, Address dest, int passengers, int luggages, 
-			boolean share, Date reqtime, String vtype, int speed) {
+			boolean share, Date reqtime, String vtype, int speed, String communication) {
 		memberID = memID;
 		pickupLocation = pick;
 		destination = dest;
@@ -49,13 +50,13 @@ public class Request implements RequestInterface {
 		pickupTime = reqtime;
 		vehicleType = vtype;
 		rideSpeed = speed;
+		commType = communication;
 		
 		this.member = createMemberfromDB();
 		state = new ReceiveState(this);
 	}
 	
 	public Member createMemberfromDB() {
-		System.out.println("*************** Request: creating member from DB, memberID = "+memberID.toLowerCase());
 		//If member is not a guest, then create a Member object by 
 		//retrieving the relevant data from DB
 		if (memberID.toLowerCase().equals("guest")) { 
@@ -65,11 +66,9 @@ public class Request implements RequestInterface {
 		String sql = "Select member_fname, member_lname, member_type, member_card_type, member_card_number, " + 
 					"member_card_cvs_number, member_payment_balance, member_username from member_registration " + 
 					"where member_id = " + memberID;
-		System.out.println("*************** Request, sql = \n"+sql);
 		ResultSet rs = DBHandler.queryDB(sql);
 		try {
 			rs.next();
-			System.out.println("*************** Request: "+rs);
 			if (rs.getString("member_type").equals("SILVER")) {
 				mem = new SilverMember();
 			}
@@ -311,6 +310,14 @@ public class Request implements RequestInterface {
 
 	public void setRidePayStrategy(String ridePayStrategy) {
 		this.ridePayStrategy = ridePayStrategy;
+	}
+
+	public String getRideCancelReason() {
+		return rideCancelReason;
+	}
+
+	public void setRideCancelReason(String rideCancelReason) {
+		this.rideCancelReason = rideCancelReason;
 	}
 	
 }

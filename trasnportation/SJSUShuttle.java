@@ -12,22 +12,17 @@ public class SJSUShuttle extends Shuttle {
 
 	public void addStop(Address addr) {
 		shuttleStops.add(addr);
-		String memberName; 
 		for (Member mem : shuttleMembers) {
-			memberName =mem.getFirstName() + " " + mem.getLastName();
-			notifyMembers(memberName, "A stop added to shuttle: " + addr + "\n");
+			notifyMembers(mem, "A stop added to shuttle: " + addr + "\n");
 		}
 	}
 	
 	public void removeStop(Address addr) {
 		shuttleStops.remove(addr);
-		String memberName; 
 		for (Member mem : shuttleMembers) {
 			notifyMembers(mem, "A stop removed from shuttle: " + addr + "\n");
 		}
 
 	}
 	
-
-
 }

@@ -12,6 +12,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -42,7 +44,8 @@ public class VehicleFrame extends JFrame implements ActionListener {
 	JButton btnUpdateVehicle;
 	JButton btnRemoveVehicle;
 	JButton btnGo;
-	JButton cmbShare;
+	JComboBox cmbShare;
+	JComboBox cmbUpShare;
 	
 	/**
 	 * Launch the application.
@@ -212,6 +215,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		panel_1.add(label_2);
 		
 		cmbUpVehicleType = new JComboBox();
+		cmbUpVehicleType.setModel(new DefaultComboBoxModel(new String[] {"sedan", "van", "bus"}));
 		cmbUpVehicleType.setBounds(215, 38, 141, 20);
 		panel_1.add(cmbUpVehicleType);
 		
@@ -255,13 +259,13 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		cmbUpState.setBounds(97, 91, 141, 20);
 		panel_1.add(cmbUpState);
 		
-		JButton btnUpdateVehicle = new JButton("Update Vehicle");
+		btnUpdateVehicle = new JButton("Update Vehicle");
 		btnUpdateVehicle.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnUpdateVehicle.setBounds(53, 122, 135, 23);
 		panel_1.add(btnUpdateVehicle);
 		btnUpdateVehicle.addActionListener(this);
 
-		JButton btnRemoveVehicle = new JButton("Remove Vehicle");
+		btnRemoveVehicle = new JButton("Remove Vehicle");
 		btnRemoveVehicle.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnRemoveVehicle.setBounds(236, 122, 135, 23);
 		panel_1.add(btnRemoveVehicle);
@@ -308,7 +312,7 @@ public class VehicleFrame extends JFrame implements ActionListener {
 		label_8.setBounds(444, 37, 64, 21);
 		panel_1.add(label_8);
 		
-		JComboBox cmbUpShare = new JComboBox();
+		cmbUpShare = new JComboBox();
 		cmbUpShare.setModel(new DefaultComboBoxModel(new String[] {"Y", "N"}));
 		cmbUpShare.setBounds(510, 38, 39, 20);
 		panel_1.add(cmbUpShare);
@@ -316,16 +320,64 @@ public class VehicleFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(btnAddVehicle)) {
-
+		if (e.getSource() == btnAddVehicle) {
+			String sql = "insert into vehicle (vehicle_license_num , vehicle_type, min_passengers," 
+					+ " max_passengers, max_luggages, vehicle_shareable, vehicle_state, "
+					+ " pay_per_minute, pay_per_mile, vehicle_active) values('" 
+					+ txtLicense.getText() + "', '" 
+					+ cmbVehicleType.getSelectedItem().toString() + "', '"  
+					+ txtMinPassengers.getText() + "', '" 
+					+ txtMaxPassengers.getText() + "', '" 
+					+ txtLuggages.getText() + "', '" 
+					+ cmbShare.getSelectedItem().toString() + "', '" 
+					+ cmbState.getSelectedItem().toString() + "', '"
+					+ txtPayMin.getText() + "', '"
+					+ txtPayMile.getText() + "', 'Y')";
+			DBHandler.updateDB(sql);
+			System.out.println("\nNew Vehicle - License: " + txtLicense.getText() + " - " + " sucessfully added\n");
 		}
 		if (e.getSource() == (btnGo)) {
+			String license = txtUpLicense.getText();
+			   String query =
+				        "select vehicle_type, min_passengers, max_passengers, max_luggages,"
+					+ " vehicle_shareable, vehicle_state, pay_per_minute, pay_per_mile,"
+				    + "vehicle_active, vehicle_id from vehicle where vehicle_license_num = '"+license + "'"; 
+				        ResultSet rs = DBHandler.queryDB(query);
+						try {
+							rs.next();
+							cmbUpVehicleType.setSelectedItem(rs.getString(1).toString());
+							txtUpMinPsg.setText(rs.getString(2));
+							txtUpMaxPsg.setText(rs.getString(3));
+							txtUpMaxLug.setText(rs.getString(4));
+							cmbUpShare.setSelectedItem(rs.getString(5).toString());
+							cmbUpState.setSelectedIndex(0);
+							txtUpPayMin.setText(rs.getString(7));
+							txtUpPayMile.setText(rs.getString(8));
+							txtUpVehichleID.setText(rs.getString(9));
+						} catch (SQLException ex) {
+							// TODO Auto-generated catch block
+							ex.printStackTrace();
+					}
 		}
 		if (e.getSource() == (btnUpdateVehicle)) {
-			
+			String sql = "UPDATE vehicle SET "  
+					+ " vehicle_type = '" + cmbUpVehicleType.getSelectedItem().toString()
+					+ "', min_passengers = '" + txtUpMinPsg.getText() 
+					+ "', max_passengers = '" + txtUpMaxPsg.getText() 
+					+ "', max_luggages = '" + txtUpMaxLug.getText() 
+					+ "', vehicle_shareable = '" + cmbUpShare.getSelectedItem().toString()
+					+ "', vehicle_state = '" + cmbUpState.getSelectedItem().toString()  
+					+ "', pay_per_minute = '" + txtUpPayMin.getText()
+					+ "', pay_per_mile = '" + txtUpPayMile.getText()
+					+ "' where vehicle_license_num = '" + txtUpLicense.getText() + "'";
+			DBHandler.updateDB(sql);
+			System.out.println("\nNew Vehicle - License: " + txtUpLicense.getText() + " - " + " updated\n");
+
 		}
 		if (e.getSource() == (btnRemoveVehicle)) {
-			
+			String sql = "UPDATE vehicle SET vehicle_active = 'N' where vehicle_license_num = '" + txtUpLicense.getText() + "'";
+			DBHandler.updateDB(sql);
+			System.out.println("\nVehicle - License: " + txtUpLicense.getText() + " - " + " inactivated.\n");
 		}
 		
 	}

@@ -8,6 +8,7 @@ import java.util.Queue;
 
 import javax.swing.JOptionPane;
 
+import payment.Payment;
 import payment.PaymentProcessor;
 import request.Request;
 import trasnportation.SJSUShuttle;
@@ -45,8 +46,8 @@ public class ServiceManager {
 	DriverFrame frmDriver; 
 	//Request starts here
 	public void createRequest(String member, Address pick, Address dest, int passengers, int luggages, 
-			boolean share, Date reqtime, String vtype, int vehicleSpeed) {
-		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype, vehicleSpeed);
+			boolean share, Date reqtime, String vtype, int vehicleSpeed, String communication) {
+		Request req = new Request(member, pick, dest, passengers, luggages, share, reqtime, vtype, vehicleSpeed, communication);
 		reqQueue.add(req);
 		processRequests();
 	}
@@ -77,9 +78,9 @@ public class ServiceManager {
 		Communication customerCommunication;
 		
 		//Get communication type for customer and send the message
-		if (req.getCommType() == TEXT_COMMUNICATION) {
+		if (req.getCommType().equals(TEXT_COMMUNICATION)) {
 			customerCommunication = new Text(notification, msgType);
-		} else if (req.getCommType() == PHONE_COMMUNICATION) {
+		} else if (req.getCommType().equals(PHONE_COMMUNICATION)) {
 			customerCommunication = new Phone(notification, msgType);
 		}
 		else {
@@ -131,38 +132,9 @@ public class ServiceManager {
 		
 	}
 	
-	//Start the Ride, set start time of ride
-	public void startRide(Request req) {
-		req.setStartRideTime(new Date());
-		System.out.println("*********** start ride at "+req.getStartRideTime());
-	}
-	
-	//End the ride, set end time of ride, process Payment
-	public void endRide(Request req) {
-		Date endDateTime = new Date();
-		long fifteenMins;
-
-		//Since we r just simulating, add 15 minutes to the endRideTime
-		//Java Date time is in milliseconds
-		fifteenMins = 15 * 60000; //1 min = 60,000 milliseconds
-		
-		endDateTime.setTime(endDateTime.getTime() + fifteenMins);
-		req.setEndRideTime(endDateTime);
-		
-		//Update Vehicle State 
-		String updateVehicle = "UPDATE vehicle SET vehicle_state='AVAILABLE' where request_id=" + req.getRequestID();
-		DBHandler.updateDB(updateVehicle);
-		
-		System.out.println("*********** end ride at "+req.getEndRideTime());
-		
-		calculateMilesTravelled(req);
-		calculateDurationOfRide(req);
-		sendRequestForPaymentProcessing(req);
-		
-	}
 	
 	//Use Bridge design pattern for sending messages/notifications
-	public void sendRequestForPaymentProcessing(Request req) {
+	public static void sendRequestForPaymentProcessing(Request req, boolean isCashPayment) {
 		PaymentProcessor payProcessor; 
 		boolean paySuccess;
 		MessageType msgType;
@@ -171,11 +143,13 @@ public class ServiceManager {
 		
 		//process payment
 		payProcessor = new PaymentProcessor();
-		System.out.println("*********** "+req.getMember().getPaymentMethod());
-		System.out.println("*********** "+req.getMember().getPaymentCardNumber());
-		System.out.println("*********** "+req.getMember().getPaymentCVSNumber());
-		paySuccess = payProcessor.handleRequestPayment(req, req.getMember().getPaymentMethod(), 
-				req.getMember().getPaymentCardNumber(), req.getMember().getPaymentCVSNumber());
+		if (isCashPayment == true) {
+			paySuccess = payProcessor.handleRequestPayment(req, Payment.PAY_METHOD_CASH);
+		}
+		else {
+			paySuccess = payProcessor.handleRequestPayment(req, req.getMember().getPaymentMethod(), 
+					req.getMember().getPaymentCardNumber(), req.getMember().getPaymentCVSNumber());
+		}
 		
 		//Send notification to driver and customer whether the payment was successful or not
 		//The request will have ridePayStrategy string which will contain the payment strategy
@@ -193,20 +167,6 @@ public class ServiceManager {
 		text.sendNotification(DRIVER);
 	}
 		
-	public void calculateMilesTravelled(Request req) {
-		 req.setTotalRideMiles(5.2);
-	}
-	
-	
-	public void calculateDurationOfRide(Request req) {
-		double durationMS; /* in milliseconds */
-		double durationMinutes; /* in minutes */
-		durationMS= req.getEndRideTime().getTime() - req.getStartRideTime().getTime();
-		durationMinutes = durationMS/60000; 
-		req.setDurationOfRide(durationMinutes);
-		System.out.println("************* Service Manager: duration of ride = "+durationMinutes);
-	}
-
 	/*
 	 * This functions demonstrates both Decorator and Observer Pattern
 	 * Create a Shuttle (Decorator)

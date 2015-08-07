@@ -2,6 +2,7 @@
 package dispatcher;
 
 import main.DBHandler;
+import main.Driver;
 import main.ServiceManager;
 
 
@@ -32,7 +33,7 @@ public class SharedRideStrategy implements DispatchStrategy {
 			ServiceManager custNotification = new ServiceManager();
 			custNotification.sendDispatchMessages(r1,MessageType.VEHICLE_INFO_TO_CUSTOMER);
 			//perform db operation to change the state of the vehicle from AVAILABLE to INTRANSIT
-			String sql = "select min(vehicle_id) veh_id from vehicle where  vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='Y'";
+			String sql = "select min(vehicle_id) veh_id from vehicle where  vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_shareable='Y'";
 			ResultSet rs = DBHandler.queryDB(sql);
 			
 			setVehicleStatus(r1.getRequestID(),rs);
@@ -40,6 +41,9 @@ public class SharedRideStrategy implements DispatchStrategy {
 			//Create the vehicle and set it in the request
 			Vehicle sedan = new Vehicle();
 			r1.setVehicle(sedan);
+			Driver d1 = new Driver();
+			sedan.setDriver(d1);
+
 			return true;
 		}
 		else 
@@ -57,13 +61,16 @@ public class SharedRideStrategy implements DispatchStrategy {
 				custNotification.sendDispatchMessages(r1,MessageType.VEHICLE_WAIT_30_MINUTES);
 				
 				//perform db operation to change the state of the vehicle from AVAILABLE to INTRANSIT
-				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_sharable='Y' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y'";
+				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_shareable='Y' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y'";
 				ResultSet rs = DBHandler.queryDB(sql);
 				setVehicleStatus(r1.getRequestID(),rs);
 				
 				//Create the vehicle and set it in the request
 				Vehicle sedan = new Sedan();
 				r1.setVehicle(sedan);
+				Driver d1 = new Driver();
+				sedan.setDriver(d1);
+
 				return true;
 			}
 			else
@@ -80,7 +87,7 @@ public class SharedRideStrategy implements DispatchStrategy {
 public boolean isSharedin2miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE  vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_sharable='Y'";
+	String sql = "Select Count(*) from vehicles WHERE  vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_shareable='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
@@ -112,7 +119,7 @@ public boolean isSharedin2miles() {
 public boolean isSharedin5miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicle WHERE vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_sharable='Y'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_shareable='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();

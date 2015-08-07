@@ -333,7 +333,7 @@ public class MemberFrame extends JFrame implements ActionListener {
 		panel_2.add(label_20);
 		
 		cmbUpCard = new JComboBox();
-		cmbUpCard.setModel(new DefaultComboBoxModel(new String[] {"CREDIT CARD", "DEBIT CARD"}));
+		cmbUpCard.setModel(new DefaultComboBoxModel(new String[] {"CREDITCARD", "DEBITCARD"}));
 		cmbUpCard.setBounds(86, 115, 126, 20);
 		panel_2.add(cmbUpCard);
 		
@@ -401,7 +401,7 @@ public class MemberFrame extends JFrame implements ActionListener {
 		if (e.getSource().equals(btnAddMember)) {
 			String sql = "insert into member_registration (member_fname, member_lname, member_street," 
 					+ " member_city, member_state, member_zip, member_card_type, member_card_number, member_card_cvs_number,"
-					+ " member_username, member_active) values('" 
+					+ " member_type, member_username, member_active) values('" 
 					+ txtFirstName.getText() + "', '" 
 					+ txtLastName.getText() + "', '"  
 					+ txtAddr.getText() + "', '" 
@@ -411,9 +411,10 @@ public class MemberFrame extends JFrame implements ActionListener {
 					+ cmbCard.getSelectedItem().toString() + "', '"
 					+ txtCardNum.getText() + "', '"
 					+ txtCVS.getText() + "', '"
+					+ cmbStatus.getSelectedItem().toString() + "', '"
 					+ txtUsername.getText() + "', 'Y')";
 			DBHandler.updateDB(sql);
-			System.out.println("New Member - " + txtFirstName.getText()+ " - " + txtLastName.getText() + " sucessfully added");
+			System.out.println("\nNew Member - " + txtFirstName.getText()+ " - " + txtLastName.getText() + " sucessfully added\n");
 		}
 		if (e.getSource() == (btnGo)) {
 			String username = txtUpUsername.getText();
@@ -423,14 +424,15 @@ public class MemberFrame extends JFrame implements ActionListener {
 				        ResultSet rs = DBHandler.queryDB(query);
 						try {
 							rs.next();
+							System.out.println("************" + rs.getString(1));
 								txtUpFirstName.setText(rs.getString(1));
 								txtUpLastName.setText(rs.getString(2));
 								txtUpAddr.setText(rs.getString(3));
 								txtUpCity.setText(rs.getString(4));
 								txtUpState.setText(rs.getString(5));
 								txtUpZip.setText(rs.getString(6));
-								cmbUpStatus.setSelectedIndex(0);
-								cmbUpCard.setSelectedIndex(0);
+								cmbUpStatus.setSelectedItem(rs.getString(7).toString());
+								cmbUpCard.setSelectedItem(rs.getString(8).toString());
 								txtUpCardNum.setText(rs.getString(9));
 								txtUpCVS.setText(rs.getString(10));
 						} catch (SQLException ex) {
@@ -444,20 +446,20 @@ public class MemberFrame extends JFrame implements ActionListener {
 					+ " member_fname = '" + txtUpFirstName.getText() 
 					+ "', member_lname = '" + txtUpLastName.getText() 
 					+ "', member_street = '" + txtUpAddr.getText() 
-					+ "', member_city = '" + txtCity.getText() 
-					+ "', member_state = '" + txtState.getText() 
-					+ "', member_zip = '" + txtZip.getText()   
-					+ "', member_card_type = '" + cmbCard.getSelectedItem().toString() 
-					+ "', member_card_number = '" + txtCardNum.getText()
-					+ "', member_card_cvs_number = '" + txtCVS.getText()
-					+ "' where member_username = '" + txtUsername.getText() + "'";
+					+ "', member_city = '" + txtUpCity.getText() 
+					+ "', member_state = '" + txtUpState.getText() 
+					+ "', member_zip = '" + txtUpZip.getText()   
+					+ "', member_card_type = '" + cmbUpCard.getSelectedItem().toString() 
+					+ "', member_card_number = '" + txtUpCardNum.getText()
+					+ "', member_card_cvs_number = '" + txtUpCVS.getText()
+					+ "' where member_username = '" + txtUpUsername.getText() + "'";
 			DBHandler.updateDB(sql);
-			System.out.println("Member " + txtUpFirstName.getText() + " " + txtUpLastName.getText() + " updated.");
+			System.out.println("\nMember " + txtUpFirstName.getText() + " " + txtUpLastName.getText() + " updated.\n");
 		}
 		if (e.getSource() == (btnRemoveMember)) {
 			String sql = "UPDATE member_registration SET member_active = 'N' where member_username = '" + txtUpUsername.getText() + "'";
 			DBHandler.updateDB(sql);
-			System.out.println("Member " + txtUpFirstName.getText() + " " + txtUpLastName.getText() + " inactivated.");
+			System.out.println("\nMember " + txtUpFirstName.getText() + " " + txtUpLastName.getText() + " inactivated.\n");
 		}
 
 	}
