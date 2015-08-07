@@ -1,10 +1,13 @@
 package notification;
 
 import notification.Message.MessageType;
+//import main.ServiceManager;
 
-public abstract class Report {
+public abstract class Report extends Message {
 	
 	String revenueStr;
+	String value = "not assigned yet";
+	String title = "not assigned yet";
 	
 	public String createMessage (MessageType msg){
 		
@@ -19,5 +22,9 @@ public abstract class Report {
 
 	public void printBilling() {
 		System.out.println(" "+revenueStr);
+	}
+	
+	public void printRevenue(){
+		System.out.println(title + " " + value);
 	}
 }

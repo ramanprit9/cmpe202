@@ -15,13 +15,18 @@ import trasnportation.Vehicle;
 import member.Member;
 import member.SilverMember;
 import notification.Billing;
+import notification.Client;
 import notification.Communication;
 import notification.Email;
 import notification.Notification;
 import notification.Message;
 import notification.Message.MessageType;
 import notification.Phone;
+import notification.QuaterlyReport;
+import notification.SharedVehicleReport;
 import notification.Text;
+import notification.UnsharedVehicleReport;
+import notification.YearlyReport;
 import dispatcher.Dispatcher;
 import notification.Message.MessageType;
 
@@ -242,6 +247,31 @@ public class ServiceManager {
 	public static void demonstrateReport() {
 		//To be implemented
 		System.out.println("################# Demonstrate Report ################");
+		
+		
+		// Code for setup of reports- composite pattern
+		//Q1 Report
+		SharedVehicleReport a = new SharedVehicleReport("200K");
+		UnsharedVehicleReport b = new UnsharedVehicleReport("900K");
+		QuaterlyReport q1 = new QuaterlyReport("Q1");
+		q1.add(a);
+		q1.add(b);
+		
+		//Q2 Report
+		SharedVehicleReport d = new SharedVehicleReport("250K");
+		UnsharedVehicleReport e = new UnsharedVehicleReport("800K");
+		QuaterlyReport q2 = new QuaterlyReport("Q2");
+		q2.add(d);
+		q2.add(e);
+		
+		//Yearly
+		YearlyReport y1 = YearlyReport.getYearlyReport("2015");
+		y1.add(q1);
+		y1.add(q2);
+		
+		//Initiate Client
+		Client.report = y1;
+		Client.doClientTasks();
 	}
 	
 }
