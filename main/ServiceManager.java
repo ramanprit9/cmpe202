@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import payment.PaymentProcessor;
 import request.Request;
+import trasnportation.SJSUShuttle;
 import trasnportation.Shuttle;
 import trasnportation.Vehicle;
 import member.Member;
@@ -214,7 +215,7 @@ public class ServiceManager {
 	public static void demonstrateShuttle() {
 		Vehicle bus = new Vehicle();
 		//Decorator Pattern: Create a shuttle, Add stops to it
-		Shuttle shuttle = new Shuttle(bus);
+		SJSUShuttle shuttle = new SJSUShuttle(bus);
 		Address addr1 = new Address("3003 Bunker Hill Lane", "Santa Clara", "CA", "95054");
 		Address addr2 = new Address("4701 Great America Pkwy", "Santa Clara", "CA", "95054");
 		Address addr3 = new Address("3000 Mission College Blvd", "Santa Clara", "CA", "95054");

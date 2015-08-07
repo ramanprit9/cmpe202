@@ -6,7 +6,7 @@ import main.Address;
 import main.ServiceManager;
 import member.Member;
 
-public class Shuttle extends VehicleDecorator {
+public abstract class Shuttle extends VehicleDecorator {
 
 	LinkedList<Member> shuttleMembers = new LinkedList();
 	LinkedList<Address> shuttleStops = new LinkedList();
@@ -23,27 +23,15 @@ public class Shuttle extends VehicleDecorator {
 		shuttleMembers.remove(m);
 	}
 	
-	public void addStop(Address addr) {
-		shuttleStops.add(addr);
-		String memberName; 
-		for (Member mem : shuttleMembers) {
-			memberName =mem.getFirstName() + " " + mem.getLastName();
-			broadCastNotification(memberName, "A stop added to shuttle: " + addr + "\n");
-		}
-	}
-	
-	public void removeStop(Address addr) {
-		shuttleStops.remove(addr);
-		String memberName; 
-		for (Member mem : shuttleMembers) {
-			memberName =mem.getFirstName() + " " + mem.getLastName();
-			broadCastNotification(memberName, "A stop removed from shuttle: " + addr + "\n");
-		}
-
-	}
-	
-	public void broadCastNotification(String member, String msg) {
+	public void notifyMembers(Member member, String msg) {
 		ServiceManager sm = new ServiceManager();
-		sm.sendShuttleNotification(member, msg);
+		String memberName =member.getFirstName() + " " + member.getLastName();
+		sm.sendShuttleNotification(memberName, msg);
+		member.shuttleUpdate();
 	}
+	
+	public abstract void addStop(Address addr);
+	
+	public abstract void removeStop(Address addr);
+	
 }

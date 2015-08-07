@@ -3,7 +3,7 @@ package member;
 import main.DBHandler;
 import request.Request;
 
-public abstract class Member {
+public abstract class Member implements MemberInterface {
 
 	String memberID = "";
 	String firstName = "";
@@ -16,6 +16,7 @@ public abstract class Member {
 	String memberType = "";
 	String userName = "";
 		
+	/* Template Method */
 	public double calculatDiscount(double amount) {
 		return calculatePercentageDiscount(amount) + calculateFixedDiscount(amount);
 	}
@@ -101,5 +102,9 @@ public abstract class Member {
 		String sql = "Update member_registration SET member_payment_balance = "
 				+ newAmount + " where member_id = " + memberID;
 		DBHandler.updateDB(sql);
+	}
+	
+	public void shuttleUpdate() {
+		System.out.println("Shuttle Update received");
 	}
 }
