@@ -33,7 +33,7 @@ public class SharedRideStrategy implements DispatchStrategy {
 			ServiceManager custNotification = new ServiceManager();
 			custNotification.sendDispatchMessages(r1,MessageType.VEHICLE_INFO_TO_CUSTOMER);
 			//perform db operation to change the state of the vehicle from AVAILABLE to INTRANSIT
-			String sql = "select min(vehicle_id) veh_id from vehicle where  vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_shareable='Y'";
+			String sql = "select min(vehicle_id) veh_id from vehicle where  vehicle_state='AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_shareable='Y' and vehicle_active='Y'";
 			ResultSet rs = DBHandler.queryDB(sql);
 			
 			setVehicleStatus(r1.getRequestID(),rs);
@@ -61,7 +61,7 @@ public class SharedRideStrategy implements DispatchStrategy {
 				custNotification.sendDispatchMessages(r1,MessageType.VEHICLE_WAIT_30_MINUTES);
 				
 				//perform db operation to change the state of the vehicle from AVAILABLE to INTRANSIT
-				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_shareable='Y' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y'";
+				String sql = "select min(vehicle_id) veh_id from vehicle where vehicle_shareable='Y' and vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_active='Y'";
 				ResultSet rs = DBHandler.queryDB(sql);
 				setVehicleStatus(r1.getRequestID(),rs);
 				
@@ -87,7 +87,7 @@ public class SharedRideStrategy implements DispatchStrategy {
 public boolean isSharedin2miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicles WHERE  vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_shareable='Y'";
+	String sql = "Select Count(*) from vehicle WHERE  vehicle_state = 'AVAILABLE' and vehicle_avalible_2miles='Y' and vehicle_shareable='Y' and vehicle_active='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
@@ -119,7 +119,7 @@ public boolean isSharedin2miles() {
 public boolean isSharedin5miles() {
 	int rowCount;
 	//boolean successFlag;
-	String sql = "Select Count(*) from vehicle WHERE vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_shareable='Y'";
+	String sql = "Select Count(*) from vehicle WHERE vehicle_state='AVAILABLE' and vehicle_avalible_5miles='Y' and vehicle_shareable='Y' and vehicle_active='Y'";
 	ResultSet rs = DBHandler.queryDB(sql);
 	try {
 		rs.next();
@@ -156,7 +156,7 @@ public int setVehicleStatus(int reqID,ResultSet rs) {
 		String updateVehicleStat ="update vehicle set vehicle_state='INTRANSIT',request_id=" +reqID + " where vehicle_id ="+vehID;
 		DBHandler.updateDB(updateVehicleStat);
 		
-		String updateRequestTab ="update user_requests set vehicle_id=" +vehID+ ",vehicle_tye='shared' where request_id=" +reqID;
+		String updateRequestTab ="update user_requests set vehicle_id=" +vehID+ ",vehicle_type='shared' where request_id=" +reqID;
 		DBHandler.updateDB(updateRequestTab);
 		
 	} catch (SQLException e) {

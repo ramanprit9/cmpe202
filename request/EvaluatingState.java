@@ -29,7 +29,7 @@ public class EvaluatingState implements State{
  
  
  public String evaluateRequest(){
-	 ServiceManager serviceManager = new ServiceManager(); //need ServiceManager for communication/notifications
+//	 ServiceManager serviceManager = new ServiceManager(); //need ServiceManager for communication/notifications
 	 Dispatcher dispatcher = new Dispatcher();
 	 boolean transportationFound; 
 	 

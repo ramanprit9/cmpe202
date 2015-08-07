@@ -15,6 +15,7 @@ public class Dispatcher {
 	public boolean findTransportation(Request req) {
 		ds = setDispatchStrategy(req);
 		return ds.findTransportation(req);
+		
 	}
 	
 	
@@ -34,7 +35,7 @@ public class Dispatcher {
 		{
 			ds = new BusStrategy();
 		}
-		else if (req.getNumOfPassengers() == 1 && req.getNumOfLuggages() ==1 && req.isShareable() == true)
+		else if (req.getNumOfPassengers() == 1 && req.getNumOfLuggages() <=1 && req.isShareable() == true)
 		{
 			ds = new SharedRideStrategy();
 		}

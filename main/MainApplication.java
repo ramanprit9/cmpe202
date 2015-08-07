@@ -77,6 +77,7 @@ public class MainApplication implements ActionListener {
 		btnShuttle.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnShuttle.setBounds(22, 177, 191, 29);
 		frmHomePage.getContentPane().add(btnShuttle);
+		btnShuttle.addActionListener(this);
 		
 		btnRequestMint = new JButton("Place Request - pay/mint");
 		btnRequestMint.setFont(new Font("Tahoma", Font.BOLD, 12));

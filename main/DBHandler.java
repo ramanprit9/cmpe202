@@ -17,7 +17,7 @@ public class DBHandler {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			String connectionUrl = "jdbc:mysql://localhost:3306/cmpe202";
 			String connectionUser = "root";
-			String connectionPassword = "";
+			String connectionPassword = "Anu_may14";
 			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
 		} catch (Exception e) {
 			e.printStackTrace();
